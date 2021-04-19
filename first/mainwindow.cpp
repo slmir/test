@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "parameters.h"
+#include "recieve_file_mode.h"
+#include "about.h"
+#include "pram_connection.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
@@ -40,7 +42,7 @@ void MainWindow::on_Parameters_connect_button_clicked()
 {
     //Перейти к параметру соединений
 
-    Parametrs winparam;
+    Pram_connection winparam;
     winparam.setModal(true);
     winparam.exec();
 }
@@ -82,4 +84,22 @@ void MainWindow::on_Do_connect_button_clicked()
         ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
         ui->Do_connect_button->setText("Разорвать соединение");
 
+}
+
+void MainWindow::on_action_4_triggered()
+{
+    //Перейти в режим приема файла
+
+    Recieve_file_mode winparam;
+    winparam.setModal(true);
+    winparam.exec();
+}
+
+void MainWindow::on_about_menu_triggered()
+{
+    //Открыть окно с информацией об исполнителях
+
+    About winparam;
+    winparam.setModal(true);
+    winparam.exec();
 }

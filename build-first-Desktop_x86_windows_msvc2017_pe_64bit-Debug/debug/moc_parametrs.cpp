@@ -70,8 +70,8 @@ void Parametrs::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         auto *_t = static_cast<Parametrs *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: break;
-        case 1:  break;
+        case 0: _t->on_buttonBox_accepted(); break;
+        case 1: _t->on_OK_button_clicked(); break;
         default: ;
         }
     }

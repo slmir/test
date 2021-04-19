@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "parametrs.h"
+#include "recieve_file_mode.h"
+#include "about.h"
+#include "pram_connection.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +30,10 @@ private slots:
     void on_Send_file_button_clicked();
 
     void on_Do_connect_button_clicked();
+
+    void on_action_4_triggered();
+
+    void on_about_menu_triggered();
 
 private:
     Ui::MainWindow *ui;
