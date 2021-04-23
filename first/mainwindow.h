@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "recieve_file_mode.h"
-#include "about.h"
+#include "about_1.h"
 #include "pram_connection.h"
 
 QT_BEGIN_NAMESPACE

@@ -30,6 +30,7 @@ public:
     QLabel *label_8;
     QLabel *label_9;
     QPushButton *OK_button;
+    QLabel *label01;
 
     void setupUi(QDialog *About)
     {
@@ -85,6 +86,9 @@ public:
         OK_button = new QPushButton(About);
         OK_button->setObjectName(QString::fromUtf8("OK_button"));
         OK_button->setGeometry(QRect(792, 437, 101, 31));
+        label01 = new QLabel(About);
+        label01->setObjectName(QString::fromUtf8("label01"));
+        label01->setGeometry(QRect(80, 200, 321, 121));
 
         retranslateUi(About);
 
@@ -104,6 +108,7 @@ public:
         label_8->setText(QCoreApplication::translate("About", "\320\232\320\260\321\204\320\265\320\264\321\200\320\260: \320\241\320\270\321\201\321\202\320\265\320\274\321\213 \320\276\320\261\321\200\320\260\320\261\320\276\321\202\320\272\320\270 \320\270\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\320\270 \320\270 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217 (\320\230\320\2435)", nullptr));
         label_9->setText(QCoreApplication::translate("About", "2021 \320\263\320\276\320\264.", nullptr));
         OK_button->setText(QCoreApplication::translate("About", "\320\236\320\232", nullptr));
+        label01->setText(QString());
     } // retranslateUi
 
 };

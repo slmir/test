@@ -9,7 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    about.cpp \
+    about_1.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
@@ -17,7 +17,7 @@ SOURCES += \
     recieve_file_mode.cpp
 
 HEADERS += \
-    about.h \
+    about_1.h \
     mainwindow.h \
     parameters.h \
     pram_connection.h \
@@ -26,7 +26,7 @@ HEADERS += \
 FORMS += \
     Recieve.ui \
     Recieve_mode.ui \
-    about.ui \
+    about_1.ui \
     mainwindow.ui \
     parameters.ui \
     pram_connection.ui \
@@ -36,3 +36,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resource.qrc

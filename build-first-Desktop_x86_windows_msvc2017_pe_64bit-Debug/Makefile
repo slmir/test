@@ -184,7 +184,8 @@ Makefile: ../first/first.pro ../../6.0.3/mingw81_64/mkspecs/win32-g++/qmake.conf
 		../../6.0.3/mingw81_64/lib/Qt6Gui.prl \
 		../../6.0.3/mingw81_64/lib/Qt6Core.prl \
 		../../6.0.3/mingw81_64/lib/Qt6EntryPoint.prl \
-		../../6.0.3/mingw81_64/mkspecs/features/build_pass.prf
+		../../6.0.3/mingw81_64/mkspecs/features/build_pass.prf \
+		../first/Resource.qrc
 	$(QMAKE) -o Makefile ..\first\first.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 ../../6.0.3/mingw81_64/mkspecs/features/spec_pre.prf:
 ../../6.0.3/mingw81_64/mkspecs/features/device_config.prf:
@@ -301,6 +302,7 @@ Makefile: ../first/first.pro ../../6.0.3/mingw81_64/mkspecs/win32-g++/qmake.conf
 ../../6.0.3/mingw81_64/lib/Qt6Core.prl:
 ../../6.0.3/mingw81_64/lib/Qt6EntryPoint.prl:
 ../../6.0.3/mingw81_64/mkspecs/features/build_pass.prf:
+../first/Resource.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\first\first.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 

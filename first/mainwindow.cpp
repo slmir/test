@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "recieve_file_mode.h"
-#include "about.h"
+#include "about_1.h"
 #include "pram_connection.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -99,7 +99,7 @@ void MainWindow::on_about_menu_triggered()
 {
     //Открыть окно с информацией об исполнителях
 
-    About winparam;
+    about_1 winparam;
     winparam.setModal(true);
     winparam.exec();
 }

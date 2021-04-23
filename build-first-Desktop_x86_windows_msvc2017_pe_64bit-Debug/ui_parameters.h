@@ -72,10 +72,11 @@ public:
         frame_2->setFrameShadow(QFrame::Raised);
         label_2 = new QLabel(frame_2);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(50, 20, 91, 16));
+        label_2->setGeometry(QRect(20, 20, 91, 16));
         textBrowser = new QTextBrowser(frame_2);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
         textBrowser->setGeometry(QRect(170, 10, 241, 31));
+        textBrowser->setSource(QUrl(QString::fromUtf8("file:///Z:/qt/Kurs/first/Resources/Com.txt")));
         frame_3 = new QFrame(frame);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
         frame_3->setGeometry(QRect(20, 140, 431, 251));

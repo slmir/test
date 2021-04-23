@@ -1,10 +1,11 @@
-release/about.o
+release/about_1.o
 release/main.o
 release/mainwindow.o
 release/parameters.o
 release/pram_connection.o
 release/recieve_file_mode.o
-release/moc_about.o
+release/qrc_Resource.o
+release/moc_about_1.o
 release/moc_mainwindow.o
 release/moc_parameters.o
 release/moc_pram_connection.o
