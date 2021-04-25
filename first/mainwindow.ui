@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Курсовая работа. Главная</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QFrame" name="frame">
@@ -272,12 +272,12 @@
      <string>Файл</string>
     </property>
     <addaction name="action"/>
-    <addaction name="action_2"/>
    </widget>
    <widget class="QMenu" name="To_connect_menu">
     <property name="title">
      <string>Соединение</string>
     </property>
+    <addaction name="action_5"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -300,7 +300,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="about_menu">
    <property name="text">
-    <string>О программе</string>
+    <string>О программе...</string>
    </property>
   </action>
   <action name="action">
@@ -321,6 +321,11 @@
   <action name="action_4">
    <property name="text">
     <string>Принять файл...</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>Параметры соединения...</string>
    </property>
   </action>
  </widget>

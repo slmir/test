@@ -76,7 +76,6 @@ public:
         textBrowser = new QTextBrowser(frame_2);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
         textBrowser->setGeometry(QRect(170, 10, 241, 31));
-        textBrowser->setSource(QUrl(QString::fromUtf8("file:///Z:/qt/Kurs/first/Resources/Com.txt")));
         frame_3 = new QFrame(frame);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
         frame_3->setGeometry(QRect(20, 140, 431, 251));
@@ -140,6 +139,11 @@ public:
         Parameters->setWindowTitle(QCoreApplication::translate("Parameters", "MainWindow", nullptr));
         label->setText(QCoreApplication::translate("Parameters", "\320\237\320\276\321\201\320\273\320\265\320\264\320\276\320\262\320\260\321\202\320\265\320\273\321\214\320\275\321\213\320\271 \320\277\320\276\321\200\321\202", nullptr));
         label_2->setText(QCoreApplication::translate("Parameters", "\320\235\320\276\320\274\320\265\321\200 \320\277\320\276\321\200\321\202\320\260:", nullptr));
+        textBrowser->setHtml(QCoreApplication::translate("Parameters", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         label_4->setText(QCoreApplication::translate("Parameters", "\320\221\320\270\321\202 \320\262 \321\201\320\265\320\272\321\203\320\275\320\264\321\203:", nullptr));
         label_5->setText(QCoreApplication::translate("Parameters", "\320\221\320\270\321\202\321\213 \320\264\320\260\320\275\320\275\321\213\321\205:", nullptr));
         label_6->setText(QCoreApplication::translate("Parameters", "\320\247\320\265\321\202\320\275\320\276\321\201\321\202\321\214:", nullptr));

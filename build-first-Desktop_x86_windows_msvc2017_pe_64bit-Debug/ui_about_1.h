@@ -100,7 +100,7 @@ public:
 
     void retranslateUi(QDialog *about_1)
     {
-        about_1->setWindowTitle(QCoreApplication::translate("about_1", "Dialog", nullptr));
+        about_1->setWindowTitle(QCoreApplication::translate("about_1", "\320\236 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\274\320\265", nullptr));
         OK_button->setText(QCoreApplication::translate("about_1", "\320\236\320\232", nullptr));
         label_2->setText(QCoreApplication::translate("about_1", "\320\222\321\213\320\277\320\276\320\273\320\275\320\270\320\273\320\270:", nullptr));
         label_5->setText(QCoreApplication::translate("about_1", "\320\234\320\270\321\200\321\201\320\276\320\275\320\276\320\262 \320\222\321\217\321\207\320\265\321\201\320\273\320\260\320\262, \320\240\320\2425-61\320\221", nullptr));

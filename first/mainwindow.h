@@ -35,6 +35,8 @@ private slots:
 
     void on_about_menu_triggered();
 
+    void on_action_5_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

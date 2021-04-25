@@ -21,5 +21,5 @@ about_1::~about_1()
 
 void about_1::on_OK_button_clicked()
 {
-
+    QWidget::close();
 }

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Параметры соединения</string>
   </property>
   <widget class="QFrame" name="frame">
    <property name="geometry">
@@ -64,6 +64,9 @@
        <width>221</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
@@ -144,7 +147,7 @@
       <string>Управление потоком:</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_3">
+    <widget class="QComboBox" name="Data_bits_comboBox">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -156,8 +159,11 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_4">
+    <widget class="QComboBox" name="Chetnost_comboBox">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -169,8 +175,11 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_5">
+    <widget class="QComboBox" name="Stop_bits_comboBox">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -179,8 +188,11 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_6">
+    <widget class="QComboBox" name="Upravl_steam_comboBox">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -189,15 +201,21 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_2">
+    <widget class="QComboBox" name="Bits_in_second_comboBox">
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>30</y>
+       <y>40</y>
        <width>221</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>

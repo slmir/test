@@ -33,6 +33,7 @@ public:
     QAction *action_2;
     QAction *action_3;
     QAction *action_4;
+    QAction *action_5;
     QWidget *centralwidget;
     QFrame *frame;
     QGroupBox *Connect_groupBox;
@@ -71,6 +72,8 @@ public:
         action_3->setObjectName(QString::fromUtf8("action_3"));
         action_4 = new QAction(MainWindow);
         action_4->setObjectName(QString::fromUtf8("action_4"));
+        action_5 = new QAction(MainWindow);
+        action_5->setObjectName(QString::fromUtf8("action_5"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         frame = new QFrame(centralwidget);
@@ -160,7 +163,7 @@ public:
         menubar->addAction(menu_3->menuAction());
         menubar->addAction(menu->menuAction());
         To_file_menu->addAction(action);
-        To_file_menu->addAction(action_2);
+        To_connect_menu->addAction(action_5);
         menu_3->addAction(about_menu);
         menu->addAction(action_3);
         menu->addAction(action_4);
@@ -172,12 +175,13 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        about_menu->setText(QCoreApplication::translate("MainWindow", "\320\236 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\274\320\265", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\320\232\321\203\321\200\321\201\320\276\320\262\320\260\321\217 \321\200\320\260\320\261\320\276\321\202\320\260. \320\223\320\273\320\260\320\262\320\275\320\260\321\217", nullptr));
+        about_menu->setText(QCoreApplication::translate("MainWindow", "\320\236 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\274\320\265...", nullptr));
         action->setText(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214...", nullptr));
         action_2->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\273\321\203\321\207\320\270\321\202\321\214...", nullptr));
         action_3->setText(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\277\321\200\320\260\320\262\320\270\321\202\321\214 \321\204\320\260\320\271\320\273...", nullptr));
         action_4->setText(QCoreApplication::translate("MainWindow", "\320\237\321\200\320\270\320\275\321\217\321\202\321\214 \321\204\320\260\320\271\320\273...", nullptr));
+        action_5->setText(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217...", nullptr));
         Connect_groupBox->setTitle(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265", nullptr));
         Connection_status_label->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265 \320\275\320\265 \321\203\321\201\321\202\320\260\320\275\320\276\320\262\320\273\320\265\320\275\320\276", nullptr));
         Do_connect_button->setText(QCoreApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265", nullptr));

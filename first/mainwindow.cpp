@@ -28,8 +28,6 @@ void MainWindow::on_pushButton_clicked()
     // Закрытие приложения
     QMessageBox::StandardButton reply = QMessageBox::question(this,"Выход из приложения", "Вы уверены что хотите выйти из приложения?",QMessageBox::Yes | QMessageBox::No);
 
-
-
     if (reply == QMessageBox::Yes){
         QApplication::quit();
     }
@@ -100,6 +98,13 @@ void MainWindow::on_about_menu_triggered()
     //Открыть окно с информацией об исполнителях
 
     about_1 winparam;
+    winparam.setModal(true);
+    winparam.exec();
+}
+
+void MainWindow::on_action_5_triggered()
+{
+    Pram_connection winparam;
     winparam.setModal(true);
     winparam.exec();
 }

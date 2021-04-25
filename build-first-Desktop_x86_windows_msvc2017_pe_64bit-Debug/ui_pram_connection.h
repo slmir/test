@@ -33,11 +33,11 @@ public:
     QLabel *label_6;
     QLabel *label_7;
     QLabel *label_8;
-    QComboBox *comboBox_3;
-    QComboBox *comboBox_4;
-    QComboBox *comboBox_5;
-    QComboBox *comboBox_6;
-    QComboBox *comboBox_2;
+    QComboBox *Data_bits_comboBox;
+    QComboBox *Chetnost_comboBox;
+    QComboBox *Stop_bits_comboBox;
+    QComboBox *Upravl_steam_comboBox;
+    QComboBox *Bits_in_second_comboBox;
     QPushButton *OK_button;
     QPushButton *Back_button;
 
@@ -61,6 +61,7 @@ public:
         Port_number_comboBox = new QComboBox(groupBox_2);
         Port_number_comboBox->setObjectName(QString::fromUtf8("Port_number_comboBox"));
         Port_number_comboBox->setGeometry(QRect(180, 30, 221, 22));
+        Port_number_comboBox->setEditable(true);
         groupBox_3 = new QGroupBox(frame);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         groupBox_3->setGeometry(QRect(20, 120, 431, 271));
@@ -79,23 +80,28 @@ public:
         label_8 = new QLabel(groupBox_3);
         label_8->setObjectName(QString::fromUtf8("label_8"));
         label_8->setGeometry(QRect(40, 230, 141, 16));
-        comboBox_3 = new QComboBox(groupBox_3);
-        comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
-        comboBox_3->setEnabled(false);
-        comboBox_3->setGeometry(QRect(180, 80, 221, 22));
-        comboBox_4 = new QComboBox(groupBox_3);
-        comboBox_4->setObjectName(QString::fromUtf8("comboBox_4"));
-        comboBox_4->setEnabled(false);
-        comboBox_4->setGeometry(QRect(180, 130, 221, 22));
-        comboBox_5 = new QComboBox(groupBox_3);
-        comboBox_5->setObjectName(QString::fromUtf8("comboBox_5"));
-        comboBox_5->setGeometry(QRect(180, 180, 221, 22));
-        comboBox_6 = new QComboBox(groupBox_3);
-        comboBox_6->setObjectName(QString::fromUtf8("comboBox_6"));
-        comboBox_6->setGeometry(QRect(180, 230, 221, 22));
-        comboBox_2 = new QComboBox(groupBox_3);
-        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
-        comboBox_2->setGeometry(QRect(180, 30, 221, 22));
+        Data_bits_comboBox = new QComboBox(groupBox_3);
+        Data_bits_comboBox->setObjectName(QString::fromUtf8("Data_bits_comboBox"));
+        Data_bits_comboBox->setEnabled(false);
+        Data_bits_comboBox->setGeometry(QRect(180, 80, 221, 22));
+        Data_bits_comboBox->setEditable(true);
+        Chetnost_comboBox = new QComboBox(groupBox_3);
+        Chetnost_comboBox->setObjectName(QString::fromUtf8("Chetnost_comboBox"));
+        Chetnost_comboBox->setEnabled(false);
+        Chetnost_comboBox->setGeometry(QRect(180, 130, 221, 22));
+        Chetnost_comboBox->setEditable(true);
+        Stop_bits_comboBox = new QComboBox(groupBox_3);
+        Stop_bits_comboBox->setObjectName(QString::fromUtf8("Stop_bits_comboBox"));
+        Stop_bits_comboBox->setGeometry(QRect(180, 180, 221, 22));
+        Stop_bits_comboBox->setEditable(true);
+        Upravl_steam_comboBox = new QComboBox(groupBox_3);
+        Upravl_steam_comboBox->setObjectName(QString::fromUtf8("Upravl_steam_comboBox"));
+        Upravl_steam_comboBox->setGeometry(QRect(180, 230, 221, 22));
+        Upravl_steam_comboBox->setEditable(true);
+        Bits_in_second_comboBox = new QComboBox(groupBox_3);
+        Bits_in_second_comboBox->setObjectName(QString::fromUtf8("Bits_in_second_comboBox"));
+        Bits_in_second_comboBox->setGeometry(QRect(180, 40, 221, 22));
+        Bits_in_second_comboBox->setEditable(true);
         OK_button = new QPushButton(Pram_connection);
         OK_button->setObjectName(QString::fromUtf8("OK_button"));
         OK_button->setGeometry(QRect(310, 450, 93, 28));
@@ -110,7 +116,7 @@ public:
 
     void retranslateUi(QDialog *Pram_connection)
     {
-        Pram_connection->setWindowTitle(QCoreApplication::translate("Pram_connection", "Dialog", nullptr));
+        Pram_connection->setWindowTitle(QCoreApplication::translate("Pram_connection", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("Pram_connection", "\320\237\320\276\321\201\320\273\320\265\320\264\320\276\320\262\320\260\321\202\320\265\320\273\321\214\320\275\321\213\320\271 \320\277\320\276\321\200\321\202", nullptr));
         label_2->setText(QCoreApplication::translate("Pram_connection", "\320\235\320\276\320\274\320\265\321\200 \320\277\320\276\321\200\321\202\320\260:", nullptr));
         groupBox_3->setTitle(QCoreApplication::translate("Pram_connection", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\277\320\276\321\200\321\202\320\260", nullptr));
