@@ -33,10 +33,10 @@ public:
         Recieve_file_mode->resize(760, 483);
         Soglsie_to_recieve_file_button = new QPushButton(Recieve_file_mode);
         Soglsie_to_recieve_file_button->setObjectName(QString::fromUtf8("Soglsie_to_recieve_file_button"));
-        Soglsie_to_recieve_file_button->setGeometry(QRect(160, 10, 391, 61));
+        Soglsie_to_recieve_file_button->setGeometry(QRect(150, 100, 391, 61));
         groupBox = new QGroupBox(Recieve_file_mode);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(120, 100, 501, 61));
+        groupBox->setGeometry(QRect(110, 190, 501, 61));
         groupBox->setFlat(false);
         Recieving_progressBar = new QProgressBar(groupBox);
         Recieving_progressBar->setObjectName(QString::fromUtf8("Recieving_progressBar"));
@@ -45,7 +45,7 @@ public:
         Save_recieved_file_button = new QPushButton(Recieve_file_mode);
         Save_recieved_file_button->setObjectName(QString::fromUtf8("Save_recieved_file_button"));
         Save_recieved_file_button->setEnabled(false);
-        Save_recieved_file_button->setGeometry(QRect(310, 190, 93, 28));
+        Save_recieved_file_button->setGeometry(QRect(232, 280, 221, 28));
 
         retranslateUi(Recieve_file_mode);
 
@@ -58,7 +58,7 @@ public:
         Soglsie_to_recieve_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\235\320\260\320\266\320\274\320\270", nullptr));
         groupBox->setTitle(QCoreApplication::translate("Recieve_file_mode", "\320\237\320\276\320\273\321\203\321\207\320\265\320\275\320\270\320\265 \321\204\320\260\320\271\320\273\320\260", nullptr));
         Recieving_progressBar->setFormat(QCoreApplication::translate("Recieve_file_mode", "%p%", "2"));
-        Save_recieved_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
+        Save_recieved_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \321\204\320\260\320\271\320\273...", nullptr));
     } // retranslateUi
 
 };

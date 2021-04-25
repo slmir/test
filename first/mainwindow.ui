@@ -27,10 +27,10 @@
      <enum>QFrame::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="midLineWidth">
      <number>1</number>
@@ -44,8 +44,18 @@
        <height>231</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="title">
       <string>Соединение</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
@@ -99,6 +109,13 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Установить соединение</string>
        </property>
@@ -111,6 +128,13 @@
          <width>271</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Параметры соединения</string>
@@ -125,6 +149,13 @@
         <width>141</width>
         <height>16</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="text">
        <string>Статус соединения</string>
@@ -164,6 +195,13 @@
         <height>16</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="text">
        <string>Системные сообщения</string>
       </property>
@@ -178,8 +216,18 @@
        <height>181</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="title">
       <string>Отправить файл</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
      <widget class="QPushButton" name="Send_file_button">
       <property name="enabled">
@@ -192,6 +240,13 @@
         <width>211</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="text">
        <string>Отправить файл</string>
@@ -225,6 +280,13 @@
         <height>16</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="text">
        <string>Выберите файл:</string>
       </property>
@@ -237,6 +299,13 @@
         <width>91</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="text">
        <string>Открыть...</string>
@@ -315,12 +384,12 @@
   </action>
   <action name="action_3">
    <property name="text">
-    <string>Отправить файл...</string>
+    <string>Отправка...</string>
    </property>
   </action>
   <action name="action_4">
    <property name="text">
-    <string>Принять файл...</string>
+    <string>Приём...</string>
    </property>
   </action>
   <action name="action_5">

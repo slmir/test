@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="Soglsie_to_recieve_file_button">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>10</y>
+     <x>150</x>
+     <y>100</y>
      <width>391</width>
      <height>61</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>100</y>
+     <x>110</x>
+     <y>190</y>
      <width>501</width>
      <height>61</height>
     </rect>
@@ -64,14 +64,14 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>190</y>
-     <width>93</width>
+     <x>232</x>
+     <y>280</y>
+     <width>221</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
-    <string>Сохранить</string>
+    <string>Сохранить файл...</string>
    </property>
   </widget>
  </widget>

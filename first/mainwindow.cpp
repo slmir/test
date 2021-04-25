@@ -108,3 +108,16 @@ void MainWindow::on_action_5_triggered()
     winparam.setModal(true);
     winparam.exec();
 }
+
+void MainWindow::on_action_triggered()
+{
+    QString str = QFileDialog::getOpenFileName(0, "Выберите файл", "", "*.txt");
+    ui->File_name_choosed->setText(str);
+    ui->File_name_choosed->editingFinished();
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    MainWindow winparam;
+    winparam.show();
+}
