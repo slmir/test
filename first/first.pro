@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets serialport
 
 CONFIG += c++11
 
@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
+    port.cpp \
     pram_connection.cpp \
     recieve_file_mode.cpp
 
@@ -20,6 +21,7 @@ HEADERS += \
     about_1.h \
     mainwindow.h \
     parameters.h \
+    port.h \
     pram_connection.h \
     recieve_file_mode.h
 

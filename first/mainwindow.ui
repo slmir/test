@@ -333,7 +333,7 @@
      <x>0</x>
      <y>0</y>
      <width>847</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="To_file_menu">
@@ -395,6 +395,9 @@
   <action name="action_5">
    <property name="text">
     <string>Параметры соединения...</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
    </property>
   </action>
  </widget>

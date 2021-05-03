@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QListView>
-
+#include <QSerialPortInfo>
 namespace Ui {
 class Pram_connection;
 }
@@ -24,6 +24,7 @@ private slots:
 private:
     Ui::Pram_connection *ui;
     QListView *listView; // указатель на список элементов
+	QList<QSerialPortInfo> ports; // список доступных портов
 };
 
 #endif // PRAM_CONNECTION_H
