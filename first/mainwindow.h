@@ -5,6 +5,7 @@
 #include "recieve_file_mode.h"
 #include "about_1.h"
 #include "pram_connection.h"
+#include "port.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,7 +42,10 @@ private slots:
 
     void on_action_3_triggered();
 
+	void onPortChanged(QSerialPortInfo port, int baudRate);
+
 private:
     Ui::MainWindow *ui;
+	Port* port;
 };
 #endif // MAINWINDOW_H

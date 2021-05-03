@@ -75,12 +75,15 @@ Pram_connection::~Pram_connection()
 
 void Pram_connection::on_OK_button_clicked()
 {
+	QSerialPortInfo selectedPort = this->ports[ui->Port_number_comboBox->currentIndex()];
+	QString selectedBaudRate = ui->Bits_in_second_comboBox->currentText();
     //Применить параметры соединения
-	QString selected = QString("Порт %1; скорость соединения = %2").arg(this->ports[ui->Port_number_comboBox->currentIndex()].portName(), ui->Bits_in_second_comboBox->currentText());
+	QString selected = QString("Порт %1; скорость соединения = %2.").arg(selectedPort.portName(), selectedBaudRate);
 	QMessageBox::StandardButton reply = QMessageBox::question(this,"Параметры", "Вы уверены что хотите утвердить параметры?\n" + selected, QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes){
-        QApplication::quit();
+		emit portChanged(selectedPort, selectedBaudRate.toInt());
+		this->close();
     }
     else {
         qDebug() << "Продолжение работы приложения";

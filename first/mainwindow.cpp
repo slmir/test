@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+	delete port;
 }
 
 
@@ -105,6 +106,7 @@ void MainWindow::on_about_menu_triggered()
 void MainWindow::on_action_5_triggered()
 {
     Pram_connection winparam;
+	connect(&winparam, &Pram_connection::portChanged, this, &MainWindow::onPortChanged);
     winparam.setModal(true);
     winparam.exec();
 }
@@ -120,4 +122,8 @@ void MainWindow::on_action_3_triggered()
 {
     MainWindow winparam;
     winparam.show();
+}
+
+void MainWindow::onPortChanged(QSerialPortInfo portInfo, int baudRate) {
+	this->port = new Port(portInfo, baudRate);
 }
