@@ -71,8 +71,10 @@ void DataLink::Receive_Pipeline(QString path) {
 
 	// 3. Получаем первичный кадр
 	received = new QByteArray(*port->ReceiveData(3)); // ПРАВИЛЬНЫЕ ЛИ ДЛИНЫ ЗДЕСЬ И ВЫШЕ?
-	// Записываем размер файла
-	int fileSize = received->length();
+	// Записываем размер файла 
+	// наверное, размер из первого кадра тоже можно распаковать методом UnwrapControlFrame()
+	// только не забудь, что он чар вернёт
+	int fileSize = (int)UnwrapControlFrame(received);
 	// Возвращаем ACK
 	port->SendData(WrapControlFrame('A'));
 
@@ -81,6 +83,13 @@ void DataLink::Receive_Pipeline(QString path) {
 
 	// 5. Закрываем порт
 	port->Close();
+}
+
+
+// распаковка служебных кадров
+char DataLink::UnwrapControlFrame(QByteArray controlFrame)
+{
+	return controlFrame[1];
 }
 
 // универсальный перевод массива байтов в массив битов
@@ -239,7 +248,8 @@ QByteArray DataLink::WrapInfoFrame(QByteArray info)
 
 void DataLink::ReceiveInfoPackets(int sizeToReceive, QString path) {
 	// ЗДЕСЬ ЕСТЬ ТОЛЬКО ЗАГОТОВКА, ПОСМОТРИ И МОЖЕТ ЧТО ДОДЕЛАЙ
-	int infoPacketSize; // = 4?
+	// мне всё нравится, первый инт инициализировала
+	int infoPacketSize = 4;
 	int dataSize = 2;
 
 	QList<bool> *receivedBits = new QList<bool>();
