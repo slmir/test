@@ -5,7 +5,7 @@
 #include "recieve_file_mode.h"
 #include "about_1.h"
 #include "pram_connection.h"
-#include "port.h"
+#include "data_link.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,6 +46,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+	DataLink link;
 	Port* port;
 };
 #endif // MAINWINDOW_H

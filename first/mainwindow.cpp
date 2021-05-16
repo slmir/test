@@ -42,6 +42,7 @@ void MainWindow::on_Parameters_connect_button_clicked()
     //Перейти к параметру соединений
 
     Pram_connection winparam;
+	connect(&winparam, &Pram_connection::portChanged, this, &MainWindow::onPortChanged);
     winparam.setModal(true);
     winparam.exec();
 }

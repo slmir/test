@@ -1,4 +1,5 @@
 release/about_1.o
+release/hamming.o
 release/main.o
 release/mainwindow.o
 release/parameters.o

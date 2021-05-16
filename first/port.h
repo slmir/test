@@ -11,17 +11,24 @@ class Port
 	public:
 		Port();
 		Port(QSerialPortInfo portInfo, int baudRate);
+
+		// Открытие порта с возвращением кода ошибки (0 - её отсутствие)
+		int Open(QIODevice::OpenMode openModeValue);
+		// Передача порции данных (внутри функции порт не открывается и не закрывается)
+		void SendData(QByteArray data);
+		// Повторная отправка порции данных, переданной при крайнем вызове SendData()
+		void ResendLastDataPiece();
+		// Получение порции данных (внутри функции порт не открывается и не закрывается)
+		QByteArray* ReceiveData(int sizeToRead);
+		// Закрытие порта с возвращением кода ошибки (0 - её отсутствие)
+		int Close();
+
 		~Port();
 	private:
 		QSerialPort* port;
+		QByteArray* sentFrameBuffer;
 
-		void GenerateMessageError(QByteArray*& data, float errorPercent);
-		float GetExponentialRand(float lambda);
-		void PortError(QSerialPort::SerialPortError error);
-	private slots:
-		// Если понадобится на канальном уровне, сделаю перегрузку для битового массива
-		void SendData(QByteArray* data);
-		QByteArray* ReceiveData();
+		void GenerateMessageError(QByteArray& data, float errorPercent);
 
 };
 

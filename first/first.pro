@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     about_1.cpp \
+    data_link.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     about_1.h \
+    data_link.h \
     mainwindow.h \
     parameters.h \
     port.h \
