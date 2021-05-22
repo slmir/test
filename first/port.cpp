@@ -1,88 +1,185 @@
 #include "port.h"
 #include <math.h>
 #include <QMessageBox>
+#include <QtSerialPort/QSerialPortInfo>
+#include "data_link.h"
+#include <QTimer>
 
+class DataLink;
+class QSerialPortInfo;
 
 Port::Port()
 {
+	this->sentFrameBuffer = new QByteArray();
+	this->receivedFrameBuffer = new QByteArray();
+	this->isOpened = false;
 
 }
 
-Port::Port(QSerialPortInfo portInfo, int baudRate) {
+
+Port::Port(QSerialPortInfo portInfo, int baudRate, DataLink* link): Port() {
 	this->port = new QSerialPort(portInfo);
+
+	// Соединяем порт с данным классом
+	connect(port, &QSerialPort::readyRead, this, &Port::OnDataReceived);
+	// Соединяем физ. уровень с канальным
+	connect(this, &Port::NewDataToRead, link, &DataLink::OnNewDataToRead);
 	port->setBaudRate(baudRate);
+	// ВНЕСТИ ЯВНОЕ УКАЗАНИЕ ОСТАЛЬНЫХ НАСТРОЕК
 	qDebug() << QString("Новый порт! %1, %2 бод\n").arg(portInfo.portName(), QString::number(baudRate));
-	SendData(new QByteArray());
 }
 
-void Port::SendData(QByteArray* data) {
+
+bool Port::GetOpenStatus() {
+	return this->isOpened;
+}
+
+
+QByteArray* Port::GetLastReceivedFrame() {
+	return this->receivedFrameBuffer;
+}
+
+QString Port::GetPortName() {
+	return port->portName();
+}
+
+
+int Port::Open(QIODevice::OpenMode openModeValue) {
+	QMessageBox* box;
+
+	if (port->open(openModeValue)) {
+		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно открыт!").arg(port->portName()));
+		this->isOpened = true;
+	} else {
+		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
+
+		switch (port->error()) {
+			case QSerialPort::OpenError: {
+				box->setText(QString("Порт %1 уже был открыт!").arg(port->portName()));
+				break;
+			}
+			case QSerialPort::DeviceNotFoundError: {
+				box->setText(QString("Порт %1 не найден!").arg(port->portName()));
+				break;
+			}
+			case QSerialPort::UnknownError: {
+				box->setText(QString("Неизвестная критическая ошибка при открытии порта %1!").arg(port->portName()));
+				break;
+			}
+			default: {
+				box->setText(QString("Ошибка при открытии порта %1! (код: %2)").arg(port->portName(), port->error()));
+				break;
+			}
+		}
+	}
+	box->exec();
+
+	delete box;
+	return port->error();
+}
+
+
+void Port::SendData(QByteArray data) {
+	// Занести отправляемую информацию в буфер, чтобы повторить отправку при возникновении ошибок
+	this->sentFrameBuffer = new QByteArray(data);
+
 	/*qDebug() << "Массив до генерации ошибок: ";
 	for (auto byte : *data) {
 		qDebug() << byte;
 	}*/
-	GenerateMessageError(data, 0.02f);
+	GenerateMessageError(data, 1e-09f);
 	/*qDebug() << "Массив после генерации ошибок: ";
 	for (auto byte : *data) {
 		qDebug() << byte;
 	}*/
 
-	if (this->port->open(QIODevice::WriteOnly)) {
-		qDebug() << QString("Порт %1 открыт!").arg(this->port->portName());
-	} else {
-		qDebug() << QString("Порт %1 не открыт!").arg(this->port->portName());
-		return;
-	}
 
-	this->port->write(*data);
-	if (this->port->error() == QSerialPort::WriteError) {
-		qDebug() << QString("\nОшибка при записи (порт %1)").arg(this->port->portName());
+	port->write(data);
+	bool result = true;
+
+	if (result != true) {
+		if (port->error() == QSerialPort::WriteError) {
+			qDebug() << QString("Ошибка при записи (порт %1)").arg(port->portName());
+			return;
+		} else {
+			qDebug() << QString("Запись не прошла (%1)").arg(port->error());
+		}
+	} else {
+		qDebug() << QString("Физ. уровень записал данные " + data.toHex()) << port->portName();
+	}
+}
+
+
+void Port::ResendLastDataPiece() {
+	port->write(*(this->sentFrameBuffer));
+
+	if (port->error() == QSerialPort::WriteError) {
+		qDebug() << QString("\nОшибка при повторной отправке последнего кадра (порт %1)").arg(port->portName());
 		return;
 	} else {
-		qDebug() << QString("\nЗапись прошла успешно.");
+		qDebug() << QString("\nПовторная отправка последнего кадра прошла успешно.");
 	}
-
-	this->port->close();
 	return;
 }
 
-void Port::GenerateMessageError(QByteArray*& data, float errorPercent) {
-	for (int i = 0; i < data->length(); i = i + 1) {
+
+void Port::GenerateMessageError(QByteArray& data, float errorProbability) {
+	for (int i = 0; i < data.length(); i = i + 1) {
 		for (int bitNum = 0; bitNum < 8; bitNum = bitNum + 1) {
-			if ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) < errorPercent) {
+			if ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) < errorProbability) {
 				//qDebug() << data->at(i) << QString::number((int) data->at(i));
-				char replaced = (data->at(i) ^ (1 << bitNum));
-				data->replace(i, 1, &replaced, 1);
+				char replaced = (data.at(i) ^ (1 << bitNum));
+				data.replace(i, 1, &replaced, 1);
 				//qDebug() << replaced << QString::number((int) replaced) << QString(" (bit changed: %1)").arg(QString::number(bitNum));
 			}
 		}
 	}
 }
 
-QByteArray* Port::ReceiveData() {
-	QByteArray* readData = new QByteArray();
 
-	if (this->port->open(QIODevice::WriteOnly)) {
-		qDebug() << QString("Порт %1 открыт!").arg(this->port->portName());
+void Port::OnDataReceived() {
+	QByteArray* readData = nullptr;
+	readData = new QByteArray(port->readAll());
+
+	if (port->error() == QSerialPort::ReadError) {
+		qDebug() << "Ошибка при чтении (порт %1)" + port->portName();
 	} else {
-		qDebug() << QString("Порт %1 не открыт!").arg(this->port->portName());
-		delete readData;
-		return nullptr;
+		qDebug() << QString("Физ. уровень прочёл данные: ") + readData->toHex();
 	}
 
-	while (this->port->waitForReadyRead()) {
-		readData->append(this->port->readAll());
-		if (this->port->error() == QSerialPort::ReadError) {
-			qDebug() << QString("\nОшибка при чтении (порт %1)").arg(this->port->portName());
-			delete readData;
-			return nullptr;
-		} else {
-			qDebug() << QString("\nЧтение прошло успешно.");
-		}
-	}
 
-	return readData;
+	emit NewDataToRead(readData);
+	this->receivedFrameBuffer = new QByteArray(readData->toStdString().c_str(), readData->length());
+	delete readData;
 }
 
+
+int Port::Close() {
+	QMessageBox* box;
+	port->close();
+	if (port->error() == 0) {
+		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно закрыт!").arg(port->portName()));
+		this->isOpened = false;
+	} else {
+		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
+		switch (port->error()) {
+			case QSerialPort::NotOpenError: {
+				box->setText(QString("Порт %1 уже был закрыт!").arg(port->portName()));
+				break;
+			}
+			default: {
+				box->setText(QString("Ошибка при закрытии порта %1! (код: %2)").arg(port->portName(), port->error()));
+				break;
+			}
+		}
+		box->exec();
+	}
+	delete box;
+	return port->error();
+}
+
+
 Port::~Port() {
-	delete this->port;
+	delete sentFrameBuffer;
+	delete port;
 }
