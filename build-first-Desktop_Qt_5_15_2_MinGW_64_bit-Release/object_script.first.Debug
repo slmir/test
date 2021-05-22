@@ -1,7 +1,9 @@
 debug/about_1.o
+debug/data_link.o
 debug/main.o
 debug/mainwindow.o
 debug/parameters.o
+debug/port.o
 debug/pram_connection.o
 debug/recieve_file_mode.o
 debug/qrc_Resource.o

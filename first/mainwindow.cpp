@@ -10,17 +10,21 @@
 #include <QString>
 #include <QTextEdit>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
+	this->link = new DataLink(this);
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
-	delete port;
+	delete link;
 }
 
 
@@ -37,11 +41,13 @@ void MainWindow::on_pushButton_clicked()
     }
 }
 
+// Checked
 void MainWindow::on_Parameters_connect_button_clicked()
 {
     //Перейти к параметру соединений
 
     Pram_connection winparam;
+	connect(&winparam, &Pram_connection::portChanged, this, &MainWindow::OnPortChanged);
     winparam.setModal(true);
     winparam.exec();
 }
@@ -55,7 +61,7 @@ void MainWindow::on_Open_file_button_clicked()
 
 void MainWindow::on_File_name_choosed_textChanged(const QString &arg1)
 {
-    QFile file(ui->File_name_choosed->text());
+	QFile file(ui->File_name_choosed->text());
     if ((file.exists())&&(file.open(QIODevice::ReadOnly)))
     {
         ui->Send_file_button->setEnabled(true);
@@ -64,10 +70,13 @@ void MainWindow::on_File_name_choosed_textChanged(const QString &arg1)
         //ui->textBrowser->setText(file.readAll());
         file.close();
     }
+
+	this->chosenPath = ui->File_name_choosed->text();
 }
 
 void MainWindow::on_Send_file_button_clicked()
 {
+	link->SendFile(this->chosenPath);
     if(ui->Connect_status_frame_label)
     {
 
@@ -76,12 +85,15 @@ void MainWindow::on_Send_file_button_clicked()
 
 void MainWindow::on_Do_connect_button_clicked()
 {
-    QString str = "Разорвать соединение";
+	link->SendHello();
+}
 
-    //if (УСЛОВИЯ ПОДКЛЮЧЕНИЯ) то
-        ui->Connection_status_label->setText("Соединение установлено");
-        ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
-        ui->Do_connect_button->setText("Разорвать соединение");
+void MainWindow::OnConnectionEstablished() {
+	if (ui->Connection_status_label->text() == "Соединение не установлено") {
+		ui->Connection_status_label->setText("Соединение установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
+		ui->Do_connect_button->setText("Разорвать соединение");
+	}
 
 }
 
@@ -103,10 +115,11 @@ void MainWindow::on_about_menu_triggered()
     winparam.exec();
 }
 
+
 void MainWindow::on_action_5_triggered()
 {
     Pram_connection winparam;
-	connect(&winparam, &Pram_connection::portChanged, this, &MainWindow::onPortChanged);
+	connect(&winparam, &Pram_connection::portChanged, this, &MainWindow::OnPortChanged);
     winparam.setModal(true);
     winparam.exec();
 }
@@ -124,6 +137,11 @@ void MainWindow::on_action_3_triggered()
     winparam.show();
 }
 
-void MainWindow::onPortChanged(QSerialPortInfo portInfo, int baudRate) {
-	this->port = new Port(portInfo, baudRate);
+void MainWindow::OnPortChanged(QSerialPortInfo portInfo, int baudRate) {
+	this->link->SetPort(portInfo, baudRate);
+
+}
+
+void MainWindow::OnNewDataRead() {
+	//qDebug() << "Получены данные: " << this->port->ReceiveData(3);
 }
