@@ -5,54 +5,87 @@
 #include <QBitArray>
 #include <QObject>
 #include <QSaveFile>
-#include <port.h>
+#include <QtSerialPort/QSerialPortInfo>
+#include "port.h"
 
-class DataLink
-{
-public:
-	DataLink();
-	// Инициализация с чтением файла
-	DataLink(QFile file);
+class MainWindow;
+class Port;
 
-	void SetPort(QSerialPortInfo portInfo, int baudRate);
-	// Оболочка для передачи данных
-	void Send_Pipeline(QFile file);
-	// Оболочка для приёма данных
-	void Receive_Pipeline(QString path);
-private:
-	Port* port;
+class DataLink : public QObject {
+	Q_OBJECT
 
-	QByteArray ReceivedFile;
-	//QByteArray BytesToTransmit;
-	//QList<bool> bitList;
-	//int size;
-	int NAK_counter;
+	public:
+		Port* port;
+		// Окошко передаётся для связи сигналов и слотов
+		DataLink(MainWindow* mw);
 
-	// QByteArray -> QBitArray
-	QBitArray ConvertByteArrToBitArr(QByteArray bytes);
-	// QBitArray -> QByteArray
-	QByteArray ConvertBitArrToByteArr(QBitArray bits);
-	// Вычленение из данных по 11 бит (для кодирования по Хэммингу)
-	QBitArray To11Bits(QBitArray ba, int i);
+		// Задание рабочего порта (отправка или приём - не важно)
+		void SetPort(QSerialPortInfo portInfo, int baudRate);
+		// Открытие рабочего порта (возвращает код ошибки; 0 - отсутствие)
+		int OpenPort();
+		// Закрытие рабочего порта (аналогичное поведение)
+		int ClosePort();
+		// Оболочка для передачи данных
+		void SendFile(QString path);
+		// Проверка установки соединения (пока что всегда возвращает false, потому что я уведомление об установке перенёс на слот-сигнал)
+		bool SendHello();
 
-	// Формирование информационного кадра из передаваемых данных
-	QByteArray WrapInfoFrame(QByteArray info);
-	// Формирование управляющего кадра на основе получаемого служебного символа
-	QByteArray WrapControlFrame(char type);
-	// Формирование первичного кадра с указанием длины передаваемого файла
-	QByteArray WrapSizeFrame(int size);
-	// Отправка файла
-	void SendInfoPackets(QByteArray	bytes, int size);
+	private:
+		// Флаг установки соединения
+		bool isConnected;
+		// Число прочитанных бит
+		int bitsRead;
+		// Размер передачи в байтах
+		int bytesToRead;
+		// Сюды запихиваем раскодированные данные
+		QList<bool> *receivedBits;
+		// Сюды отправляется последний принятый кадр (от слота OnNewDataToRead)
+		QByteArray *receivedData;
+		// Счётчик ошибок (пока не работал с ошибками; просто поставил вероятность ошибки 1е-10 у себя)
+		int NAK_counter;
 
-	// Извлечение данных из информационных кадров
-	void UnwrapInfoFrame(QByteArray frame, QList<bool> &receivedBits);
-	// Формирование двоичного файла из полученных данных с указанием пути назначения
-	void ConvertReceivedToFile(QString path, int size, QList<bool> &receivedBits);
-	// Получение файла
-	void ReceiveInfoPackets(int sizeToReceive, QString path);
+		// QByteArray -> QBitArray
+		QBitArray ConvertByteArrToBitArr(QByteArray bytes);
+		// QBitArray -> QByteArray
+		QByteArray ConvertBitArrToByteArr(QBitArray bits);
+		// Вычленение из данных по 11 бит (для кодирования по Хэммингу)
+		QBitArray To11Bits(QBitArray ba, int i);
 
-    QByteArray HammingCode(QBitArray arr);
-    QBitArray HammingDecode(QBitArray code);
+		// Формирование управляющего кадра на основе получаемого служебного символа
+		QByteArray WrapControlFrame(char type);
+		// Формирование первичного кадра с указанием длины передаваемого файла
+		QByteArray WrapSizeFrame(int size);
+		// Формирование информационного кадра из передаваемых данных
+		QByteArray WrapInfoFrame(QByteArray info);
+
+		// Обёртка над методами WRAP; результат упаковки сразу отправляет в порт
+		void SendControlFrame(char type);
+		void SendSizeFrame(int size);
+		void SendInfoFrames(QByteArray bytes, int size);
+		bool SendInfoFrame(QByteArray frame);
+
+		// Вычленение инфы из кадров
+		char UnwrapControlFrame(QByteArray controlFrame);
+		int UnwrapSizeFrame(QByteArray sizeFrame);
+		void UnwrapInfoFrame(QByteArray frame);
+
+		// Формирование двоичного файла из полученных данных с указанием пути назначения (пока что там заглушка на D:/read.txt)
+		void ConvertReceivedToFile(QString path);
+
+		// Дядя Хэм ёпты
+		QByteArray HammingCode(QBitArray arr);
+		QBitArray* HammingDecode(QBitArray code);
+
+		// Блокировка программы до получения ответного кадра (ACK или об ошибке)
+		void WaitForAnswer();
+
+	public slots:
+		// Обработчик приходящих данных
+		void OnNewDataToRead(QByteArray* data);
+
+	signals:
+		void DataRead();
+		void ConnectionEstablished();
 };
 
 #endif // DATA_LINK_H

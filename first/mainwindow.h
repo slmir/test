@@ -7,6 +7,9 @@
 #include "pram_connection.h"
 #include "data_link.h"
 
+
+class DataLink;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,6 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -42,11 +46,15 @@ private slots:
 
     void on_action_3_triggered();
 
-	void onPortChanged(QSerialPortInfo port, int baudRate);
+	void OnPortChanged(QSerialPortInfo port, int baudRate);
+
+public slots:
+	void OnNewDataRead();
+	void OnConnectionEstablished();
 
 private:
     Ui::MainWindow *ui;
-	DataLink link;
-	Port* port;
+	DataLink* link;
+	QString chosenPath;
 };
 #endif // MAINWINDOW_H

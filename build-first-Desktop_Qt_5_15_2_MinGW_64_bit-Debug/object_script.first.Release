@@ -1,5 +1,5 @@
 release/about_1.o
-release/hamming.o
+release/data_link.o
 release/main.o
 release/mainwindow.o
 release/parameters.o
@@ -8,7 +8,9 @@ release/pram_connection.o
 release/recieve_file_mode.o
 release/qrc_Resource.o
 release/moc_about_1.o
+release/moc_data_link.o
 release/moc_mainwindow.o
 release/moc_parameters.o
+release/moc_port.o
 release/moc_pram_connection.o
 release/moc_recieve_file_mode.o

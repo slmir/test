@@ -1,7 +1,9 @@
 release/about_1.o
+release/data_link.o
 release/main.o
 release/mainwindow.o
 release/parameters.o
+release/port.o
 release/pram_connection.o
 release/recieve_file_mode.o
 release/qrc_Resource.o

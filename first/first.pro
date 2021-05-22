@@ -1,4 +1,4 @@
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets serialport
 
@@ -25,7 +25,8 @@ HEADERS += \
     parameters.h \
     port.h \
     pram_connection.h \
-    recieve_file_mode.h
+    recieve_file_mode.h \
+    main.cpp
 
 FORMS += \
     Recieve.ui \
