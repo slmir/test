@@ -27,6 +27,7 @@ class Port : public QObject {
 		QString GetPortName();
 		bool GetOpenStatus();
 		QByteArray* GetLastReceivedFrame();
+		QByteArray* GetLastSentFrame();
 
 		virtual ~Port();
 	private:

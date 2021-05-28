@@ -30,7 +30,6 @@ HEADERS += \
 
 FORMS += \
     Recieve.ui \
-    Recieve_mode.ui \
     about_1.ui \
     mainwindow.ui \
     parameters.ui \

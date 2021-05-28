@@ -39,6 +39,10 @@ QByteArray* Port::GetLastReceivedFrame() {
 	return this->receivedFrameBuffer;
 }
 
+QByteArray* Port::GetLastSentFrame() {
+	return this->sentFrameBuffer;
+}
+
 QString Port::GetPortName() {
 	return port->portName();
 }

@@ -86,6 +86,7 @@ bool DataLink::SendHello() {
 
 
 void DataLink::SendFile(QString path) {
+	qDebug() << "Отправляем файл " + path;
 	QFile file(path);
 	if (this->port == nullptr) {
 		QMessageBox msg;
@@ -156,16 +157,31 @@ QByteArray DataLink::WrapControlFrame(char type)
 		// заполним байт, отведённый под тип кадра
 		switch(type)
 		{
-			case 'A': pack[1] = 0x00;
-					  break;
-			case 'R': pack[1] = 0x01;
-					  break;
-			case 'L': pack[1] = 0x02;
-					  break;
-			case 'U': pack[1] = 0x03;
-					  break;
-			case 'S': pack[1] = 0x04;
-				  break;
+			case 'A': {
+				pack[1] = 0x01;
+				qDebug() << "Отправлен ACK";
+				break;
+			}
+			case 'N': {
+				pack[1] = 0x02;
+				qDebug() << "Отправлен NAK";
+				break;
+			}
+			case 'U': {
+				pack[1] = 0x03;
+				qDebug() << "Отправлен UPLINK";
+				break;
+			}
+			case 'D': {
+				qDebug() << "Отправлен DOWNLINK";
+				pack[1] = 0x04;
+				break;
+			}
+			default: {
+				qDebug() << "Отправлен неизвестный служебный кадр";
+				pack[1] = 0x00;
+				break;
+			}
 		}
 	}
 	return pack;
@@ -181,15 +197,14 @@ void DataLink::SendSizeFrame(int size) {
 // он передаётся ПЕРВЫМ после установления соединения
 QByteArray DataLink::WrapSizeFrame(int size)
 {
+	qDebug() << QString("Отправляем кадр с размером файла ({0})").arg(size);
 	QByteArray frame;
 	// ИЗМЕНИЛ, ПОСКОЛЬКУ ФАЙЛЫ МОГУТ ИМЕТЬ РАЗМЕР БОЛЬШЕ 255
 	frame.resize(6);
 	frame[0] = 0xFF;
 	frame[5] = 0xFF;
-	qDebug() << "Раскладываем размер файла на отправке: ";
 	for (int i = 0; i < 4; i = i + 1) {
 		frame[i + 1] =  size >> i * 8;
-		qDebug() << frame[i + 1];
 	}
 	frame[1] = size;
 	return frame;
@@ -329,27 +344,36 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 	this->receivedData = new QByteArray(*data);
 	if (receivedData->length() == 3) { // Служебные кадры
 		char frameType = UnwrapControlFrame(*data),
-			 lastFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());;
-		if (frameType == 'A') {
+			 lastSentFrameType = UnwrapControlFrame(*port->GetLastSentFrame()),
+			 lastReceivedFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());
+		if (frameType == 'A') { // При установке соединения или получении инфокадра
 			qDebug() << "Принят ACK";
-			if (lastFrameType == 'U') { // Подтверждаем запрос на соединение
+			if (lastSentFrameType == 'A') { // Обменялись UPLINK и ACK, соединение установлено
+				this->isConnected = true;
+				emit ConnectionEstablished();
+			} else if (lastSentFrameType == 'U') { // Обменялись UPLINK и получили ACK, осталось вернуть его
 				SendControlFrame('A');
 				this->isConnected = true;
 				emit ConnectionEstablished();
+			} else { // Обменялись UPLINK, надо обменяться ACK
+				SendControlFrame('A');
 			}
-		} else if (frameType == 'R') {
-			qDebug() << "Принят ACK";
+		} else if (frameType == 'N') { // При получении инфокадра с ошибкой
+			qDebug() << "Принят NAK";
 
-		} else if (frameType == 'L') {
-			qDebug() << "Принят LINK";
-
-		} else if (frameType == 'U') {
+		} else if (frameType == 'U') { // При установке соединения
 			qDebug() << "Принят UPLINK";
-			SendControlFrame('A');
-		} else if (frameType == 'S') {
-			qDebug() << "Принят SUCCESS";
-		} else { // Кадр размера
+			if (lastSentFrameType == 'U') { // Уже обменялись UPLINK, пора переходить к ACK
+				SendControlFrame('A');
+			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его
+				// УБРАЛ АВТОМАТИЧЕСКУЮ ПОСЫЛКУ UPLINK, ЧТОБЫ УСТАНОВИТЬ СОЕДИНЕНИЕ ТОЛЬКО ПОСЛЕ НАЖАТИЙ КНОПКИ С ОБЕИХ СТОРОН
+				//SendControlFrame('U');
+			}
 
+		} else if (frameType == 'D') { // При разрыве соединения
+			qDebug() << "Принят DOWNLINK";
+		} else { // 404
+			qDebug() << "Принят неизвестный служебный кадр";
 		}
 	} else if (receivedData->length() == 4) { // Информационные кадры
 		qDebug() << "Принят инфокадр" << receivedData->at(1) << receivedData->at(2);
@@ -374,21 +398,17 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 // распаковка служебных кадров
 char DataLink::UnwrapControlFrame(QByteArray controlFrame)
 {
-	if (controlFrame == nullptr) return 0;
+	if (controlFrame == nullptr || controlFrame.length() == 0) return 0;
 
 	int code = controlFrame[1];
 	char frameType;
 	switch (code) {
-		case 0: {
+		case 1: {
 			frameType = 'A';
 			break;
 		}
-		case 1: {
-			frameType = 'R';
-			break;
-		}
 		case 2: {
-			frameType = 'L';
+			frameType = 'N';
 			break;
 		}
 		case 3: {
@@ -396,7 +416,7 @@ char DataLink::UnwrapControlFrame(QByteArray controlFrame)
 			break;
 		}
 		case 4: {
-			frameType = 'S';
+			frameType = 'D';
 			break;
 		}
 		default: {
