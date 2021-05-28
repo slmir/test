@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[20];
-    char stringdata0[386];
+    QByteArrayData data[21];
+    char stringdata0[395];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,7 +51,8 @@ QT_MOC_LITERAL(15, 318, 15), // "QSerialPortInfo"
 QT_MOC_LITERAL(16, 334, 4), // "port"
 QT_MOC_LITERAL(17, 339, 8), // "baudRate"
 QT_MOC_LITERAL(18, 348, 13), // "OnNewDataRead"
-QT_MOC_LITERAL(19, 362, 23) // "OnConnectionEstablished"
+QT_MOC_LITERAL(19, 362, 25), // "OnConnectionStatusChanged"
+QT_MOC_LITERAL(20, 388, 6) // "status"
 
     },
     "MainWindow\0on_pushButton_clicked\0\0"
@@ -64,7 +65,8 @@ QT_MOC_LITERAL(19, 362, 23) // "OnConnectionEstablished"
     "on_action_5_triggered\0on_action_triggered\0"
     "on_action_3_triggered\0OnPortChanged\0"
     "QSerialPortInfo\0port\0baudRate\0"
-    "OnNewDataRead\0OnConnectionEstablished"
+    "OnNewDataRead\0OnConnectionStatusChanged\0"
+    "status"
 };
 #undef QT_MOC_LITERAL
 
@@ -95,7 +97,7 @@ static const uint qt_meta_data_MainWindow[] = {
       13,    0,   96,    2, 0x08 /* Private */,
       14,    2,   97,    2, 0x08 /* Private */,
       18,    0,  102,    2, 0x0a /* Public */,
-      19,    0,  103,    2, 0x0a /* Public */,
+      19,    1,  103,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -111,7 +113,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 15, QMetaType::Int,   16,   17,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   20,
 
        0        // eod
 };
@@ -135,7 +137,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 10: _t->on_action_3_triggered(); break;
         case 11: _t->OnPortChanged((*reinterpret_cast< QSerialPortInfo(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 12: _t->OnNewDataRead(); break;
-        case 13: _t->OnConnectionEstablished(); break;
+        case 13: _t->OnConnectionStatusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }

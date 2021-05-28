@@ -15,7 +15,7 @@ DataLink::DataLink(MainWindow *mw) {
 	this->isConnected = false;
 	this->NAK_counter = 0;
 	connect(this, &DataLink::DataRead, mw, &MainWindow::OnNewDataRead);
-	connect(this, &DataLink::ConnectionEstablished, mw, &MainWindow::OnConnectionEstablished);
+	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
 }
 
 
@@ -85,6 +85,15 @@ bool DataLink::SendHello() {
 }
 
 
+bool DataLink::GetConnectionStatus() {
+	return this->isConnected;
+}
+
+bool DataLink::SendGoodbye() {
+	SendControlFrame('D');
+}
+
+
 void DataLink::SendFile(QString path) {
 	qDebug() << "Отправляем файл " + path;
 	QFile file(path);
@@ -149,39 +158,36 @@ QByteArray DataLink::WrapControlFrame(char type)
 {
 	QByteArray pack;
 	pack.resize(3);
-	if (type == 'A' | type == 'R' | type == 'L' |type == 'U' |type == 'S')
+	//установим в стартовый и стоповый байт значения в 0xFF
+	pack[0] = 0xFF;
+	pack[2] = 0xFF;
+	// заполним байт, отведённый под тип кадра
+	switch(type)
 	{
-		//установим в стартовый и стоповый байт значения в 0xFF
-		pack[0] = 0xFF;
-		pack[2] = 0xFF;
-		// заполним байт, отведённый под тип кадра
-		switch(type)
-		{
-			case 'A': {
-				pack[1] = 0x01;
-				qDebug() << "Отправлен ACK";
-				break;
-			}
-			case 'N': {
-				pack[1] = 0x02;
-				qDebug() << "Отправлен NAK";
-				break;
-			}
-			case 'U': {
-				pack[1] = 0x03;
-				qDebug() << "Отправлен UPLINK";
-				break;
-			}
-			case 'D': {
-				qDebug() << "Отправлен DOWNLINK";
-				pack[1] = 0x04;
-				break;
-			}
-			default: {
-				qDebug() << "Отправлен неизвестный служебный кадр";
-				pack[1] = 0x00;
-				break;
-			}
+		case 'A': {
+			pack[1] = 0x01;
+			qDebug() << "Отправлен ACK";
+			break;
+		}
+		case 'N': {
+			pack[1] = 0x02;
+			qDebug() << "Отправлен NAK";
+			break;
+		}
+		case 'U': {
+			pack[1] = 0x03;
+			qDebug() << "Отправлен UPLINK";
+			break;
+		}
+		case 'D': {
+			qDebug() << "Отправлен DOWNLINK";
+			pack[1] = 0x04;
+			break;
+		}
+		default: {
+			qDebug() << "Отправлен неизвестный служебный кадр";
+			pack[1] = 0x00;
+			break;
 		}
 	}
 	return pack;
@@ -348,13 +354,17 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 			 lastReceivedFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());
 		if (frameType == 'A') { // При установке соединения или получении инфокадра
 			qDebug() << "Принят ACK";
-			if (lastSentFrameType == 'A') { // Обменялись UPLINK и ACK, соединение установлено
-				this->isConnected = true;
-				emit ConnectionEstablished();
+			if (lastSentFrameType == 'A') { // Обменялись UPLINK/DOWNLINK и ACK, соединение установлено
+				isConnected = !isConnected;
+				emit ConnectionStatusChanged(isConnected);
 			} else if (lastSentFrameType == 'U') { // Обменялись UPLINK и получили ACK, осталось вернуть его
 				SendControlFrame('A');
-				this->isConnected = true;
-				emit ConnectionEstablished();
+				isConnected = true;
+				emit ConnectionStatusChanged(true);
+			} else if (lastSentFrameType == 'D') { // Аналогично для DOWNLINK
+				SendControlFrame('A');
+				isConnected = false;
+				emit ConnectionStatusChanged(false);
 			} else { // Обменялись UPLINK, надо обменяться ACK
 				SendControlFrame('A');
 			}
@@ -372,6 +382,11 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 
 		} else if (frameType == 'D') { // При разрыве соединения
 			qDebug() << "Принят DOWNLINK";
+			if (lastSentFrameType == 'D') { // Уже обменялись UPLINK, пора переходить к ACK
+				SendControlFrame('A');
+			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его
+				SendControlFrame('D');
+			}
 		} else { // 404
 			qDebug() << "Принят неизвестный служебный кадр";
 		}

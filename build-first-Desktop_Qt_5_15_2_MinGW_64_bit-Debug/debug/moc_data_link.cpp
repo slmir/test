@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_DataLink_t {
-    QByteArrayData data[7];
-    char stringdata0[74];
+    QByteArrayData data[8];
+    char stringdata0[83];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,14 +35,16 @@ static const qt_meta_stringdata_DataLink_t qt_meta_stringdata_DataLink = {
 QT_MOC_LITERAL(0, 0, 8), // "DataLink"
 QT_MOC_LITERAL(1, 9, 8), // "DataRead"
 QT_MOC_LITERAL(2, 18, 0), // ""
-QT_MOC_LITERAL(3, 19, 21), // "ConnectionEstablished"
-QT_MOC_LITERAL(4, 41, 15), // "OnNewDataToRead"
-QT_MOC_LITERAL(5, 57, 11), // "QByteArray*"
-QT_MOC_LITERAL(6, 69, 4) // "data"
+QT_MOC_LITERAL(3, 19, 23), // "ConnectionStatusChanged"
+QT_MOC_LITERAL(4, 43, 6), // "status"
+QT_MOC_LITERAL(5, 50, 15), // "OnNewDataToRead"
+QT_MOC_LITERAL(6, 66, 11), // "QByteArray*"
+QT_MOC_LITERAL(7, 78, 4) // "data"
 
     },
-    "DataLink\0DataRead\0\0ConnectionEstablished\0"
-    "OnNewDataToRead\0QByteArray*\0data"
+    "DataLink\0DataRead\0\0ConnectionStatusChanged\0"
+    "status\0OnNewDataToRead\0QByteArray*\0"
+    "data"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,17 +63,17 @@ static const uint qt_meta_data_DataLink[] = {
 
  // signals: name, argc, parameters, tag, flags
        1,    0,   29,    2, 0x06 /* Public */,
-       3,    0,   30,    2, 0x06 /* Public */,
+       3,    1,   30,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    1,   31,    2, 0x0a /* Public */,
+       5,    1,   33,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    4,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 5,    6,
+    QMetaType::Void, 0x80000000 | 6,    7,
 
        0        // eod
 };
@@ -83,7 +85,7 @@ void DataLink::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->DataRead(); break;
-        case 1: _t->ConnectionEstablished(); break;
+        case 1: _t->ConnectionStatusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 2: _t->OnNewDataToRead((*reinterpret_cast< QByteArray*(*)>(_a[1]))); break;
         default: ;
         }
@@ -97,8 +99,8 @@ void DataLink::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
             }
         }
         {
-            using _t = void (DataLink::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::ConnectionEstablished)) {
+            using _t = void (DataLink::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::ConnectionStatusChanged)) {
                 *result = 1;
                 return;
             }
@@ -153,9 +155,10 @@ void DataLink::DataRead()
 }
 
 // SIGNAL 1
-void DataLink::ConnectionEstablished()
+void DataLink::ConnectionStatusChanged(bool _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

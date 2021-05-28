@@ -29,6 +29,10 @@ class DataLink : public QObject {
 		void SendFile(QString path);
 		// Проверка установки соединения (пока что всегда возвращает false, потому что я уведомление об установке перенёс на слот-сигнал)
 		bool SendHello();
+		//
+		bool GetConnectionStatus();
+		//
+		bool SendGoodbye();
 
 	private:
 		// Флаг установки соединения
@@ -85,7 +89,7 @@ class DataLink : public QObject {
 
 	signals:
 		void DataRead();
-		void ConnectionEstablished();
+		void ConnectionStatusChanged(bool status);
 };
 
 #endif // DATA_LINK_H

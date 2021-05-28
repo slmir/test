@@ -85,14 +85,23 @@ void MainWindow::on_Send_file_button_clicked()
 
 void MainWindow::on_Do_connect_button_clicked()
 {
-	link->SendHello();
+	if (link->GetConnectionStatus() == false) {
+			link->SendHello();
+	} else {
+		link->SendGoodbye();
+	}
+
 }
 
-void MainWindow::OnConnectionEstablished() {
-	if (ui->Connection_status_label->text() == "Соединение не установлено") {
+void MainWindow::OnConnectionStatusChanged(bool status) {
+	if (status == true) {
 		ui->Connection_status_label->setText("Соединение установлено");
-		ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
+		ui->Connection_status_label->setStyleSheet("color: rgb(0, 255, 0)");
 		ui->Do_connect_button->setText("Разорвать соединение");
+	} else {
+		ui->Connection_status_label->setText("Соединение не установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(255, 0, 0)");
+		ui->Do_connect_button->setText("Установить соединение");
 	}
 
 }

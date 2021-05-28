@@ -50,7 +50,7 @@ private slots:
 
 public slots:
 	void OnNewDataRead();
-	void OnConnectionEstablished();
+	void OnConnectionStatusChanged(bool status);
 
 private:
     Ui::MainWindow *ui;
