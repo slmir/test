@@ -28,6 +28,7 @@ class Port : public QObject {
 		bool GetOpenStatus();
 		QByteArray* GetLastReceivedFrame();
 		QByteArray* GetLastSentFrame();
+		void ClearBuffers();
 
 		virtual ~Port();
 	private:

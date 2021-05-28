@@ -18,6 +18,16 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->setupUi(this);
 
 	this->link = new DataLink(this);
+	this->receiver = new FileReceiver(this);
+	this->fileReceiveThread = new QThread();
+	this->fileSendThread = new QThread();
+	receiver->moveToThread(fileReceiveThread);
+	connect(fileReceiveThread, &QThread::finished, receiver, &QObject::deleteLater);
+}
+
+
+DataLink* MainWindow::GetLinkLevelInstance() {
+	return this->link;
 }
 
 
@@ -86,7 +96,7 @@ void MainWindow::on_Send_file_button_clicked()
 void MainWindow::on_Do_connect_button_clicked()
 {
 	if (link->GetConnectionStatus() == false) {
-			link->SendHello();
+		link->SendHello();
 	} else {
 		link->SendGoodbye();
 	}
@@ -110,7 +120,7 @@ void MainWindow::on_action_4_triggered()
 {
     //Перейти в режим приема файла
 
-    Recieve_file_mode winparam;
+	Recieve_file_mode winparam;
     winparam.setModal(true);
     winparam.exec();
 }
@@ -154,3 +164,19 @@ void MainWindow::OnPortChanged(QSerialPortInfo portInfo, int baudRate) {
 void MainWindow::OnNewDataRead() {
 	//qDebug() << "Получены данные: " << this->port->ReceiveData(3);
 }
+
+bool MainWindow::OnFileSendRequestReceived(int fileSize) {
+	Recieve_file_mode *winparam = new Recieve_file_mode(this->link, this);
+	winparam->setModal(false);
+	winparam->show();
+
+	//connect(this, StartExchange());
+	//fileReceiveThread->start();
+	//receiver->OnReceive(this);
+}
+
+
+/*void FileExchangeProcess::OnExchange(MainWindow *mw) {
+	Recieve_file_mode *window = new Recieve_file_mode(mw->GetLinkLevelInstance(), mw);
+	window->show();
+}*/

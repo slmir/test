@@ -71,7 +71,7 @@ class DataLink : public QObject {
 		// Вычленение инфы из кадров
 		char UnwrapControlFrame(QByteArray controlFrame);
 		int UnwrapSizeFrame(QByteArray sizeFrame);
-		void UnwrapInfoFrame(QByteArray frame);
+		bool UnwrapInfoFrame(QByteArray frame);
 
 		// Формирование двоичного файла из полученных данных с указанием пути назначения (пока что там заглушка на D:/read.txt)
 		void ConvertReceivedToFile(QString path);
@@ -88,8 +88,9 @@ class DataLink : public QObject {
 		void OnNewDataToRead(QByteArray* data);
 
 	signals:
-		void DataRead();
+		void NewInfoFrameReceived(float currentProgress);
 		void ConnectionStatusChanged(bool status);
+		bool FileSendRequested(int fileSize);
 };
 
 #endif // DATA_LINK_H

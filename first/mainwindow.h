@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
+#include "file_receiver.h"
 #include "recieve_file_mode.h"
 #include "about_1.h"
 #include "pram_connection.h"
@@ -9,10 +11,12 @@
 
 
 class DataLink;
+class FileReceiver;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +25,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
+	DataLink* GetLinkLevelInstance();
     ~MainWindow();
 
 private slots:
@@ -51,10 +56,14 @@ private slots:
 public slots:
 	void OnNewDataRead();
 	void OnConnectionStatusChanged(bool status);
+	bool OnFileSendRequestReceived(int fileSize);
 
 private:
     Ui::MainWindow *ui;
 	DataLink* link;
 	QString chosenPath;
+	QThread *fileSendThread;
+	QThread *fileReceiveThread;
+	FileReceiver *receiver;
 };
 #endif // MAINWINDOW_H

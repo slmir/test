@@ -11,10 +11,10 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDialog>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -26,7 +26,7 @@ public:
     QProgressBar *Recieving_progressBar;
     QPushButton *Save_recieved_file_button;
 
-    void setupUi(QDialog *Recieve_file_mode)
+    void setupUi(QWidget *Recieve_file_mode)
     {
         if (Recieve_file_mode->objectName().isEmpty())
             Recieve_file_mode->setObjectName(QString::fromUtf8("Recieve_file_mode"));
@@ -52,7 +52,7 @@ public:
         QMetaObject::connectSlotsByName(Recieve_file_mode);
     } // setupUi
 
-    void retranslateUi(QDialog *Recieve_file_mode)
+    void retranslateUi(QWidget *Recieve_file_mode)
     {
         Recieve_file_mode->setWindowTitle(QCoreApplication::translate("Recieve_file_mode", "\320\240\320\265\320\266\320\270\320\274 \320\277\320\276\320\273\321\203\321\207\320\265\320\275\320\270\321\217", nullptr));
         Soglsie_to_recieve_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\235\320\260\320\266\320\274\320\270", nullptr));

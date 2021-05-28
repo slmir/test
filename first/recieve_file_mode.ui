@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Recieve_file_mode</class>
- <widget class="QDialog" name="Recieve_file_mode">
+ <widget class="QWidget" name="Recieve_file_mode">
   <property name="geometry">
    <rect>
     <x>0</x>

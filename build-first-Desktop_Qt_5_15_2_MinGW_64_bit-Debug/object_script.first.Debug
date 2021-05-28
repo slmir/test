@@ -1,5 +1,6 @@
 debug/about_1.o
 debug/data_link.o
+debug/file_receiver.o
 debug/main.o
 debug/mainwindow.o
 debug/parameters.o

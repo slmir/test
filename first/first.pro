@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     about_1.cpp \
     data_link.cpp \
+    file_receiver.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
@@ -21,12 +22,13 @@ SOURCES += \
 HEADERS += \
     about_1.h \
     data_link.h \
+    file_receiver.h \
     mainwindow.h \
     parameters.h \
     port.h \
     pram_connection.h \
-    recieve_file_mode.h \
-    main.cpp
+    main.cpp \
+    recieve_file_mode.h
 
 FORMS += \
     Recieve.ui \

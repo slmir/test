@@ -10,8 +10,7 @@ class QSerialPortInfo;
 
 Port::Port()
 {
-	this->sentFrameBuffer = new QByteArray();
-	this->receivedFrameBuffer = new QByteArray();
+	ClearBuffers();
 	this->isOpened = false;
 
 }
@@ -41,6 +40,11 @@ QByteArray* Port::GetLastReceivedFrame() {
 
 QByteArray* Port::GetLastSentFrame() {
 	return this->sentFrameBuffer;
+}
+
+void Port::ClearBuffers() {
+	this->sentFrameBuffer = new QByteArray(4, '0');
+	this->receivedFrameBuffer = new QByteArray(4, '0');
 }
 
 QString Port::GetPortName() {
@@ -91,7 +95,7 @@ void Port::SendData(QByteArray data) {
 	for (auto byte : *data) {
 		qDebug() << byte;
 	}*/
-	GenerateMessageError(data, 1e-09f);
+	GenerateMessageError(data, 1e-05f);
 	/*qDebug() << "Массив после генерации ошибок: ";
 	for (auto byte : *data) {
 		qDebug() << byte;
