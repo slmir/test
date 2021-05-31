@@ -51,7 +51,7 @@ int Port::Open(QIODevice::OpenMode openModeValue) {
 		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно открыт!").arg(port->portName()));
 		this->isOpened = true;
 	} else {
-		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
+        box = new QMessageBox(QMessageBox::Icon::Critical, QString("Ошибка!"), "");
 
 		switch (port->error()) {
 			case QSerialPort::OpenError: {
@@ -161,7 +161,7 @@ int Port::Close() {
 		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно закрыт!").arg(port->portName()));
 		this->isOpened = false;
 	} else {
-		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
+        box = new QMessageBox(QMessageBox::Icon::Critical, QString("Ошибка!"), "");
 		switch (port->error()) {
 			case QSerialPort::NotOpenError: {
 				box->setText(QString("Порт %1 уже был закрыт!").arg(port->portName()));

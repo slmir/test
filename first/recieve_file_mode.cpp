@@ -33,28 +33,90 @@ void Recieve_file_mode::on_Soglsie_to_recieve_file_button_clicked()
     if (reply == QMessageBox::Yes){
         ui->Soglsie_to_recieve_file_button->setText("В последствии сообщение будет появляться автоматически \n при получении запроса на передачу файла");
         //начало процедуры передачи
-        ProgressIndicator = new QProgressBar(ui->Recieving_progressBar);
-        //ui->Recieving_progressBar->resize(200,25);
-        ui->Recieving_progressBar->setRange(0,100);
-        ui->Recieving_progressBar->setValue(0);
-        //ui->Recieving_progressBar->setOrientation(Qt::Horizontal);
-        //connect(ProgressIndicator,SIGNAL(ProgressBar(0, 100)),ProgressIndicator,SLOT(setValue(int)));
-        // or as alternative to the two above, you could call
-        // progressBar.setRange(0,100);
 
-        for( int i = 0; i <100; ++i ) {
-           ui->Recieving_progressBar->setValue(i);
-           _sleep(50);
-        }
-        _sleep(500);
-        //Условие если файл до конца получен
-        ui->Recieving_progressBar->setValue(100);
 
         //Сделать активной кнопку сохранения файла
-        ui->Save_recieved_file_button->setEnabled(1);
+        //ui->Save_recieved_file_button->setEnabled(1);
     }
     else {
         qDebug() << "Продолжение работы приложения";
     }
 
 }
+
+void Recieve_file_mode::on_Save_recieved_file_button_clicked()
+{
+
+}
+
+
+void Recieve_file_mode::on_Open_folder_dialog_button_clicked()
+{
+    QString str = QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
+    ui->File_directory_choosed->setText(str);
+    ui->File_directory_choosed->editingFinished();
+}
+
+
+void Recieve_file_mode::on_File_directory_choosed_textEdited(const QString &arg1)
+{
+    QDir dir(ui->File_directory_choosed->text());
+    //такая директория существует
+    if (dir.exists()) {
+        ui->Save_file_button->setEnabled(1);
+
+    }
+
+    //this->savePath = ui->File_directory_choosed->text();
+}
+
+
+void Recieve_file_mode::on_File_directory_choosed_textChanged(const QString &arg1)
+{
+    QDir dir(ui->File_directory_choosed->text());
+    //такая директория существует
+    if (dir.exists()) {
+        ui->Save_file_button->setEnabled(1);
+
+    }
+
+    //this->savePath = ui->File_directory_choosed->text();
+}
+
+
+void Recieve_file_mode::on_Save_file_button_clicked()
+{
+    //Сохранение файла с введенным именем в выбранной дериктории (создается пустая болванка, в которую наверное легче вписывать данные)
+
+    QString fileName = QFileDialog::getSaveFileName(this, ui->File_directory_choosed->text(), ui->File_name_input->text(), "*.txt");
+
+    //возможно это как то поможет с записью данных в файле
+    if (fileName.isEmpty())
+             return;
+         else {
+             QFile file(fileName);
+             if (!file.open(QIODevice::WriteOnly)) {
+                 QMessageBox::information(this, tr("Невозможно открыть файл!"),
+                     file.errorString());
+                 return;
+             }
+    }
+
+
+}
+
+
+void Recieve_file_mode::on_Check_file_name_button_clicked()
+{
+    QString str =  ui->Check_file_name_button->text();
+    if (str == "Подтвердить") {
+        ui->File_name_input->setEnabled(0);
+        ui->Check_file_name_button->setText("Изменить");
+    }
+    else {
+        ui->File_name_input->setEnabled(1);
+        ui->Check_file_name_button->setText("Подтвердить");
+    }
+
+}
+

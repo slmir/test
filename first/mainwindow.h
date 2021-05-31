@@ -6,6 +6,11 @@
 #include "about_1.h"
 #include "pram_connection.h"
 #include "data_link.h"
+#include <QTableWidget>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 
 class DataLink;
@@ -23,7 +28,15 @@ public:
 
     ~MainWindow();
 
+private:
+
+    void RefreshTable();
+
 private slots:
+
+
+    void slotAdd(QString a);
+
     void on_pushButton_clicked();
 
     void on_Parameters_connect_button_clicked();
@@ -47,6 +60,8 @@ private slots:
     void on_action_3_triggered();
 
 	void OnPortChanged(QSerialPortInfo port, int baudRate);
+
+    void on_File_name_choosed_editingFinished();
 
 public slots:
 	void OnNewDataRead();

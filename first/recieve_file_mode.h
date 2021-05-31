@@ -19,6 +19,18 @@ public:
 private slots:
     void on_Soglsie_to_recieve_file_button_clicked();
 
+    void on_Save_recieved_file_button_clicked();
+
+    void on_Open_folder_dialog_button_clicked();
+
+    void on_File_directory_choosed_textEdited(const QString &arg1);
+
+    void on_File_directory_choosed_textChanged(const QString &arg1);
+
+    void on_Save_file_button_clicked();
+
+    void on_Check_file_name_button_clicked();
+
 private:
     Ui::Recieve_file_mode *ui;
     QProgressBar *ProgressIndicator;
