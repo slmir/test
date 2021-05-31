@@ -63,6 +63,8 @@ private slots:
 
     void on_File_name_choosed_editingFinished();
 
+    void on_Do_connection_button_clicked();
+
 public slots:
 	void OnNewDataRead();
 	void OnConnectionEstablished();

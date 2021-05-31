@@ -119,31 +119,14 @@ void MainWindow::on_Do_connect_button_clicked()
 
 
         //ЕСЛИ ПОРТ УСПЕШНО ОТКРЫТ
-        ui->Do_connect_button->setText("Установить соединение");
+        //ui->Do_connect_button->setText("Закрыть порт");
+        ui->Do_connect_button->setEnabled(0);
         slotAdd("Порт открыт");
 
 
 
     }
-    //УСТАНОВКА СОЕДИНЕНИЯ
-    else if (ui->Do_connect_button->text() == ("Установить соединение")){
-        link->SendHello();
-        ui->Connection_status_label->setText("Соединение установлено");
-        ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
 
-        ui->Do_connect_button->setText("Разорвать соединение");
-        slotAdd("Соединение установлено");
-    }
-    //РАЗРЫВ СОЕДИНЕНИЯ
-    else if (ui->Do_connect_button->text() == ("Разорвать соединение")){
-        link->SendHello();
-        ui->Connection_status_label->setText("Соединение не установлено");
-        ui->Connection_status_label->setStyleSheet("color: rgb(200, 0, 0)");
-
-        //СООБЩЕНИЕ О ТОМ ЧТО СОЕДИНЕНИЕ УСПЕШНО РАЗОРВАНО
-        ui->Do_connect_button->setText("Открыть порт");
-        slotAdd("Соединение разорвано");
-    }
 }
 
 void MainWindow::OnConnectionEstablished() {
@@ -207,5 +190,30 @@ void MainWindow::OnNewDataRead() {
 void MainWindow::on_File_name_choosed_editingFinished()
 {
 
+}
+
+
+void MainWindow::on_Do_connection_button_clicked()
+{
+    //УСТАНОВКА СОЕДИНЕНИЯ
+    if (ui->Do_connection_button->text() == ("Установить соединение")){
+        link->SendHello();
+        ui->Connection_status_label->setText("Соединение установлено");
+        ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
+
+        ui->Do_connection_button->setText("Разорвать соединение");
+        slotAdd("Соединение установлено");
+    }
+    //РАЗРЫВ СОЕДИНЕНИЯ
+    else if (ui->Do_connection_button->text() == ("Разорвать соединение")){
+        link->SendHello();
+        ui->Connection_status_label->setText("Соединение не установлено");
+        ui->Connection_status_label->setStyleSheet("color: rgb(200, 0, 0)");
+
+        //СООБЩЕНИЕ О ТОМ ЧТО СОЕДИНЕНИЕ УСПЕШНО РАЗОРВАНО
+        ui->Do_connect_button->setEnabled(1);
+        ui->Do_connection_button->setText("Установить соединение");
+        slotAdd("Соединение разорвано");
+    }
 }
 

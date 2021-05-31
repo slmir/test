@@ -42,6 +42,7 @@ public:
     QLabel *Connection_status_label;
     QPushButton *Do_connect_button;
     QPushButton *Parameters_connect_button;
+    QPushButton *Do_connection_button;
     QLabel *Connect_status_frame_label;
     QLabel *System_message_label;
     QTableWidget *System_messages_tableWidget;
@@ -60,7 +61,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1003, 600);
+        MainWindow->resize(1003, 624);
         about_menu = new QAction(MainWindow);
         about_menu->setObjectName(QString::fromUtf8("about_menu"));
         action = new QAction(MainWindow);
@@ -78,14 +79,14 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         frame = new QFrame(centralwidget);
         frame->setObjectName(QString::fromUtf8("frame"));
-        frame->setGeometry(QRect(20, 10, 961, 491));
+        frame->setGeometry(QRect(20, 10, 961, 541));
         frame->setFrameShape(QFrame::Panel);
         frame->setFrameShadow(QFrame::Plain);
         frame->setLineWidth(1);
         frame->setMidLineWidth(1);
         Connect_groupBox = new QGroupBox(frame);
         Connect_groupBox->setObjectName(QString::fromUtf8("Connect_groupBox"));
-        Connect_groupBox->setGeometry(QRect(30, 220, 921, 251));
+        Connect_groupBox->setGeometry(QRect(30, 220, 921, 311));
         QFont font;
         font.setPointSize(10);
         font.setBold(true);
@@ -94,7 +95,7 @@ public:
         Connect_groupBox->setFlat(false);
         frame_3 = new QFrame(Connect_groupBox);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
-        frame_3->setGeometry(QRect(20, 60, 351, 181));
+        frame_3->setGeometry(QRect(20, 60, 351, 231));
         frame_3->setFrameShape(QFrame::Box);
         frame_3->setFrameShadow(QFrame::Raised);
         frame_3->setLineWidth(2);
@@ -120,8 +121,13 @@ public:
         Do_connect_button->setFont(font2);
         Parameters_connect_button = new QPushButton(frame_3);
         Parameters_connect_button->setObjectName(QString::fromUtf8("Parameters_connect_button"));
-        Parameters_connect_button->setGeometry(QRect(40, 120, 271, 41));
+        Parameters_connect_button->setGeometry(QRect(40, 170, 271, 41));
         Parameters_connect_button->setFont(font2);
+        Do_connection_button = new QPushButton(frame_3);
+        Do_connection_button->setObjectName(QString::fromUtf8("Do_connection_button"));
+        Do_connection_button->setEnabled(true);
+        Do_connection_button->setGeometry(QRect(40, 120, 271, 41));
+        Do_connection_button->setFont(font2);
         Connect_status_frame_label = new QLabel(Connect_groupBox);
         Connect_status_frame_label->setObjectName(QString::fromUtf8("Connect_status_frame_label"));
         Connect_status_frame_label->setGeometry(QRect(20, 30, 141, 16));
@@ -136,7 +142,7 @@ public:
         System_message_label->setFont(font3);
         System_messages_tableWidget = new QTableWidget(Connect_groupBox);
         System_messages_tableWidget->setObjectName(QString::fromUtf8("System_messages_tableWidget"));
-        System_messages_tableWidget->setGeometry(QRect(440, 60, 461, 181));
+        System_messages_tableWidget->setGeometry(QRect(440, 60, 461, 231));
         System_messages_tableWidget->setFont(font3);
         Send_file_gropubox = new QGroupBox(frame);
         Send_file_gropubox->setObjectName(QString::fromUtf8("Send_file_gropubox"));
@@ -168,7 +174,7 @@ public:
         Open_file_button->setFont(font4);
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(820, 520, 171, 28));
+        pushButton->setGeometry(QRect(810, 560, 171, 28));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -207,6 +213,7 @@ public:
         Connection_status_label->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265 \320\275\320\265 \321\203\321\201\321\202\320\260\320\275\320\276\320\262\320\273\320\265\320\275\320\276", nullptr));
         Do_connect_button->setText(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214 \320\277\320\276\321\200\321\202", nullptr));
         Parameters_connect_button->setText(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217", nullptr));
+        Do_connection_button->setText(QCoreApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265", nullptr));
         Connect_status_frame_label->setText(QCoreApplication::translate("MainWindow", "\320\241\321\202\320\260\321\202\321\203\321\201 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217", nullptr));
         System_message_label->setText(QCoreApplication::translate("MainWindow", "\320\241\320\270\321\201\321\202\320\265\320\274\320\275\321\213\320\265 \321\201\320\276\320\276\320\261\321\211\320\265\320\275\320\270\321\217", nullptr));
         Send_file_gropubox->setTitle(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\277\321\200\320\260\320\262\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", nullptr));
