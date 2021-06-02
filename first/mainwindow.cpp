@@ -109,9 +109,9 @@ void MainWindow::on_Send_file_button_clicked()
     }
 }
 
-void MainWindow::on_Do_connect_button_clicked()
+void MainWindow::OnOpenPortButtonClicked()
 {
-    if (ui->Do_connect_button->text() == ("Открыть порт")) {
+	/*if (ui->Do_connect_button->text() == ("Открыть порт")) {
         //НЕОБХОДИМЫЙ ФУНКЦИОНАЛ ДЛЯ ОТКРЫТИЯ ПОРТА
 
 
@@ -122,20 +122,35 @@ void MainWindow::on_Do_connect_button_clicked()
         //ui->Do_connect_button->setText("Закрыть порт");
         ui->Do_connect_button->setEnabled(0);
         slotAdd("Порт открыт");
-
-
-
-    }
-
+	}*/
 }
 
-void MainWindow::OnConnectionEstablished() {
-	if (ui->Connection_status_label->text() == "Соединение не установлено") {
-		ui->Connection_status_label->setText("Соединение установлено");
-		ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
-		ui->Do_connect_button->setText("Разорвать соединение");
-	}
 
+void MainWindow::OnPortStatusChanged(bool status) {
+	if (status == true) {
+		ui->Port_status_label->setText("Порт открыт");
+		ui->Port_status_label->setStyleSheet("color: rgb(0, 255, 0)");
+		ui->Do_open_button->setText("Закрыть порт");
+	} else {
+		ui->Port_status_label->setText("Порт закрыт");
+		ui->Port_status_label->setStyleSheet("color: rgb(255, 0, 0)");
+		ui->Do_open_button->setText("Открыть порт");
+	}
+}
+
+
+void MainWindow::OnConnectionStatusChanged(bool status) {
+	if (status == true) {
+		qDebug() << "Открыли соединение";
+		ui->Connection_status_label->setText("Соединение установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(0, 255, 0)");
+		ui->Do_connection_button->setText("Разорвать соединение");
+	} else {
+		qDebug() << "Закрыли соединение";
+		ui->Connection_status_label->setText("Соединение не установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(255, 0, 0)");
+		ui->Do_connection_button->setText("Установить соединение");
+	}
 }
 
 void MainWindow::on_action_4_triggered()
@@ -165,6 +180,7 @@ void MainWindow::on_action_5_triggered()
     winparam.exec();
 }
 
+
 void MainWindow::on_action_triggered()
 {
     QString str = QFileDialog::getOpenFileName(0, "Выберите файл", "", "*.txt");
@@ -172,20 +188,24 @@ void MainWindow::on_action_triggered()
     ui->File_name_choosed->editingFinished();
 }
 
+
 void MainWindow::on_action_3_triggered()
 {
     MainWindow winparam;
     winparam.show();
 }
 
+
 void MainWindow::OnPortChanged(QSerialPortInfo portInfo, int baudRate) {
 	this->link->SetPort(portInfo, baudRate);
 
 }
 
+
 void MainWindow::OnNewDataRead() {
 	//qDebug() << "Получены данные: " << this->port->ReceiveData(3);
 }
+
 
 void MainWindow::on_File_name_choosed_editingFinished()
 {
@@ -195,25 +215,37 @@ void MainWindow::on_File_name_choosed_editingFinished()
 
 void MainWindow::on_Do_connection_button_clicked()
 {
-    //УСТАНОВКА СОЕДИНЕНИЯ
-    if (ui->Do_connection_button->text() == ("Установить соединение")){
-        link->SendHello();
-        ui->Connection_status_label->setText("Соединение установлено");
-        ui->Connection_status_label->setStyleSheet("color: rgb(0, 200, 0)");
-
-        ui->Do_connection_button->setText("Разорвать соединение");
-        slotAdd("Соединение установлено");
-    }
-    //РАЗРЫВ СОЕДИНЕНИЯ
-    else if (ui->Do_connection_button->text() == ("Разорвать соединение")){
-        link->SendHello();
-        ui->Connection_status_label->setText("Соединение не установлено");
-        ui->Connection_status_label->setStyleSheet("color: rgb(200, 0, 0)");
-
-        //СООБЩЕНИЕ О ТОМ ЧТО СОЕДИНЕНИЕ УСПЕШНО РАЗОРВАНО
-        ui->Do_connect_button->setEnabled(1);
-        ui->Do_connection_button->setText("Установить соединение");
-        slotAdd("Соединение разорвано");
-    }
+	if (link->GetConnectionStatus() == false) {
+		link->SendHello();
+	} else {
+		link->SendGoodbye();
+	}
 }
 
+
+bool MainWindow::OnFileSendRequestReceived(int fileSize) {
+	QMessageBox::StandardButton reply = QMessageBox::question(this, "Принятие файла", "Получен запрос на отправку файла! Принять файл?", QMessageBox::Yes | QMessageBox::No);
+	if (reply == QMessageBox::Yes){
+		Recieve_file_mode *winparam = new Recieve_file_mode(this->link, this);
+		winparam->setModal(false);
+		winparam->show();
+		return true;
+	} else {
+		return false;
+	}
+	//connect(this, StartExchange());
+	//fileReceiveThread->start();
+	//receiver->OnReceive(this);
+}
+
+
+
+
+void MainWindow::on_Do_open_button_clicked()
+{
+	if (link->GetPortStatus() == false) {
+		link->OpenPort();
+	} else {
+		link->ClosePort();
+	}
+}

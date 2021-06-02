@@ -2,7 +2,12 @@
 #define RECIEVE_FILE_MODE_H
 
 #include <QDialog>
-#include<QProgressBar>
+#include <QProgressBar>
+#include "data_link.h"
+
+
+class DataLink;
+
 
 namespace Ui {
 class Recieve_file_mode;
@@ -14,6 +19,7 @@ class Recieve_file_mode : public QDialog
 
 public:
     explicit Recieve_file_mode(QWidget *parent = nullptr);
+	Recieve_file_mode(DataLink *link, QWidget *parent = nullptr);
     ~Recieve_file_mode();
 
 private slots:
@@ -31,9 +37,21 @@ private slots:
 
     void on_Check_file_name_button_clicked();
 
+	void OnNewFrameReceived(float currentProgress);
+
 private:
     Ui::Recieve_file_mode *ui;
     QProgressBar *ProgressIndicator;
+	int sizeToRead;
+	int sizeRead;
+
+	void InitiateExchange();
+
+
+signals:
+	void ReceiveAccepted();
+	void ReceiveAborted();
+	void SaveFileButtonClicked(QString path);
 };
 
 #endif // RECIEVE_FILE_MODE_H

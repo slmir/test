@@ -1,0 +1,355 @@
+[1mdiff --git a/first/data_link.cpp b/first/data_link.cpp[m
+[1mindex d522aae..770b197 100644[m
+[1m--- a/first/data_link.cpp[m
+[1m+++ b/first/data_link.cpp[m
+[36m@@ -14,9 +14,8 @@[m [mDataLink::DataLink(MainWindow *mw) {[m
+ 	this->port = nullptr;[m
+ 	this->isConnected = false;[m
+ 	this->NAK_counter = 0;[m
+[31m-	connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);[m
+[31m-	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);[m
+[31m-	connect(this, &DataLink::FileSendRequested, mw, &MainWindow::OnFileSendRequestReceived);[m
+[32m+[m	[32mconnect(this, &DataLink::DataRead, mw, &MainWindow::OnNewDataRead);[m
+[32m+[m	[32mconnect(this, &DataLink::ConnectionEstablished, mw, &MainWindow::OnConnectionEstablished);[m
+ }[m
+ [m
+ [m
+[36m@@ -70,10 +69,14 @@[m [mbool DataLink::SendHello() {[m
+ 		msg.setText("ОШИБКА! Не задан порт");[m
+ 		msg.exec();[m
+ 		return false;[m
+[31m-	}[m
+[31m-[m
+[31m-	if (port->GetOpenStatus() != true) {[m
+[32m+[m	[32m} else if (port->GetOpenStatus() != true) {[m
+[32m+[m		[32m/* В ДАЛЬНЕЙШЕМ ВЕРНУТЬ ЗДЕСЬ ОШИБКУ (Славе надо будет добавить отдельную кнопку)*/[m
+[32m+[m		[32m/*QMessageBox msg;[m
+[32m+[m		[32mmsg.setText("ОШИБКА! Порт закрыт");[m
+[32m+[m		[32mmsg.exec();[m
+[32m+[m		[32mreturn false;*/[m
+ 		OpenPort();[m
+[32m+[m		[32mreturn false;[m
+ 	} else {[m
+ 		SendControlFrame('U');[m
+ 	}[m
+[36m@@ -82,26 +85,8 @@[m [mbool DataLink::SendHello() {[m
+ }[m
+ [m
+ [m
+[31m-bool DataLink::GetConnectionStatus() {[m
+[31m-	return this->isConnected;[m
+[31m-}[m
+[31m-[m
+[31m-bool DataLink::SendGoodbye() {[m
+[31m-	if (port->GetOpenStatus() == true) {[m
+[31m-		SendControlFrame('D');[m
+[31m-	} else {[m
+[31m-		QMessageBox msg;[m
+[31m-		msg.setText("ОШИБКА! Порт уже был закрыт");[m
+[31m-		msg.exec();[m
+[31m-		return false;[m
+[31m-	}[m
+[31m-[m
+[31m-	return false;[m
+[31m-[m
+[31m-}[m
+[31m-[m
+[31m-[m
+ void DataLink::SendFile(QString path) {[m
+[32m+[m	[32mQFile file(path);[m
+ 	if (this->port == nullptr) {[m
+ 		QMessageBox msg;[m
+ 		msg.setText("ОШИБКА! Не задан порт");[m
+[36m@@ -117,8 +102,6 @@[m [mvoid DataLink::SendFile(QString path) {[m
+ 		msg.setText("ОШИБКА! Соединение не установлено");[m
+ 		msg.exec();[m
+ 	} else {[m
+[31m-		qDebug() << "Отправляем файл " + path;[m
+[31m-		QFile file(path);[m
+ 		QByteArray bytesToTransmit;[m
+ 		int fileSize;[m
+ [m
+[36m@@ -165,36 +148,24 @@[m [mQByteArray DataLink::WrapControlFrame(char type)[m
+ {[m
+ 	QByteArray pack;[m
+ 	pack.resize(3);[m
+[31m-	//установим в стартовый и стоповый байт значения в 0xFF[m
+[31m-	pack[0] = 0xFF;[m
+[31m-	pack[2] = 0xFF;[m
+[31m-	// заполним байт, отведённый под тип кадра[m
+[31m-	switch(type)[m
+[32m+[m	[32mif (type == 'A' | type == 'R' | type == 'L' |type == 'U' |type == 'S')[m
+ 	{[m
+[31m-		case 'A': {[m
+[31m-			pack[1] = 0x01;[m
+[31m-			qDebug() << "Отправлен ACK";[m
+[31m-			break;[m
+[31m-		}[m
+[31m-		case 'N': {[m
+[31m-			pack[1] = 0x02;[m
+[31m-			qDebug() << "Отправлен NAK";[m
+[31m-			break;[m
+[31m-		}[m
+[31m-		case 'U': {[m
+[31m-			pack[1] = 0x03;[m
+[31m-			qDebug() << "Отправлен UPLINK";[m
+[31m-			break;[m
+[31m-		}[m
+[31m-		case 'D': {[m
+[31m-			qDebug() << "Отправлен DOWNLINK";[m
+[31m-			pack[1] = 0x04;[m
+[31m-			break;[m
+[31m-		}[m
+[31m-		default: {[m
+[31m-			qDebug() << "Отправлен неизвестный служебный кадр";[m
+[31m-			pack[1] = 0x00;[m
+[31m-			break;[m
+[32m+[m		[32m//установим в стартовый и стоповый байт значения в 0xFF[m
+[32m+[m		[32mpack[0] = 0xFF;[m
+[32m+[m		[32mpack[2] = 0xFF;[m
+[32m+[m		[32m// заполним байт, отведённый под тип кадра[m
+[32m+[m		[32mswitch(type)[m
+[32m+[m		[32m{[m
+[32m+[m			[32mcase 'A': pack[1] = 0x00;[m
+[32m+[m					[32m  break;[m
+[32m+[m			[32mcase 'R': pack[1] = 0x01;[m
+[32m+[m					[32m  break;[m
+[32m+[m			[32mcase 'L': pack[1] = 0x02;[m
+[32m+[m					[32m  break;[m
+[32m+[m			[32mcase 'U': pack[1] = 0x03;[m
+[32m+[m					[32m  break;[m
+[32m+[m			[32mcase 'S': pack[1] = 0x04;[m
+[32m+[m				[32m  break;[m
+ 		}[m
+ 	}[m
+ 	return pack;[m
+[36m@@ -210,14 +181,15 @@[m [mvoid DataLink::SendSizeFrame(int size) {[m
+ // он передаётся ПЕРВЫМ после установления соединения[m
+ QByteArray DataLink::WrapSizeFrame(int size)[m
+ {[m
+[31m-	qDebug() << QString("Отправляем кадр с размером файла (%1 байт)").arg(size);[m
+ 	QByteArray frame;[m
+ 	// ИЗМЕНИЛ, ПОСКОЛЬКУ ФАЙЛЫ МОГУТ ИМЕТЬ РАЗМЕР БОЛЬШЕ 255[m
+ 	frame.resize(6);[m
+ 	frame[0] = 0xFF;[m
+ 	frame[5] = 0xFF;[m
+[32m+[m	[32mqDebug() << "Раскладываем размер файла на отправке: ";[m
+ 	for (int i = 0; i < 4; i = i + 1) {[m
+ 		frame[i + 1] =  size >> i * 8;[m
+[32m+[m		[32mqDebug() << frame[i + 1];[m
+ 	}[m
+ 	frame[1] = size;[m
+ 	return frame;[m
+[36m@@ -247,9 +219,9 @@[m [mvoid DataLink::SendInfoFrames(QByteArray bytes, int size)[m
+ 		// Проверяем полученный ответ[m
+ 		WaitForAnswer();[m
+ 		if (UnwrapControlFrame(*this->receivedData) == 'A') {[m
+[31m-			qDebug() << QString("В ответ на информационный кадр #%1 от приёмной стороны получен ACK...").arg(i);[m
+[32m+[m			[32mqDebug() << QString("В ответ на информационный кадр #{0} от приёмной стороны получен ACK...").arg(i);[m
+ 		} else {[m
+[31m-			qDebug() << QString("ОШИБКА! В ответ на информационный кадр #%1 от приёмной стороны получен не ACK...").arg(i);[m
+[32m+[m			[32mqDebug() << QString("ОШИБКА! В ответ на информационный кадр #{0} от приёмной стороны получен не ACK...").arg(i);[m
+ 		}[m
+ 	}[m
+ [m
+[36m@@ -357,72 +329,35 @@[m [mvoid DataLink::OnNewDataToRead(QByteArray *data) {[m
+ 	this->receivedData = new QByteArray(*data);[m
+ 	if (receivedData->length() == 3) { // Служебные кадры[m
+ 		char frameType = UnwrapControlFrame(*data),[m
+[31m-			 lastSentFrameType = UnwrapControlFrame(*port->GetLastSentFrame()),[m
+[31m-			 lastReceivedFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());[m
+[31m-		if (frameType == 'A') { // При установке соединения или получении инфокадра[m
+[32m+[m			[32m lastFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());;[m
+[32m+[m		[32mif (frameType == 'A') {[m
+ 			qDebug() << "Принят ACK";[m
+[31m-			if (lastSentFrameType == 'A' && (lastReceivedFrameType == 'U' || lastReceivedFrameType == 'D')) { // Обменялись UPLINK/DOWNLINK и ACK, соединение установлено[m
+[31m-				isConnected = !isConnected;[m
+[31m-				emit ConnectionStatusChanged(isConnected);[m
+[31m-[m
+[31m-				if (isConnected == false) { // Заодно закрываем порт для случая разрыва[m
+[31m-					//ClosePort();[m
+[31m-				}[m
+[31m-			} else if (lastSentFrameType == 'U') { // Обменялись UPLINK и получили ACK, осталось вернуть его[m
+[31m-				SendControlFrame('A');[m
+[31m-				isConnected = true;[m
+[31m-				emit ConnectionStatusChanged(true);[m
+[31m-			} else if (lastSentFrameType == 'D') { // Аналогично для DOWNLINK[m
+[32m+[m			[32mif (lastFrameType == 'U') { // Подтверждаем запрос на соединение[m
+ 				SendControlFrame('A');[m
+[31m-				isConnected = false;[m
+[31m-				emit ConnectionStatusChanged(false);[m
+[31m-				//ClosePort();[m
+[31m-			} else if (lastSentFrameType == 0) { // Обменялись UPLINK, надо обменяться ACK[m
+[31m-				SendControlFrame('A');[m
+[31m-			}[m
+[31m-		} else if (frameType == 'N') { // При получении инфокадра с ошибкой[m
+[31m-			qDebug() << "Принят NAK";[m
+[31m-			if (lastSentFrameType == 'S') {[m
+[31m-				qDebug() << "Передача файла отменена";[m
+[31m-				port->ClearBuffers();[m
+[31m-			} else if (lastSentFrameType == -1) {[m
+[31m-				qDebug() << "Повторная передача последнего кадра";[m
+[31m-				port->ResendLastDataPiece();[m
+[32m+[m				[32mthis->isConnected = true;[m
+[32m+[m				[32memit ConnectionEstablished();[m
+ 			}[m
+[32m+[m		[32m} else if (frameType == 'R') {[m
+[32m+[m			[32mqDebug() << "Принят ACK";[m
+[32m+[m
+[32m+[m		[32m} else if (frameType == 'L') {[m
+[32m+[m			[32mqDebug() << "Принят LINK";[m
+ [m
+[31m-		} else if (frameType == 'U') { // При установке соединения[m
+[32m+[m		[32m} else if (frameType == 'U') {[m
+ 			qDebug() << "Принят UPLINK";[m
+[31m-			if (lastSentFrameType == 'U') { // Уже обменялись UPLINK, пора переходить к ACK[m
+[31m-				SendControlFrame('A');[m
+[31m-			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его[m
+[31m-				// УБРАЛ АВТОМАТИЧЕСКУЮ ПОСЫЛКУ UPLINK, ЧТОБЫ УСТАНОВИТЬ СОЕДИНЕНИЕ ТОЛЬКО ПОСЛЕ НАЖАТИЙ КНОПКИ С ОБЕИХ СТОРОН[m
+[31m-				//SendControlFrame('U');[m
+[31m-			}[m
+[32m+[m			[32mSendControlFrame('A');[m
+[32m+[m		[32m} else if (frameType == 'S') {[m
+[32m+[m			[32mqDebug() << "Принят SUCCESS";[m
+[32m+[m		[32m} else { // Кадр размера[m
+ [m
+[31m-		} else if (frameType == 'D') { // При разрыве соединения[m
+[31m-			qDebug() << "Принят DOWNLINK";[m
+[31m-			if (lastSentFrameType == 'D') { // Уже обменялись UPLINK, пора переходить к ACK[m
+[31m-				SendControlFrame('A');[m
+[31m-			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его[m
+[31m-				SendControlFrame('D');[m
+[31m-			}[m
+[31m-		} else { // 404[m
+[31m-			qDebug() << "Принят неизвестный служебный кадр";[m
+ 		}[m
+ 	} else if (receivedData->length() == 4) { // Информационные кадры[m
+ 		qDebug() << "Принят инфокадр" << receivedData->at(1) << receivedData->at(2);[m
+[31m-		if (UnwrapInfoFrame(*receivedData) == true) {[m
+[31m-			SendControlFrame('A');[m
+[31m-		} else {[m
+[31m-			SendControlFrame('N');[m
+[31m-			return;[m
+[31m-		}[m
+[31m-[m
+[32m+[m		[32mUnwrapInfoFrame(*receivedData);[m
+[32m+[m		[32mSendControlFrame('A');[m
+ 		this->bitsRead += 11;[m
+[31m-		emit NewInfoFrameReceived(static_cast<float>(bitsRead) / (bytesToRead * 8));[m
+ 		if (this->bitsRead >= this->bytesToRead * 8) {[m
+ 			ConvertReceivedToFile("D:/read.txt");[m
+[31m-			port->ClearBuffers();[m
+ 		}[m
+ 	} else { // if len == 6 (кадр размера)[m
+ 		qDebug() << "Принят кадр размера";[m
+[36m@@ -430,16 +365,7 @@[m [mvoid DataLink::OnNewDataToRead(QByteArray *data) {[m
+ 		this->receivedBits = new QList<bool>();[m
+ 		this->bitsRead = 0;[m
+ 		this->bytesToRead = size;[m
+[31m-[m
+[31m-[m
+[31m-		if (emit FileSendRequested(size) == false) {[m
+[31m-			qDebug() << "Передача файла отменена";[m
+[31m-			port->ClearBuffers();[m
+[31m-			SendControlFrame('N');[m
+[31m-		} else {[m
+[31m-			qDebug() << "True";[m
+[31m-			SendControlFrame('A');[m
+[31m-		}[m
+[32m+[m		[32mSendControlFrame('A');[m
+ 	}[m
+ [m
+ }[m
+[36m@@ -448,19 +374,21 @@[m [mvoid DataLink::OnNewDataToRead(QByteArray *data) {[m
+ // распаковка служебных кадров[m
+ char DataLink::UnwrapControlFrame(QByteArray controlFrame)[m
+ {[m
+[31m-	if (controlFrame == nullptr || controlFrame.length() == 0) return 0;[m
+[31m-	if (controlFrame.length() == 4) return -1;[m
+[31m-	if (controlFrame.length() == 6) return 'S';[m
+[32m+[m	[32mif (controlFrame == nullptr) return 0;[m
+ [m
+ 	int code = controlFrame[1];[m
+ 	char frameType;[m
+ 	switch (code) {[m
+[31m-		case 1: {[m
+[32m+[m		[32mcase 0: {[m
+ 			frameType = 'A';[m
+ 			break;[m
+ 		}[m
+[32m+[m		[32mcase 1: {[m
+[32m+[m			[32mframeType = 'R';[m
+[32m+[m			[32mbreak;[m
+[32m+[m		[32m}[m
+ 		case 2: {[m
+[31m-			frameType = 'N';[m
+[32m+[m			[32mframeType = 'L';[m
+ 			break;[m
+ 		}[m
+ 		case 3: {[m
+[36m@@ -468,7 +396,7 @@[m [mchar DataLink::UnwrapControlFrame(QByteArray controlFrame)[m
+ 			break;[m
+ 		}[m
+ 		case 4: {[m
+[31m-			frameType = 'D';[m
+[32m+[m			[32mframeType = 'S';[m
+ 			break;[m
+ 		}[m
+ 		default: {[m
+[36m@@ -493,7 +421,7 @@[m [mint DataLink::UnwrapSizeFrame(QByteArray sizeFrame) {[m
+ [m
+ // распаковываем ПО ОДНОМУ информационному кадру и запихиваем биты в список[m
+ // т.е. где-то нужно вызывать это в цикле[m
+[31m-bool DataLink::UnwrapInfoFrame(QByteArray frame)[m
+[32m+[m[32mvoid DataLink::UnwrapInfoFrame(QByteArray frame)[m
+ {[m
+ 	QByteArray bytes;[m
+ 	bytes.resize(2);[m
+[36m@@ -508,7 +436,7 @@[m [mbool DataLink::UnwrapInfoFrame(QByteArray frame)[m
+ 	// При наличии ошибки в буфер ничего не пишем[m
+ 	if (bits == nullptr) {[m
+ 		// ДОБАВИТЬ СИГНАЛ ОБ ОШИБКЕ ДЛЯ ПОВТОРНОЙ ПЕРЕДАЧИ[m
+[31m-		return false;[m
+[32m+[m		[32mreturn;[m
+ 	}[m
+ [m
+ 	// записываем в буфер[m
+[36m@@ -518,7 +446,6 @@[m [mbool DataLink::UnwrapInfoFrame(QByteArray frame)[m
+ 	}[m
+ [m
+ 	delete bits;[m
+[31m-	return true;[m
+ }[m
+ [m
+ [m
+[36m@@ -537,7 +464,8 @@[m [mQBitArray* DataLink::HammingDecode(QBitArray code)[m
+ 	{[m
+ 		qDebug() << "Кадр декодирован, ошибок нет. ";[m
+ 		// ошибки нет, пакет дошёл[m
+[31m-		WrapControlFrame('A');[m
+[32m+[m		[32m// отправляем квитанцию Success[m
+[32m+[m		[32mWrapControlFrame('S');[m
+ 		QBitArray *decoded = new QBitArray();[m
+ 		decoded->resize(11);[m
+ 		// оставим только проверочные разряды[m
+[36m@@ -559,15 +487,14 @@[m [mQBitArray* DataLink::HammingDecode(QBitArray code)[m
+ [m
+ 		// ошибка есть, отправляем квитанцию NAK[m
+ 		// увеличиваем глобальный счётчик NAK на 1[m
+[32m+[m		[32mWrapControlFrame('R');[m
+ 		NAK_counter += 1;[m
+[31m-		if (NAK_counter < 3) {[m
+[31m-			qDebug() << QString("При передаче данных возникли ошибки, отправлен запрос повторной отправки! NAK_Counter = %1").arg(NAK_counter);[m
+[31m-		} else {[m
+[31m-			qDebug() << QString("Слишком много ошибок, передача остановлена!");[m
+[31m-			// TERMINATE[m
+[32m+[m		[32mif (NAK_counter == 3) {[m
+[32m+[m			[32mQMessageBox msgbx;[m
+[32m+[m			[32mmsgbx.setText("При передаче данных возникли ошибки!");[m
+[32m+[m			[32mmsgbx.exec();[m
+ 		}[m
+ [m
+[31m-[m
+ 		return nullptr;[m
+ 	}[m
+ }[m

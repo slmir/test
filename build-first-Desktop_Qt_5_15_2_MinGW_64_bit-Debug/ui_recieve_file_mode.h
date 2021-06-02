@@ -15,7 +15,10 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -31,6 +34,9 @@ public:
     QLineEdit *File_name_input;
     QPushButton *Check_file_name_button;
     QLabel *Save_file_label_2;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
+    QProgressBar *Recieving_progressBar;
 
     void setupUi(QDialog *Recieve_file_mode)
     {
@@ -42,7 +48,7 @@ public:
         Soglsie_to_recieve_file_button->setGeometry(QRect(160, 20, 391, 61));
         Save_file_gropubox = new QGroupBox(Recieve_file_mode);
         Save_file_gropubox->setObjectName(QString::fromUtf8("Save_file_gropubox"));
-        Save_file_gropubox->setGeometry(QRect(10, 110, 731, 251));
+        Save_file_gropubox->setGeometry(QRect(10, 210, 731, 251));
         QFont font;
         font.setPointSize(10);
         font.setBold(true);
@@ -86,6 +92,19 @@ public:
         Save_file_label_2->setObjectName(QString::fromUtf8("Save_file_label_2"));
         Save_file_label_2->setGeometry(QRect(20, 120, 191, 16));
         Save_file_label_2->setFont(font1);
+        verticalLayoutWidget = new QWidget(Recieve_file_mode);
+        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(10, 110, 731, 80));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        Recieving_progressBar = new QProgressBar(verticalLayoutWidget);
+        Recieving_progressBar->setObjectName(QString::fromUtf8("Recieving_progressBar"));
+        Recieving_progressBar->setEnabled(true);
+        Recieving_progressBar->setValue(0);
+
+        verticalLayout->addWidget(Recieving_progressBar);
+
 
         retranslateUi(Recieve_file_mode);
 

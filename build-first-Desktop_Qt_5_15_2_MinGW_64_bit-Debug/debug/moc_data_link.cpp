@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_DataLink_t {
-    QByteArrayData data[7];
-    char stringdata0[74];
+    QByteArrayData data[16];
+    char stringdata0[220];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,16 +33,29 @@ struct qt_meta_stringdata_DataLink_t {
 static const qt_meta_stringdata_DataLink_t qt_meta_stringdata_DataLink = {
     {
 QT_MOC_LITERAL(0, 0, 8), // "DataLink"
-QT_MOC_LITERAL(1, 9, 8), // "DataRead"
-QT_MOC_LITERAL(2, 18, 0), // ""
-QT_MOC_LITERAL(3, 19, 21), // "ConnectionEstablished"
-QT_MOC_LITERAL(4, 41, 15), // "OnNewDataToRead"
-QT_MOC_LITERAL(5, 57, 11), // "QByteArray*"
-QT_MOC_LITERAL(6, 69, 4) // "data"
+QT_MOC_LITERAL(1, 9, 20), // "NewInfoFrameReceived"
+QT_MOC_LITERAL(2, 30, 0), // ""
+QT_MOC_LITERAL(3, 31, 15), // "currentProgress"
+QT_MOC_LITERAL(4, 47, 23), // "ConnectionStatusChanged"
+QT_MOC_LITERAL(5, 71, 6), // "status"
+QT_MOC_LITERAL(6, 78, 17), // "PortStatusChanged"
+QT_MOC_LITERAL(7, 96, 17), // "FileSendRequested"
+QT_MOC_LITERAL(8, 114, 8), // "fileSize"
+QT_MOC_LITERAL(9, 123, 15), // "OnNewDataToRead"
+QT_MOC_LITERAL(10, 139, 11), // "QByteArray*"
+QT_MOC_LITERAL(11, 151, 4), // "data"
+QT_MOC_LITERAL(12, 156, 17), // "OnReceiveAccepted"
+QT_MOC_LITERAL(13, 174, 16), // "OnReceiveAborted"
+QT_MOC_LITERAL(14, 191, 23), // "OnSaveFileButtonClicked"
+QT_MOC_LITERAL(15, 215, 4) // "path"
 
     },
-    "DataLink\0DataRead\0\0ConnectionEstablished\0"
-    "OnNewDataToRead\0QByteArray*\0data"
+    "DataLink\0NewInfoFrameReceived\0\0"
+    "currentProgress\0ConnectionStatusChanged\0"
+    "status\0PortStatusChanged\0FileSendRequested\0"
+    "fileSize\0OnNewDataToRead\0QByteArray*\0"
+    "data\0OnReceiveAccepted\0OnReceiveAborted\0"
+    "OnSaveFileButtonClicked\0path"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,26 +65,36 @@ static const uint qt_meta_data_DataLink[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   29,    2, 0x06 /* Public */,
-       3,    0,   30,    2, 0x06 /* Public */,
+       1,    1,   54,    2, 0x06 /* Public */,
+       4,    1,   57,    2, 0x06 /* Public */,
+       6,    1,   60,    2, 0x06 /* Public */,
+       7,    1,   63,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    1,   31,    2, 0x0a /* Public */,
+       9,    1,   66,    2, 0x0a /* Public */,
+      12,    0,   69,    2, 0x0a /* Public */,
+      13,    0,   70,    2, 0x0a /* Public */,
+      14,    1,   71,    2, 0x0a /* Public */,
 
  // signals: parameters
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Float,    3,
+    QMetaType::Void, QMetaType::Bool,    5,
+    QMetaType::Void, QMetaType::Bool,    5,
+    QMetaType::Bool, QMetaType::Int,    8,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 5,    6,
+    QMetaType::Void, 0x80000000 | 10,   11,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   15,
 
        0        // eod
 };
@@ -82,24 +105,44 @@ void DataLink::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         auto *_t = static_cast<DataLink *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->DataRead(); break;
-        case 1: _t->ConnectionEstablished(); break;
-        case 2: _t->OnNewDataToRead((*reinterpret_cast< QByteArray*(*)>(_a[1]))); break;
+        case 0: _t->NewInfoFrameReceived((*reinterpret_cast< float(*)>(_a[1]))); break;
+        case 1: _t->ConnectionStatusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 2: _t->PortStatusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 3: { bool _r = _t->FileSendRequested((*reinterpret_cast< int(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 4: _t->OnNewDataToRead((*reinterpret_cast< QByteArray*(*)>(_a[1]))); break;
+        case 5: _t->OnReceiveAccepted(); break;
+        case 6: _t->OnReceiveAborted(); break;
+        case 7: _t->OnSaveFileButtonClicked((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (DataLink::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::DataRead)) {
+            using _t = void (DataLink::*)(float );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::NewInfoFrameReceived)) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (DataLink::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::ConnectionEstablished)) {
+            using _t = void (DataLink::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::ConnectionStatusChanged)) {
                 *result = 1;
+                return;
+            }
+        }
+        {
+            using _t = void (DataLink::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::PortStatusChanged)) {
+                *result = 2;
+                return;
+            }
+        }
+        {
+            using _t = bool (DataLink::*)(int );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&DataLink::FileSendRequested)) {
+                *result = 3;
                 return;
             }
         }
@@ -135,27 +178,45 @@ int DataLink::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 3;
+        _id -= 8;
     }
     return _id;
 }
 
 // SIGNAL 0
-void DataLink::DataRead()
+void DataLink::NewInfoFrameReceived(float _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void DataLink::ConnectionEstablished()
+void DataLink::ConnectionStatusChanged(bool _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void DataLink::PortStatusChanged(bool _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+
+// SIGNAL 3
+bool DataLink::FileSendRequested(int _t1)
+{
+    bool _t0{};
+    void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
+    return _t0;
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

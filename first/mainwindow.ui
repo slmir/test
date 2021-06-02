@@ -82,7 +82,7 @@
        <property name="geometry">
         <rect>
          <x>40</x>
-         <y>20</y>
+         <y>39</y>
          <width>271</width>
          <height>31</height>
         </rect>
@@ -104,7 +104,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="Do_connect_button">
+      <widget class="QPushButton" name="Do_open_button">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -168,6 +168,32 @@
        </property>
        <property name="text">
         <string>Установить соединение</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="Port_status_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>9</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>Порт закрыт</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </widget>
@@ -355,7 +381,7 @@
      <x>0</x>
      <y>0</y>
      <width>1003</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="To_file_menu">

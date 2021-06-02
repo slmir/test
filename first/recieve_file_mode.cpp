@@ -1,6 +1,7 @@
 #include <time.h>
 #include "recieve_file_mode.h"
 #include "ui_recieve_file_mode.h"
+#include "math.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
@@ -9,6 +10,7 @@
 #include <QTextEdit>
 #include <QProgressBar>
 
+
 Recieve_file_mode::Recieve_file_mode(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Recieve_file_mode)
@@ -16,30 +18,38 @@ Recieve_file_mode::Recieve_file_mode(QWidget *parent) :
     ui->setupUi(this);
 }
 
+
+Recieve_file_mode::Recieve_file_mode(DataLink *link, QWidget *parent) : Recieve_file_mode(parent) {
+	connect(link, &DataLink::NewInfoFrameReceived, this, &Recieve_file_mode::OnNewFrameReceived);
+	connect(this, &Recieve_file_mode::ReceiveAccepted, link, &DataLink::OnReceiveAccepted);
+	connect(this, &Recieve_file_mode::ReceiveAborted, link, &DataLink::OnReceiveAborted);
+	connect(this, &Recieve_file_mode::SaveFileButtonClicked, link, &DataLink::OnSaveFileButtonClicked);
+	InitiateExchange();
+}
+
+
+int ProgressBar(int data_sent, int data_total) {
+	return (data_sent * 100) / data_total;
+}
+
+
 Recieve_file_mode::~Recieve_file_mode()
 {
     delete ui;
 }
 
-int ProgressBar(int data_sent, int data_total) {
-        return (data_sent * 100) / data_total;
-    }
-
 
 void Recieve_file_mode::on_Soglsie_to_recieve_file_button_clicked()
 {
-    QMessageBox::StandardButton reply = QMessageBox::question(this,"Принятие файла", "Вы уверены что хотите принять файл?",QMessageBox::Yes | QMessageBox::No);
+	QMessageBox::StandardButton reply = QMessageBox::question(this,"Принятие файла", "Вы уверены что хотите принять файл?", QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes){
-        ui->Soglsie_to_recieve_file_button->setText("В последствии сообщение будет появляться автоматически \n при получении запроса на передачу файла");
-        //начало процедуры передачи
-
-
-        //Сделать активной кнопку сохранения файла
-        //ui->Save_recieved_file_button->setEnabled(1);
+		qDebug() << "Готов к получению файла";
+		emit ReceiveAccepted();
     }
     else {
-        qDebug() << "Продолжение работы приложения";
+		qDebug() << "Отмена получения файла";
+		emit ReceiveAborted();
     }
 
 }
@@ -67,7 +77,7 @@ void Recieve_file_mode::on_File_directory_choosed_textEdited(const QString &arg1
 
     }
 
-    //this->savePath = ui->File_directory_choosed->text();
+	//this->savePath = ui->File_directory_choosed->text();
 }
 
 
@@ -80,7 +90,7 @@ void Recieve_file_mode::on_File_directory_choosed_textChanged(const QString &arg
 
     }
 
-    //this->savePath = ui->File_directory_choosed->text();
+	//this->savePath = ui->File_directory_choosed->text();
 }
 
 
@@ -90,7 +100,10 @@ void Recieve_file_mode::on_Save_file_button_clicked()
 
     QString fileName = QFileDialog::getSaveFileName(this, ui->File_directory_choosed->text(), ui->File_name_input->text(), "*.txt");
 
-    //возможно это как то поможет с записью данных в файле
+	emit SaveFileButtonClicked(fileName);
+
+	// ЗАКОММЕНЧИВАЮ, ТАК КАК УЖЕ ЕСТЬ СВОЙ МЕТОД ДЛЯ ЗАПИСИ ПРОЧИТАННЫХ ДАННЫХ В ФАЙЛ
+	/*//возможно это как то поможет с записью данных в файле
     if (fileName.isEmpty())
              return;
          else {
@@ -100,7 +113,7 @@ void Recieve_file_mode::on_Save_file_button_clicked()
                      file.errorString());
                  return;
              }
-    }
+	}*/
 
 
 }
@@ -118,5 +131,17 @@ void Recieve_file_mode::on_Check_file_name_button_clicked()
         ui->Check_file_name_button->setText("Подтвердить");
     }
 
+}
+
+
+void Recieve_file_mode::InitiateExchange() {
+	ProgressIndicator = new QProgressBar(ui->Recieving_progressBar);
+	ui->Recieving_progressBar->setRange(0,100);
+	ui->Recieving_progressBar->setValue(0);
+}
+
+
+void Recieve_file_mode::OnNewFrameReceived(float currentProgress) {
+	ui->Recieving_progressBar->setValue(ceil(currentProgress * 100));
 }
 

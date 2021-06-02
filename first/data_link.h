@@ -8,8 +8,10 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include "port.h"
 
+
 class MainWindow;
 class Port;
+
 
 class DataLink : public QObject {
 	Q_OBJECT
@@ -29,8 +31,15 @@ class DataLink : public QObject {
 		void SendFile(QString path);
 		// Проверка установки соединения (пока что всегда возвращает false, потому что я уведомление об установке перенёс на слот-сигнал)
 		bool SendHello();
+		//
+		bool GetConnectionStatus();
+		//
+		bool GetPortStatus();
+		//
+		bool SendGoodbye();
 
 	private:
+		MainWindow* mw;
 		// Флаг установки соединения
 		bool isConnected;
 		// Число прочитанных бит
@@ -67,7 +76,7 @@ class DataLink : public QObject {
 		// Вычленение инфы из кадров
 		char UnwrapControlFrame(QByteArray controlFrame);
 		int UnwrapSizeFrame(QByteArray sizeFrame);
-		void UnwrapInfoFrame(QByteArray frame);
+		bool UnwrapInfoFrame(QByteArray frame);
 
 		// Формирование двоичного файла из полученных данных с указанием пути назначения (пока что там заглушка на D:/read.txt)
 		void ConvertReceivedToFile(QString path);
@@ -82,10 +91,15 @@ class DataLink : public QObject {
 	public slots:
 		// Обработчик приходящих данных
 		void OnNewDataToRead(QByteArray* data);
+		void OnReceiveAccepted();
+		void OnReceiveAborted();
+		void OnSaveFileButtonClicked(QString path);
 
 	signals:
-		void DataRead();
-		void ConnectionEstablished();
+		void NewInfoFrameReceived(float currentProgress);
+		void ConnectionStatusChanged(bool status);
+		void PortStatusChanged(bool status);
+		bool FileSendRequested(int fileSize);
 };
 
 #endif // DATA_LINK_H

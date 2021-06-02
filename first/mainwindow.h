@@ -47,7 +47,7 @@ private slots:
 
     void on_Send_file_button_clicked();
 
-    void on_Do_connect_button_clicked();
+	void OnOpenPortButtonClicked();
 
     void on_action_4_triggered();
 
@@ -63,11 +63,15 @@ private slots:
 
     void on_File_name_choosed_editingFinished();
 
-    void on_Do_connection_button_clicked();
+	void on_Do_connection_button_clicked();
 
-public slots:
+	void on_Do_open_button_clicked();
+
+	public slots:
 	void OnNewDataRead();
-	void OnConnectionEstablished();
+	void OnConnectionStatusChanged(bool status);
+	void OnPortStatusChanged(bool status);
+	bool OnFileSendRequestReceived(int fileSize);
 
 private:
     Ui::MainWindow *ui;

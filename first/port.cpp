@@ -10,8 +10,7 @@ class QSerialPortInfo;
 
 Port::Port()
 {
-	this->sentFrameBuffer = new QByteArray();
-	this->receivedFrameBuffer = new QByteArray();
+	ClearBuffers();
 	this->isOpened = false;
 
 }
@@ -39,6 +38,15 @@ QByteArray* Port::GetLastReceivedFrame() {
 	return this->receivedFrameBuffer;
 }
 
+QByteArray* Port::GetLastSentFrame() {
+	return this->sentFrameBuffer;
+}
+
+void Port::ClearBuffers() {
+	this->sentFrameBuffer = new QByteArray(4, '0');
+	this->receivedFrameBuffer = new QByteArray(4, '0');
+}
+
 QString Port::GetPortName() {
 	return port->portName();
 }
@@ -51,7 +59,7 @@ int Port::Open(QIODevice::OpenMode openModeValue) {
 		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно открыт!").arg(port->portName()));
 		this->isOpened = true;
 	} else {
-        box = new QMessageBox(QMessageBox::Icon::Critical, QString("Ошибка!"), "");
+		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
 
 		switch (port->error()) {
 			case QSerialPort::OpenError: {
@@ -71,10 +79,13 @@ int Port::Open(QIODevice::OpenMode openModeValue) {
 				break;
 			}
 		}
+
+		box->exec();
 	}
-	box->exec();
 
 	delete box;
+	this->port->readAll();
+	ClearBuffers();
 	return port->error();
 }
 
@@ -83,16 +94,9 @@ void Port::SendData(QByteArray data) {
 	// Занести отправляемую информацию в буфер, чтобы повторить отправку при возникновении ошибок
 	this->sentFrameBuffer = new QByteArray(data);
 
-	/*qDebug() << "Массив до генерации ошибок: ";
-	for (auto byte : *data) {
-		qDebug() << byte;
-	}*/
-	GenerateMessageError(data, 1e-09f);
-	/*qDebug() << "Массив после генерации ошибок: ";
-	for (auto byte : *data) {
-		qDebug() << byte;
-	}*/
-
+	if (data.length() == 4) { // кодируем только информационные кадры
+		GenerateMessageError(data, 1e-05f);
+	}
 
 	port->write(data);
 	bool result = true;
@@ -161,7 +165,7 @@ int Port::Close() {
 		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно закрыт!").arg(port->portName()));
 		this->isOpened = false;
 	} else {
-        box = new QMessageBox(QMessageBox::Icon::Critical, QString("Ошибка!"), "");
+		box = new QMessageBox(QMessageBox::Icon::Critical, QString("ОШИБКА"), "");
 		switch (port->error()) {
 			case QSerialPort::NotOpenError: {
 				box->setText(QString("Порт %1 уже был закрыт!").arg(port->portName()));
@@ -172,8 +176,10 @@ int Port::Close() {
 				break;
 			}
 		}
+
 		box->exec();
 	}
+
 	delete box;
 	return port->error();
 }
