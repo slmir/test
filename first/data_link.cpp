@@ -11,11 +11,16 @@
 
 
 DataLink::DataLink(MainWindow *mw) {
+	this->mw = mw;
 	this->port = nullptr;
 	this->isConnected = false;
 	this->NAK_counter = 0;
 	connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
 	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
+<<<<<<< HEAD
+=======
+	connect(this, &DataLink::PortStatusChanged, mw, &MainWindow::OnPortStatusChanged);
+>>>>>>> interface
 	connect(this, &DataLink::FileSendRequested, mw, &MainWindow::OnFileSendRequestReceived);
 }
 
@@ -40,6 +45,7 @@ int DataLink::OpenPort() {
 		msg.exec();
 		return 0;
 	} else {
+		emit PortStatusChanged(true);
 		// Сообщения на тему процесса открытия уже есть внутри метода
 		return port->Open(QIODevice::ReadWrite);
 	}
@@ -58,6 +64,13 @@ int DataLink::ClosePort() {
 		msg.exec();
 		return 0;
 	} else {
+		if (this->isConnected == true) {
+			SendGoodbye();
+			WaitForAnswer();
+			WaitForAnswer();
+		}
+
+		emit PortStatusChanged(false);
 		// Сообщения на тему процесса открытия уже есть внутри метода
 		return port->Close();
 	}
@@ -65,6 +78,8 @@ int DataLink::ClosePort() {
 
 
 bool DataLink::SendHello() {
+	port->ClearBuffers();
+
 	if (this->port == nullptr) {
 		QMessageBox msg;
 		msg.setText("ОШИБКА! Не задан порт");
@@ -73,12 +88,45 @@ bool DataLink::SendHello() {
 	}
 
 	if (port->GetOpenStatus() != true) {
+<<<<<<< HEAD
 		OpenPort();
+=======
+		//OpenPort();
+		return false;
+>>>>>>> interface
 	} else {
+		qDebug() << "Открываем соединение";
 		SendControlFrame('U');
+		return true;
 	}
+}
 
-	return false;
+
+bool DataLink::GetConnectionStatus() {
+	return this->isConnected;
+}
+
+
+bool DataLink::GetPortStatus() {
+	if (this->port == nullptr) return false;
+
+	return this->port->GetOpenStatus();
+}
+
+
+bool DataLink::SendGoodbye() {
+	port->ClearBuffers();
+
+	if (port->GetOpenStatus() == true) {
+		qDebug() << "Закрываем соединение";
+		SendControlFrame('D');
+		return true;
+	} else {
+		QMessageBox msg;
+		msg.setText("ОШИБКА! Порт уже был закрыт");
+		msg.exec();
+		return false;
+	}
 }
 
 
@@ -102,6 +150,11 @@ bool DataLink::SendGoodbye() {
 
 
 void DataLink::SendFile(QString path) {
+<<<<<<< HEAD
+=======
+	port->ClearBuffers();
+
+>>>>>>> interface
 	if (this->port == nullptr) {
 		QMessageBox msg;
 		msg.setText("ОШИБКА! Не задан порт");
@@ -133,13 +186,15 @@ void DataLink::SendFile(QString path) {
 
 		// 2. Отправляем первичный кадр
 		SendSizeFrame(fileSize);
-		// Получаем ответ (ACK)
-		// Работаем в синхронном режиме, поэтому блокируемся до прихода кадра
+		// Получаем ответ; работаем в синхронном режиме, поэтому блокируемся до прихода кадра
 		WaitForAnswer();
-		if (UnwrapControlFrame(*this->receivedData) == 'A') {
-			qDebug() << "В ответ на кадр с размером от приёмной стороны получен ACK...";
-		} else {
-			qDebug() << "ОШИБКА! В ответ на кадр с размером от приёмной стороны получен не ACK...";
+
+		auto temp = UnwrapControlFrame(*this->receivedData);
+		if (temp == 'A') {
+			qDebug() << "В ответ на кадр с размером от приёмной стороны получен ACK.";
+		} else if (temp == 'N') {
+			qDebug() << "В ответ на кадр с размером от приёмной стороны получен NAK. Отмена передачи файла";
+			return;
 		}
 
 		// 3. Передаём файл
@@ -421,27 +476,59 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 		this->bitsRead += 11;
 		emit NewInfoFrameReceived(static_cast<float>(bitsRead) / (bytesToRead * 8));
 		if (this->bitsRead >= this->bytesToRead * 8) {
+<<<<<<< HEAD
 			ConvertReceivedToFile("D:/read.txt");
 			port->ClearBuffers();
+=======
+			//ConvertReceivedToFile("D:/read.txt");
+			//port->ClearBuffers();
+>>>>>>> interface
 		}
-	} else { // if len == 6 (кадр размера)
+	} else { // Кадр размера
+		port->ClearBuffers();
+
 		qDebug() << "Принят кадр размера";
 		int size = UnwrapSizeFrame(*receivedData);
 		this->receivedBits = new QList<bool>();
 		this->bitsRead = 0;
 		this->bytesToRead = size;
 
+<<<<<<< HEAD
 
 		if (emit FileSendRequested(size) == false) {
+=======
+		if (mw->OnFileSendRequestReceived(size) == false) {
+>>>>>>> interface
 			qDebug() << "Передача файла отменена";
 			port->ClearBuffers();
 			SendControlFrame('N');
 		} else {
 			qDebug() << "True";
+<<<<<<< HEAD
 			SendControlFrame('A');
+=======
+			// Не отправляем пакет сразу, т. к. нужно дождаться нажатия кнопки в другом окне
+			//SendControlFrame('A');
+>>>>>>> interface
 		}
 	}
+}
 
+
+void DataLink::OnReceiveAccepted() {
+	SendControlFrame('A');
+}
+
+
+void DataLink::OnReceiveAborted() {
+	port->ClearBuffers();
+	SendControlFrame('N');
+}
+
+
+void DataLink::OnSaveFileButtonClicked(QString path) {
+	ConvertReceivedToFile(path);
+	port->ClearBuffers();
 }
 
 
@@ -507,7 +594,10 @@ bool DataLink::UnwrapInfoFrame(QByteArray frame)
 	bits = HammingDecode(*bits);
 	// При наличии ошибки в буфер ничего не пишем
 	if (bits == nullptr) {
+<<<<<<< HEAD
 		// ДОБАВИТЬ СИГНАЛ ОБ ОШИБКЕ ДЛЯ ПОВТОРНОЙ ПЕРЕДАЧИ
+=======
+>>>>>>> interface
 		return false;
 	}
 
@@ -537,7 +627,11 @@ QBitArray* DataLink::HammingDecode(QBitArray code)
 	{
 		qDebug() << "Кадр декодирован, ошибок нет. ";
 		// ошибки нет, пакет дошёл
+<<<<<<< HEAD
 		WrapControlFrame('A');
+=======
+		//SendControlFrame('A');
+>>>>>>> interface
 		QBitArray *decoded = new QBitArray();
 		decoded->resize(11);
 		// оставим только проверочные разряды
@@ -558,6 +652,7 @@ QBitArray* DataLink::HammingDecode(QBitArray code)
 		qDebug() << "Кадр декодирован с оишбкой!!!";
 
 		// ошибка есть, отправляем квитанцию NAK
+		//SendControlFrame('N');
 		// увеличиваем глобальный счётчик NAK на 1
 		NAK_counter += 1;
 		if (NAK_counter < 3) {
@@ -586,8 +681,8 @@ void DataLink::ConvertReceivedToFile(QString path)
 		 ba.resize(8);
 		 for (int j=0;j<8;j++)
 		 {
-			 ba[j] = this->receivedBits->at(0);
-			 this->receivedBits->pop_front();
+			 ba[j] = this->receivedBits->at(i * 8 + j);
+			 //this->receivedBits->pop_front();
 		 }
 		 byte = ConvertBitArrToByteArr(ba);
 		 qDebug() << "Собрали байт " << byte.toStdString().c_str();

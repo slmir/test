@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>847</width>
-    <height>600</height>
+    <width>1003</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>781</width>
-      <height>491</height>
+      <width>961</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -38,10 +38,10 @@
     <widget class="QGroupBox" name="Connect_groupBox">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>240</y>
-       <width>741</width>
-       <height>231</height>
+       <x>30</x>
+       <y>220</y>
+       <width>921</width>
+       <height>311</height>
       </rect>
      </property>
      <property name="font">
@@ -61,9 +61,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>70</y>
-        <width>291</width>
-        <height>141</height>
+        <y>60</y>
+        <width>351</width>
+        <height>231</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -81,11 +81,18 @@
       <widget class="QLabel" name="Connection_status_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>251</width>
-         <height>16</height>
+         <x>40</x>
+         <y>39</y>
+         <width>271</width>
+         <height>31</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 0, 0);</string>
@@ -97,41 +104,41 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="Do_connect_button">
+      <widget class="QPushButton" name="Do_open_button">
        <property name="enabled">
         <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>60</y>
+         <x>40</x>
+         <y>70</y>
          <width>271</width>
-         <height>28</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
        <property name="text">
-        <string>Установить соединение</string>
+        <string>Открыть порт</string>
        </property>
       </widget>
       <widget class="QPushButton" name="Parameters_connect_button">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>100</y>
+         <x>40</x>
+         <y>170</y>
          <width>271</width>
-         <height>28</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -140,19 +147,68 @@
         <string>Параметры соединения</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="Do_connection_button">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>120</y>
+         <width>271</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Установить соединение</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="Port_status_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>9</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>Порт закрыт</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </widget>
      <widget class="QLabel" name="Connect_status_frame_label">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>30</y>
         <width>141</width>
         <height>16</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -161,43 +217,18 @@
        <string>Статус соединения</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_4">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>70</y>
-        <width>351</width>
-        <height>141</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 205);</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>2</number>
-      </property>
-      <property name="midLineWidth">
-       <number>1</number>
-      </property>
-     </widget>
      <widget class="QLabel" name="System_message_label">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>40</y>
+        <x>440</x>
+        <y>30</y>
         <width>171</width>
         <height>16</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -206,13 +237,30 @@
        <string>Системные сообщения</string>
       </property>
      </widget>
+     <widget class="QTableWidget" name="System_messages_tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>60</y>
+        <width>461</width>
+        <height>231</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="Send_file_gropubox">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>30</x>
        <y>20</y>
-       <width>741</width>
+       <width>921</width>
        <height>181</height>
       </rect>
      </property>
@@ -235,7 +283,7 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>570</x>
         <y>130</y>
         <width>211</width>
         <height>28</height>
@@ -243,7 +291,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -260,7 +308,7 @@
        <rect>
         <x>20</x>
         <y>90</y>
-        <width>591</width>
+        <width>761</width>
         <height>31</height>
        </rect>
       </property>
@@ -282,7 +330,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -294,15 +342,15 @@
      <widget class="QPushButton" name="Open_file_button">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>790</x>
         <y>90</y>
-        <width>91</width>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -316,8 +364,8 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>520</y>
+      <x>810</x>
+      <y>560</y>
       <width>171</width>
       <height>28</height>
      </rect>
@@ -332,7 +380,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>847</width>
+     <width>1003</width>
      <height>20</height>
     </rect>
    </property>
@@ -341,12 +389,6 @@
      <string>Файл</string>
     </property>
     <addaction name="action"/>
-   </widget>
-   <widget class="QMenu" name="To_connect_menu">
-    <property name="title">
-     <string>Соединение</string>
-    </property>
-    <addaction name="action_5"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -362,11 +404,9 @@
     <addaction name="action_4"/>
    </widget>
    <addaction name="To_file_menu"/>
-   <addaction name="To_connect_menu"/>
    <addaction name="menu_3"/>
    <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="about_menu">
    <property name="text">
     <string>О программе...</string>

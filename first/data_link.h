@@ -8,8 +8,10 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include "port.h"
 
+
 class MainWindow;
 class Port;
+
 
 class DataLink : public QObject {
 	Q_OBJECT
@@ -32,9 +34,15 @@ class DataLink : public QObject {
 		//
 		bool GetConnectionStatus();
 		//
+<<<<<<< HEAD
+=======
+		bool GetPortStatus();
+		//
+>>>>>>> interface
 		bool SendGoodbye();
 
 	private:
+		MainWindow* mw;
 		// Флаг установки соединения
 		bool isConnected;
 		// Число прочитанных бит
@@ -86,10 +94,17 @@ class DataLink : public QObject {
 	public slots:
 		// Обработчик приходящих данных
 		void OnNewDataToRead(QByteArray* data);
+		void OnReceiveAccepted();
+		void OnReceiveAborted();
+		void OnSaveFileButtonClicked(QString path);
 
 	signals:
 		void NewInfoFrameReceived(float currentProgress);
 		void ConnectionStatusChanged(bool status);
+<<<<<<< HEAD
+=======
+		void PortStatusChanged(bool status);
+>>>>>>> interface
 		bool FileSendRequested(int fileSize);
 };
 

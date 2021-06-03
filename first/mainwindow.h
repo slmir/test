@@ -8,6 +8,11 @@
 #include "about_1.h"
 #include "pram_connection.h"
 #include "data_link.h"
+#include <QTableWidget>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 
 class DataLink;
@@ -28,7 +33,15 @@ public:
 	DataLink* GetLinkLevelInstance();
     ~MainWindow();
 
+private:
+
+    void RefreshTable();
+
 private slots:
+
+
+    void slotAdd(QString a);
+
     void on_pushButton_clicked();
 
     void on_Parameters_connect_button_clicked();
@@ -39,7 +52,7 @@ private slots:
 
     void on_Send_file_button_clicked();
 
-    void on_Do_connect_button_clicked();
+	void OnOpenPortButtonClicked();
 
     void on_action_4_triggered();
 
@@ -53,9 +66,19 @@ private slots:
 
 	void OnPortChanged(QSerialPortInfo port, int baudRate);
 
-public slots:
+    void on_File_name_choosed_editingFinished();
+
+	void on_Do_connection_button_clicked();
+
+	void on_Do_open_button_clicked();
+
+	public slots:
 	void OnNewDataRead();
 	void OnConnectionStatusChanged(bool status);
+<<<<<<< HEAD
+=======
+	void OnPortStatusChanged(bool status);
+>>>>>>> interface
 	bool OnFileSendRequestReceived(int fileSize);
 
 private:

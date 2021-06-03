@@ -9,6 +9,10 @@
 #include <QFileDialog>
 #include <QString>
 #include <QTextEdit>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QDateTime>
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -18,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->setupUi(this);
 
 	this->link = new DataLink(this);
+<<<<<<< HEAD
 	this->receiver = new FileReceiver(this);
 	this->fileReceiveThread = new QThread();
 	this->fileSendThread = new QThread();
@@ -28,6 +33,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 DataLink* MainWindow::GetLinkLevelInstance() {
 	return this->link;
+=======
+    QStringList name_table;
+    //QTableWidget *tableWidget = new QTableWidget(this);
+    ui->System_messages_tableWidget->setRowCount(0);
+    ui->System_messages_tableWidget->setColumnCount(2);
+    name_table << "Событие" << "Дата";
+    ui->System_messages_tableWidget->setHorizontalHeaderLabels(name_table);
+>>>>>>> interface
 }
 
 
@@ -37,6 +50,22 @@ MainWindow::~MainWindow()
 	delete link;
 }
 
+void MainWindow:: slotAdd(QString a){
+    ui->System_messages_tableWidget->setRowCount(ui->System_messages_tableWidget->rowCount() + 1);
+    QTableWidgetItem *item = new QTableWidgetItem;
+    item = new QTableWidgetItem;
+    QTableWidgetItem* item1 = new QTableWidgetItem;
+    QDateTime cdt = QDateTime::currentDateTime();
+    item->setText(a);
+    item->setTextAlignment(Qt::AlignCenter);
+    item1->setText(cdt.toString("hh:mm:ss dd-M-yyyy"));
+    ui->System_messages_tableWidget->setItem(ui->System_messages_tableWidget->rowCount()-1, 0, item);
+    ui->System_messages_tableWidget->setItem(ui->System_messages_tableWidget->rowCount()-1, 1, item1);
+}
+
+void MainWindow:: RefreshTable(){
+
+}
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -93,8 +122,9 @@ void MainWindow::on_Send_file_button_clicked()
     }
 }
 
-void MainWindow::on_Do_connect_button_clicked()
+void MainWindow::OnOpenPortButtonClicked()
 {
+<<<<<<< HEAD
 	if (link->GetConnectionStatus() == false) {
 		link->SendHello();
 	} else {
@@ -112,8 +142,48 @@ void MainWindow::OnConnectionStatusChanged(bool status) {
 		ui->Connection_status_label->setText("Соединение не установлено");
 		ui->Connection_status_label->setStyleSheet("color: rgb(255, 0, 0)");
 		ui->Do_connect_button->setText("Установить соединение");
-	}
+=======
+	/*if (ui->Do_connect_button->text() == ("Открыть порт")) {
+        //НЕОБХОДИМЫЙ ФУНКЦИОНАЛ ДЛЯ ОТКРЫТИЯ ПОРТА
 
+
+        //link->SendHello();
+
+
+        //ЕСЛИ ПОРТ УСПЕШНО ОТКРЫТ
+        //ui->Do_connect_button->setText("Закрыть порт");
+        ui->Do_connect_button->setEnabled(0);
+        slotAdd("Порт открыт");
+	}*/
+}
+
+
+void MainWindow::OnPortStatusChanged(bool status) {
+	if (status == true) {
+		ui->Port_status_label->setText("Порт открыт");
+		ui->Port_status_label->setStyleSheet("color: rgb(0, 255, 0)");
+		ui->Do_open_button->setText("Закрыть порт");
+	} else {
+		ui->Port_status_label->setText("Порт закрыт");
+		ui->Port_status_label->setStyleSheet("color: rgb(255, 0, 0)");
+		ui->Do_open_button->setText("Открыть порт");
+>>>>>>> interface
+	}
+}
+
+
+void MainWindow::OnConnectionStatusChanged(bool status) {
+	if (status == true) {
+		qDebug() << "Открыли соединение";
+		ui->Connection_status_label->setText("Соединение установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(0, 255, 0)");
+		ui->Do_connection_button->setText("Разорвать соединение");
+	} else {
+		qDebug() << "Закрыли соединение";
+		ui->Connection_status_label->setText("Соединение не установлено");
+		ui->Connection_status_label->setStyleSheet("color: rgb(255, 0, 0)");
+		ui->Do_connection_button->setText("Установить соединение");
+	}
 }
 
 void MainWindow::on_action_4_triggered()
@@ -143,6 +213,7 @@ void MainWindow::on_action_5_triggered()
     winparam.exec();
 }
 
+
 void MainWindow::on_action_triggered()
 {
     QString str = QFileDialog::getOpenFileName(0, "Выберите файл", "", "*.txt");
@@ -150,33 +221,79 @@ void MainWindow::on_action_triggered()
     ui->File_name_choosed->editingFinished();
 }
 
+
 void MainWindow::on_action_3_triggered()
 {
     MainWindow winparam;
     winparam.show();
 }
 
+
 void MainWindow::OnPortChanged(QSerialPortInfo portInfo, int baudRate) {
 	this->link->SetPort(portInfo, baudRate);
 
 }
 
+
 void MainWindow::OnNewDataRead() {
 	//qDebug() << "Получены данные: " << this->port->ReceiveData(3);
 }
 
+<<<<<<< HEAD
 bool MainWindow::OnFileSendRequestReceived(int fileSize) {
 	Recieve_file_mode *winparam = new Recieve_file_mode(this->link, this);
 	winparam->setModal(false);
 	winparam->show();
 
+=======
+
+void MainWindow::on_File_name_choosed_editingFinished()
+{
+
+}
+
+
+void MainWindow::on_Do_connection_button_clicked()
+{
+	if (link->GetConnectionStatus() == false) {
+		link->SendHello();
+	} else {
+		link->SendGoodbye();
+	}
+}
+
+
+bool MainWindow::OnFileSendRequestReceived(int fileSize) {
+	QMessageBox::StandardButton reply = QMessageBox::question(this, "Принятие файла", "Получен запрос на отправку файла! Принять файл?", QMessageBox::Yes | QMessageBox::No);
+	if (reply == QMessageBox::Yes){
+		Recieve_file_mode *winparam = new Recieve_file_mode(this->link, this);
+		winparam->setModal(false);
+		winparam->show();
+		return true;
+	} else {
+		return false;
+	}
+>>>>>>> interface
 	//connect(this, StartExchange());
 	//fileReceiveThread->start();
 	//receiver->OnReceive(this);
 }
 
 
+<<<<<<< HEAD
 /*void FileExchangeProcess::OnExchange(MainWindow *mw) {
 	Recieve_file_mode *window = new Recieve_file_mode(mw->GetLinkLevelInstance(), mw);
 	window->show();
 }*/
+=======
+
+
+void MainWindow::on_Do_open_button_clicked()
+{
+	if (link->GetPortStatus() == false) {
+		link->OpenPort();
+	} else {
+		link->ClosePort();
+	}
+}
+>>>>>>> interface

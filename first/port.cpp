@@ -79,10 +79,13 @@ int Port::Open(QIODevice::OpenMode openModeValue) {
 				break;
 			}
 		}
+
+		box->exec();
 	}
-	box->exec();
 
 	delete box;
+	this->port->readAll();
+	ClearBuffers();
 	return port->error();
 }
 
@@ -91,6 +94,7 @@ void Port::SendData(QByteArray data) {
 	// Занести отправляемую информацию в буфер, чтобы повторить отправку при возникновении ошибок
 	this->sentFrameBuffer = new QByteArray(data);
 
+<<<<<<< HEAD
 	/*qDebug() << "Массив до генерации ошибок: ";
 	for (auto byte : *data) {
 		qDebug() << byte;
@@ -101,6 +105,11 @@ void Port::SendData(QByteArray data) {
 		qDebug() << byte;
 	}*/
 
+=======
+	if (data.length() == 4) { // кодируем только информационные кадры
+		GenerateMessageError(data, 1e-05f);
+	}
+>>>>>>> interface
 
 	port->write(data);
 	bool result = true;
@@ -180,8 +189,10 @@ int Port::Close() {
 				break;
 			}
 		}
+
 		box->exec();
 	}
+
 	delete box;
 	return port->error();
 }
