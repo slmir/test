@@ -15,10 +15,17 @@ DataLink::DataLink(MainWindow *mw) {
 	this->port = nullptr;
 	this->isConnected = false;
 	this->NAK_counter = 0;
+<<<<<<< HEAD
 	connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
 	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
 <<<<<<< HEAD
 =======
+	connect(this, &DataLink::PortStatusChanged, mw, &MainWindow::OnPortStatusChanged);
+>>>>>>> interface
+=======
+	// Связываем с прикладным уровнем (с физическим будет связан при задании порта)
+	//connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
+	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
 	connect(this, &DataLink::PortStatusChanged, mw, &MainWindow::OnPortStatusChanged);
 >>>>>>> interface
 	connect(this, &DataLink::FileSendRequested, mw, &MainWindow::OnFileSendRequestReceived);
@@ -89,12 +96,16 @@ bool DataLink::SendHello() {
 
 	if (port->GetOpenStatus() != true) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		OpenPort();
 =======
+=======
+>>>>>>> interface
 		//OpenPort();
 		return false;
 >>>>>>> interface
 	} else {
+<<<<<<< HEAD
 		qDebug() << "Открываем соединение";
 		SendControlFrame('U');
 		return true;
@@ -142,15 +153,55 @@ bool DataLink::SendGoodbye() {
 		msg.setText("ОШИБКА! Порт уже был закрыт");
 		msg.exec();
 		return false;
+=======
+		port->ClearBuffers();
+		qDebug() << "Открываем соединение";
+		SendControlFrame('U');
+		return true;
+>>>>>>> interface
 	}
+}
 
+<<<<<<< HEAD
 	return false;
 
+=======
+
+bool DataLink::GetConnectionStatus() {
+	return this->isConnected;
+}
+
+
+bool DataLink::GetPortStatus() {
+	if (this->port == nullptr) return false;
+
+	return this->port->GetOpenStatus();
+}
+
+
+bool DataLink::SendGoodbye() {
+	port->ClearBuffers();
+	if (port->GetOpenStatus() == true) {
+		qDebug() << "Закрываем соединение";
+		SendControlFrame('D');
+		return true;
+	} else {
+		QMessageBox msg;
+		msg.setText("ОШИБКА! Порт уже был закрыт");
+		msg.exec();
+		return false;
+	}
+>>>>>>> interface
 }
 
 
 void DataLink::SendFile(QString path) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	port->ClearBuffers();
+
+>>>>>>> interface
 =======
 	port->ClearBuffers();
 
@@ -477,8 +528,13 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 		emit NewInfoFrameReceived(static_cast<float>(bitsRead) / (bytesToRead * 8));
 		if (this->bitsRead >= this->bytesToRead * 8) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			ConvertReceivedToFile("D:/read.txt");
 			port->ClearBuffers();
+=======
+			//ConvertReceivedToFile("D:/read.txt");
+			//port->ClearBuffers();
+>>>>>>> interface
 =======
 			//ConvertReceivedToFile("D:/read.txt");
 			//port->ClearBuffers();
@@ -494,8 +550,12 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 		this->bytesToRead = size;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 		if (emit FileSendRequested(size) == false) {
+=======
+		if (mw->OnFileSendRequestReceived(size) == false) {
+>>>>>>> interface
 =======
 		if (mw->OnFileSendRequestReceived(size) == false) {
 >>>>>>> interface
@@ -505,7 +565,12 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 		} else {
 			qDebug() << "True";
 <<<<<<< HEAD
+<<<<<<< HEAD
 			SendControlFrame('A');
+=======
+			// Не отправляем пакет сразу, т. к. нужно дождаться нажатия кнопки в другом окне
+			//SendControlFrame('A');
+>>>>>>> interface
 =======
 			// Не отправляем пакет сразу, т. к. нужно дождаться нажатия кнопки в другом окне
 			//SendControlFrame('A');
@@ -519,12 +584,21 @@ void DataLink::OnReceiveAccepted() {
 	SendControlFrame('A');
 }
 
+<<<<<<< HEAD
 
 void DataLink::OnReceiveAborted() {
 	port->ClearBuffers();
 	SendControlFrame('N');
 }
 
+=======
+
+void DataLink::OnReceiveAborted() {
+	port->ClearBuffers();
+	SendControlFrame('N');
+}
+
+>>>>>>> interface
 
 void DataLink::OnSaveFileButtonClicked(QString path) {
 	ConvertReceivedToFile(path);
@@ -595,7 +669,10 @@ bool DataLink::UnwrapInfoFrame(QByteArray frame)
 	// При наличии ошибки в буфер ничего не пишем
 	if (bits == nullptr) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// ДОБАВИТЬ СИГНАЛ ОБ ОШИБКЕ ДЛЯ ПОВТОРНОЙ ПЕРЕДАЧИ
+=======
+>>>>>>> interface
 =======
 >>>>>>> interface
 		return false;
@@ -628,7 +705,11 @@ QBitArray* DataLink::HammingDecode(QBitArray code)
 		qDebug() << "Кадр декодирован, ошибок нет. ";
 		// ошибки нет, пакет дошёл
 <<<<<<< HEAD
+<<<<<<< HEAD
 		WrapControlFrame('A');
+=======
+		//SendControlFrame('A');
+>>>>>>> interface
 =======
 		//SendControlFrame('A');
 >>>>>>> interface

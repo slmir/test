@@ -1,10 +1,8 @@
 #ifndef DATA_LINK_H
 #define DATA_LINK_H
 #include <QFile>
-#include <QDataStream>
 #include <QBitArray>
 #include <QObject>
-#include <QSaveFile>
 #include <QtSerialPort/QSerialPortInfo>
 #include "port.h"
 
@@ -17,6 +15,7 @@ class DataLink : public QObject {
 	Q_OBJECT
 
 	public:
+		// Физический уровень
 		Port* port;
 		// Окошко передаётся для связи сигналов и слотов
 		DataLink(MainWindow* mw);
@@ -29,8 +28,9 @@ class DataLink : public QObject {
 		int ClosePort();
 		// Оболочка для передачи данных
 		void SendFile(QString path);
-		// Проверка установки соединения (пока что всегда возвращает false, потому что я уведомление об установке перенёс на слот-сигнал)
+		// Инициация процедуры установки соединения (UPLINK)
 		bool SendHello();
+<<<<<<< HEAD
 		//
 		bool GetConnectionStatus();
 		//
@@ -42,18 +42,29 @@ class DataLink : public QObject {
 		bool SendGoodbye();
 
 	private:
+=======
+		// Получение статуса соединения (установлено - true, разорвано - false)
+		bool GetConnectionStatus();
+		// Получение статуса порта (внутри только вызов соотв-ей функции физ. уровня)
+		bool GetPortStatus();
+		// Инициация процедуры разрыва соединения (DOWNLINK)
+		bool SendGoodbye();
+
+	private:
+		// Ссылка на основное окно (связь с прикладным уровнем)
+>>>>>>> interface
 		MainWindow* mw;
 		// Флаг установки соединения
 		bool isConnected;
-		// Число прочитанных бит
+		// Число прочитанных при обмене файлом бит
 		int bitsRead;
-		// Размер передачи в байтах
+		// Размер передаваемого файла в байтах
 		int bytesToRead;
 		// Сюды запихиваем раскодированные данные
 		QList<bool> *receivedBits;
 		// Сюды отправляется последний принятый кадр (от слота OnNewDataToRead)
 		QByteArray *receivedData;
-		// Счётчик ошибок (пока не работал с ошибками; просто поставил вероятность ошибки 1е-10 у себя)
+		// Счётчик ошибок
 		int NAK_counter;
 
 		// QByteArray -> QBitArray
@@ -76,34 +87,50 @@ class DataLink : public QObject {
 		void SendInfoFrames(QByteArray bytes, int size);
 		bool SendInfoFrame(QByteArray frame);
 
-		// Вычленение инфы из кадров
+		// Вычленение информации из кадров
 		char UnwrapControlFrame(QByteArray controlFrame);
 		int UnwrapSizeFrame(QByteArray sizeFrame);
 		bool UnwrapInfoFrame(QByteArray frame);
 
-		// Формирование двоичного файла из полученных данных с указанием пути назначения (пока что там заглушка на D:/read.txt)
+		// Формирование двоичного файла из полученных данных с указанием пути назначения
 		void ConvertReceivedToFile(QString path);
 
-		// Дядя Хэм ёпты
+		// Дядя Хэм
 		QByteArray HammingCode(QBitArray arr);
 		QBitArray* HammingDecode(QBitArray code);
 
-		// Блокировка программы до получения ответного кадра (ACK или об ошибке)
+		// Блокировка программы до получения ответного кадра (ACK/NAK).
+		// Используется в случае, когда после получения ответа нужно продолжить работу в методе
+		// (изначально управление переходит на слот OnNewDataToRead, после чего идёт возврат на точку)
 		void WaitForAnswer();
 
 	public slots:
 		// Обработчик приходящих данных
 		void OnNewDataToRead(QByteArray* data);
+<<<<<<< HEAD
+=======
+		// Слоты для реакции на действия пользователя при начале процедуры обмена файла
+>>>>>>> interface
 		void OnReceiveAccepted();
 		void OnReceiveAborted();
 		void OnSaveFileButtonClicked(QString path);
 
 	signals:
+<<<<<<< HEAD
 		void NewInfoFrameReceived(float currentProgress);
 		void ConnectionStatusChanged(bool status);
 <<<<<<< HEAD
 =======
 		void PortStatusChanged(bool status);
+>>>>>>> interface
+=======
+		// Сигнал получения нового файла (используется для заполнения прогрессбара)
+		void NewInfoFrameReceived(float currentProgress);
+		// Сигнал смены статуса соединения (для уведомления пользователя в основном окне)
+		void ConnectionStatusChanged(bool status);
+		// Сигнал смены статуса порта (для уведомления пользователя в основном окне)
+		void PortStatusChanged(bool status);
+		// Сигнал получения запроса на передачу файла (при получении первичного кадра с размером)
 >>>>>>> interface
 		bool FileSendRequested(int fileSize);
 };

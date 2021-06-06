@@ -73,10 +73,17 @@ private slots:
 	void on_Do_open_button_clicked();
 
 	public slots:
+<<<<<<< HEAD
 	void OnNewDataRead();
 	void OnConnectionStatusChanged(bool status);
 <<<<<<< HEAD
 =======
+	void OnPortStatusChanged(bool status);
+>>>>>>> interface
+=======
+	// Слоты для взаимодействия с канальным уровнем
+	//void OnNewDataRead();
+	void OnConnectionStatusChanged(bool status);
 	void OnPortStatusChanged(bool status);
 >>>>>>> interface
 	bool OnFileSendRequestReceived(int fileSize);

@@ -17,6 +17,10 @@
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+#include <QtWidgets/QVBoxLayout>
+>>>>>>> interface
 =======
 #include <QtWidgets/QVBoxLayout>
 >>>>>>> interface
