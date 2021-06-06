@@ -15,7 +15,8 @@ DataLink::DataLink(MainWindow *mw) {
 	this->port = nullptr;
 	this->isConnected = false;
 	this->NAK_counter = 0;
-	connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
+	// Связываем с прикладным уровнем (с физическим будет связан при задании порта)
+	//connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
 	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
 	connect(this, &DataLink::PortStatusChanged, mw, &MainWindow::OnPortStatusChanged);
 	connect(this, &DataLink::FileSendRequested, mw, &MainWindow::OnFileSendRequestReceived);
@@ -75,8 +76,6 @@ int DataLink::ClosePort() {
 
 
 bool DataLink::SendHello() {
-	port->ClearBuffers();
-
 	if (this->port == nullptr) {
 		QMessageBox msg;
 		msg.setText("ОШИБКА! Не задан порт");
@@ -88,6 +87,7 @@ bool DataLink::SendHello() {
 		//OpenPort();
 		return false;
 	} else {
+		port->ClearBuffers();
 		qDebug() << "Открываем соединение";
 		SendControlFrame('U');
 		return true;
@@ -109,7 +109,6 @@ bool DataLink::GetPortStatus() {
 
 bool DataLink::SendGoodbye() {
 	port->ClearBuffers();
-
 	if (port->GetOpenStatus() == true) {
 		qDebug() << "Закрываем соединение";
 		SendControlFrame('D');

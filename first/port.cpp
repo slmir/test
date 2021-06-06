@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <QtSerialPort/QSerialPortInfo>
 #include "data_link.h"
-#include <QTimer>
 
 class DataLink;
 class QSerialPortInfo;
@@ -24,7 +23,6 @@ Port::Port(QSerialPortInfo portInfo, int baudRate, DataLink* link): Port() {
 	// Соединяем физ. уровень с канальным
 	connect(this, &Port::NewDataToRead, link, &DataLink::OnNewDataToRead);
 	port->setBaudRate(baudRate);
-	// ВНЕСТИ ЯВНОЕ УКАЗАНИЕ ОСТАЛЬНЫХ НАСТРОЕК
 	qDebug() << QString("Новый порт! %1, %2 бод\n").arg(portInfo.portName(), QString::number(baudRate));
 }
 
@@ -131,10 +129,8 @@ void Port::GenerateMessageError(QByteArray& data, float errorProbability) {
 	for (int i = 0; i < data.length(); i = i + 1) {
 		for (int bitNum = 0; bitNum < 8; bitNum = bitNum + 1) {
 			if ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) < errorProbability) {
-				//qDebug() << data->at(i) << QString::number((int) data->at(i));
 				char replaced = (data.at(i) ^ (1 << bitNum));
 				data.replace(i, 1, &replaced, 1);
-				//qDebug() << replaced << QString::number((int) replaced) << QString(" (bit changed: %1)").arg(QString::number(bitNum));
 			}
 		}
 	}

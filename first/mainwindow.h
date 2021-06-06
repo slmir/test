@@ -68,7 +68,8 @@ private slots:
 	void on_Do_open_button_clicked();
 
 	public slots:
-	void OnNewDataRead();
+	// Слоты для взаимодействия с канальным уровнем
+	//void OnNewDataRead();
 	void OnConnectionStatusChanged(bool status);
 	void OnPortStatusChanged(bool status);
 	bool OnFileSendRequestReceived(int fileSize);

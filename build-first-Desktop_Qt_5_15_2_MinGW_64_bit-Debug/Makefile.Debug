@@ -319,13 +319,9 @@ debug/moc_data_link.cpp: ../first/data_link.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qobject_impl.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qdatastream.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
@@ -461,6 +457,18 @@ debug/moc_mainwindow.cpp: ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		../first/about_1.h \
 		../first/pram_connection.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QListView \
@@ -479,22 +487,7 @@ debug/moc_mainwindow.cpp: ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
-		../first/data_link.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		../first/port.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QTableWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtablewidget.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtableview.h \
@@ -630,6 +623,18 @@ debug/moc_parameters.cpp: ../first/parameters.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		../first/about_1.h \
 		../first/pram_connection.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QListView \
@@ -648,22 +653,7 @@ debug/moc_parameters.cpp: ../first/parameters.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
-		../first/data_link.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		../first/port.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QTableWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtablewidget.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtableview.h \
@@ -754,8 +744,6 @@ debug/moc_port.cpp: ../first/port.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/bin/moc.exe
 	C:\Qt\5.15\5.15.2\mingw81_64\bin\moc.exe $(DEFINES) --include D:/Qt/Projects/test/test/build-first-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/5.15/5.15.2/mingw81_64/mkspecs/win32-g++ -ID:/Qt/Projects/test/test/first -IC:/Qt/5.15/5.15.2/mingw81_64/include -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtGui -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtANGLE -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtCore -I. -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed -IC:/Qt/5.15/Tools/mingw810_64/x86_64-w64-mingw32/include ..\first\port.h -o debug\moc_port.cpp
@@ -1000,6 +988,18 @@ debug/moc_recieve_file_mode.cpp: ../first/recieve_file_mode.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/bin/moc.exe
 	C:\Qt\5.15\5.15.2\mingw81_64\bin\moc.exe $(DEFINES) --include D:/Qt/Projects/test/test/build-first-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/5.15/5.15.2/mingw81_64/mkspecs/win32-g++ -ID:/Qt/Projects/test/test/first -IC:/Qt/5.15/5.15.2/mingw81_64/include -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtGui -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtANGLE -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort -IC:/Qt/5.15/5.15.2/mingw81_64/include/QtCore -I. -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include -IC:/Qt/5.15/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed -IC:/Qt/5.15/Tools/mingw810_64/x86_64-w64-mingw32/include ..\first\recieve_file_mode.h -o debug\moc_recieve_file_mode.cpp
@@ -1228,13 +1228,9 @@ debug/data_link.o: ../first/data_link.cpp ../first/data_link.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qobject_impl.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qdatastream.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
@@ -1253,6 +1249,10 @@ debug/data_link.o: ../first/data_link.cpp ../first/data_link.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsharedpointer_impl.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qdatastream.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1454,6 +1454,18 @@ debug/main.o: ../first/main.cpp ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		../first/about_1.h \
 		../first/pram_connection.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QListView \
@@ -1472,22 +1484,7 @@ debug/main.o: ../first/main.cpp ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
-		../first/data_link.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		../first/port.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QTableWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtablewidget.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtableview.h \
@@ -1629,6 +1626,18 @@ debug/mainwindow.o: ../first/mainwindow.cpp ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		../first/about_1.h \
 		../first/pram_connection.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QListView \
@@ -1647,22 +1656,7 @@ debug/mainwindow.o: ../first/mainwindow.cpp ../first/mainwindow.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
-		../first/data_link.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		../first/port.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QTableWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtablewidget.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtableview.h \
@@ -1835,6 +1829,18 @@ debug/parameters.o: ../first/parameters.cpp ../first/parameters.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		../first/about_1.h \
 		../first/pram_connection.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QListView \
@@ -1853,22 +1859,7 @@ debug/parameters.o: ../first/parameters.cpp ../first/parameters.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
-		../first/data_link.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		../first/port.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QTableWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtablewidget.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtableview.h \
@@ -1992,8 +1983,6 @@ debug/port.o: ../first/port.cpp ../first/port.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2039,13 +2028,9 @@ debug/port.o: ../first/port.cpp ../first/port.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
 		../first/data_link.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDataStream \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QSaveFile \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qsavefile.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QTimer \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qtimer.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbasictimer.h
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\port.o ..\first\port.cpp
 
 debug/pram_connection.o: ../first/pram_connection.cpp ../first/pram_connection.h \
@@ -2323,6 +2308,18 @@ debug/recieve_file_mode.o: ../first/recieve_file_mode.cpp ../first/recieve_file_
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QProgressBar \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qprogressbar.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qframe.h \
+		../first/data_link.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QBitArray \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qbitarray.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QObject \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPortInfo \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportinfo.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialportglobal.h \
+		../first/port.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtSerialPort/qserialport.h \
 		ui_recieve_file_mode.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QVariant \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QApplication \
@@ -2346,10 +2343,14 @@ debug/recieve_file_mode.o: ../first/recieve_file_mode.cpp ../first/recieve_file_
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtGui/qicon.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QVBoxLayout \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qlayout.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QWidget \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QDebug \
-		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/QFile \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/QFileDialog \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/5.15/5.15.2/mingw81_64/include/QtCore/qdir.h \

@@ -49,6 +49,7 @@ private:
 
 
 signals:
+	// Сигналы, отправляемые в канальный уровень
 	void ReceiveAccepted();
 	void ReceiveAborted();
 	void SaveFileButtonClicked(QString path);

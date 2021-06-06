@@ -3,7 +3,6 @@
 
 #include <QDebug>
 #include <QtSerialPort/QSerialPort>
-#include <QBitArray>
 //#include "data_link.h"
 
 class DataLink;
@@ -24,10 +23,17 @@ class Port : public QObject {
 		void ResendLastDataPiece();
 		// Закрытие порта с возвращением кода ошибки (0 - её отсутствие)
 		int Close();
+
+		// Получение имени порта (исключительно для прикладного уровня)
 		QString GetPortName();
+		// Получение статуса порта (открыт - true, закрыт - false)
 		bool GetOpenStatus();
+		// Получение данных из буфера
 		QByteArray* GetLastReceivedFrame();
 		QByteArray* GetLastSentFrame();
+		// Очистка буфера
+		// Пригождается для того, чтобы подчищать оставшиеся хвосты при каких-либо внештатных взаимодействиях
+		// (например, нажать на кнопку установки соединения не 1 раз, а 10)
 		void ClearBuffers();
 
 		virtual ~Port();
@@ -37,7 +43,7 @@ class Port : public QObject {
 		QByteArray* sentFrameBuffer;
 		// И также последний принятый (для корректных обменов на канальном уровне)
 		QByteArray* receivedFrameBuffer;
-
+		//
 		bool isOpened;
 
 		void GenerateMessageError(QByteArray& data, float errorPercent);

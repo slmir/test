@@ -202,9 +202,9 @@ void MainWindow::OnPortChanged(QSerialPortInfo portInfo, int baudRate) {
 }
 
 
-void MainWindow::OnNewDataRead() {
+/*void MainWindow::OnNewDataRead() {
 	//qDebug() << "Получены данные: " << this->port->ReceiveData(3);
-}
+}*/
 
 
 void MainWindow::on_File_name_choosed_editingFinished()

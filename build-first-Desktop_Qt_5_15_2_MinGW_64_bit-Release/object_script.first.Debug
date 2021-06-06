@@ -8,7 +8,9 @@ debug/pram_connection.o
 debug/recieve_file_mode.o
 debug/qrc_Resource.o
 debug/moc_about_1.o
+debug/moc_data_link.o
 debug/moc_mainwindow.o
 debug/moc_parameters.o
+debug/moc_port.o
 debug/moc_pram_connection.o
 debug/moc_recieve_file_mode.o
