@@ -21,6 +21,7 @@ Recieve_file_mode::Recieve_file_mode(QWidget *parent) :
 
 Recieve_file_mode::Recieve_file_mode(DataLink *link, QWidget *parent) : Recieve_file_mode(parent) {
 	connect(link, &DataLink::NewInfoFrameReceived, this, &Recieve_file_mode::OnNewFrameReceived);
+	connect(link, &DataLink::ExchangeAborted, this, &Recieve_file_mode::OnExchangeAborted);
 	connect(this, &Recieve_file_mode::ReceiveAccepted, link, &DataLink::OnReceiveAccepted);
 	connect(this, &Recieve_file_mode::ReceiveAborted, link, &DataLink::OnReceiveAborted);
 	connect(this, &Recieve_file_mode::SaveFileButtonClicked, link, &DataLink::OnSaveFileButtonClicked);
@@ -98,7 +99,7 @@ void Recieve_file_mode::on_Save_file_button_clicked()
 {
     //Сохранение файла с введенным именем в выбранной дериктории (создается пустая болванка, в которую наверное легче вписывать данные)
 
-    QString fileName = QFileDialog::getSaveFileName(this, ui->File_directory_choosed->text(), ui->File_name_input->text(), "*.txt");
+	QString fileName = QFileDialog::getSaveFileName(this, "Сохранить файл", ui->File_directory_choosed->text() + '/' + ui->File_name_input->text(), "*.txt");
 
 	emit SaveFileButtonClicked(fileName);
 
@@ -143,5 +144,12 @@ void Recieve_file_mode::InitiateExchange() {
 
 void Recieve_file_mode::OnNewFrameReceived(float currentProgress) {
 	ui->Recieving_progressBar->setValue(ceil(currentProgress * 100));
+}
+
+
+void Recieve_file_mode::OnExchangeAborted() {
+	QMessageBox::StandardButton msg = QMessageBox::critical(this, "Критическая ошибка", "Достигнут предел выявленных ошибок при передаче! Передача файла будет прервана");
+
+	this->close();
 }
 

@@ -39,6 +39,8 @@ private slots:
 
 	void OnNewFrameReceived(float currentProgress);
 
+	void OnExchangeAborted();
+
 private:
     Ui::Recieve_file_mode *ui;
     QProgressBar *ProgressIndicator;

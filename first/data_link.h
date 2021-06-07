@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QBitArray>
 #include <QObject>
+#include <QTableWidget>
 #include <QtSerialPort/QSerialPortInfo>
 #include "port.h"
 
@@ -18,7 +19,7 @@ class DataLink : public QObject {
 		// Физический уровень
 		Port* port;
 		// Окошко передаётся для связи сигналов и слотов
-		DataLink(MainWindow* mw);
+		DataLink(MainWindow* mw, QTableWidget* table);
 
 		// Задание рабочего порта (отправка или приём - не важно)
 		void SetPort(QSerialPortInfo portInfo, int baudRate);
@@ -38,6 +39,8 @@ class DataLink : public QObject {
 		bool SendGoodbye();
 
 	private:
+		// Ссылка на окно с отладочными сообщениями
+		QTableWidget* debugTable;
 		// Ссылка на основное окно (связь с прикладным уровнем)
 		MainWindow* mw;
 		// Флаг установки соединения
@@ -90,6 +93,9 @@ class DataLink : public QObject {
 		// (изначально управление переходит на слот OnNewDataToRead, после чего идёт возврат на точку)
 		void WaitForAnswer();
 
+		// Внесение нового отладочного сообщения
+		void InsertNewDebugMessage(QString message);
+
 	public slots:
 		// Обработчик приходящих данных
 		void OnNewDataToRead(QByteArray* data);
@@ -107,6 +113,8 @@ class DataLink : public QObject {
 		void PortStatusChanged(bool status);
 		// Сигнал получения запроса на передачу файла (при получении первичного кадра с размером)
 		bool FileSendRequested(int fileSize);
+		// Прерываем передачу файла при возникновении слишком большого числа ошибок
+		void ExchangeAborted();
 };
 
 #endif // DATA_LINK_H

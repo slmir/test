@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Нажми</string>
+    <string>Начать передачу</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="Save_file_gropubox">

@@ -20,14 +20,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-
-	this->link = new DataLink(this);
+	this->link = new DataLink(this, ui->System_messages_tableWidget);
     QStringList name_table;
     //QTableWidget *tableWidget = new QTableWidget(this);
-    ui->System_messages_tableWidget->setRowCount(0);
+	ui->System_messages_tableWidget->setRowCount(0);
     ui->System_messages_tableWidget->setColumnCount(2);
-    name_table << "Событие" << "Дата";
+	ui->System_messages_tableWidget->insertRow(ui->System_messages_tableWidget->rowCount());
+	name_table << "Системное время" << "Событие";
     ui->System_messages_tableWidget->setHorizontalHeaderLabels(name_table);
+	// Подгоняю по ширине
+	ui->System_messages_tableWidget->horizontalHeader()->resizeSection(0, 0.25f * ui->System_messages_tableWidget->size().width());
+	ui->System_messages_tableWidget->horizontalHeader()->resizeSection(1, 0.71f * ui->System_messages_tableWidget->size().width());
 }
 
 

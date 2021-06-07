@@ -93,7 +93,7 @@ void Port::SendData(QByteArray data) {
 	this->sentFrameBuffer = new QByteArray(data);
 
 	if (data.length() == 4) { // кодируем только информационные кадры
-		GenerateMessageError(data, 1e-05f);
+		GenerateMessageError(data, 1e-03f);
 	}
 
 	port->write(data);
@@ -113,6 +113,8 @@ void Port::SendData(QByteArray data) {
 
 
 void Port::ResendLastDataPiece() {
+	if (port == nullptr || isOpened == false) return;
+
 	port->write(*(this->sentFrameBuffer));
 
 	if (port->error() == QSerialPort::WriteError) {
@@ -156,6 +158,7 @@ void Port::OnDataReceived() {
 
 int Port::Close() {
 	QMessageBox* box;
+	port->readAll();
 	port->close();
 	if (port->error() == 0) {
 		box = new QMessageBox(QMessageBox::Icon::Information, QString("Уведомление"), QString("Порт %1 успешно закрыт!").arg(port->portName()));

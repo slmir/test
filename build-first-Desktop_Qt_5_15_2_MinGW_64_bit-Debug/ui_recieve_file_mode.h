@@ -114,7 +114,7 @@ public:
     void retranslateUi(QDialog *Recieve_file_mode)
     {
         Recieve_file_mode->setWindowTitle(QCoreApplication::translate("Recieve_file_mode", "\320\240\320\265\320\266\320\270\320\274 \320\277\320\276\320\273\321\203\321\207\320\265\320\275\320\270\321\217", nullptr));
-        Soglsie_to_recieve_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\235\320\260\320\266\320\274\320\270", nullptr));
+        Soglsie_to_recieve_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\235\320\260\321\207\320\260\321\202\321\214 \320\277\320\265\321\200\320\265\320\264\320\260\321\207\321\203", nullptr));
         Save_file_gropubox->setTitle(QCoreApplication::translate("Recieve_file_mode", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", nullptr));
         Save_file_button->setText(QCoreApplication::translate("Recieve_file_mode", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", nullptr));
         Save_file_label->setText(QCoreApplication::translate("Recieve_file_mode", "\320\243\320\272\320\260\320\266\320\270\321\202\320\265 \320\277\321\203\321\202\321\214:", nullptr));

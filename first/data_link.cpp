@@ -1,4 +1,5 @@
 #include "data_link.h"
+#include <QTime>
 #include <QFile>
 #include <QDataStream>
 #include <QBitArray>
@@ -7,16 +8,17 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QEventLoop>
+#include <QtGlobal>
 #include "mainwindow.h"
 
 
-DataLink::DataLink(MainWindow *mw) {
+DataLink::DataLink(MainWindow *mw, QTableWidget* table) {
 	this->mw = mw;
+	this->debugTable = table;
 	this->port = nullptr;
 	this->isConnected = false;
 	this->NAK_counter = 0;
 	// Связываем с прикладным уровнем (с физическим будет связан при задании порта)
-	//connect(this, &DataLink::NewInfoFrameReceived, mw, &MainWindow::OnNewDataRead);
 	connect(this, &DataLink::ConnectionStatusChanged, mw, &MainWindow::OnConnectionStatusChanged);
 	connect(this, &DataLink::PortStatusChanged, mw, &MainWindow::OnPortStatusChanged);
 	connect(this, &DataLink::FileSendRequested, mw, &MainWindow::OnFileSendRequestReceived);
@@ -88,7 +90,6 @@ bool DataLink::SendHello() {
 		return false;
 	} else {
 		port->ClearBuffers();
-		qDebug() << "Открываем соединение";
 		SendControlFrame('U');
 		return true;
 	}
@@ -110,7 +111,6 @@ bool DataLink::GetPortStatus() {
 bool DataLink::SendGoodbye() {
 	port->ClearBuffers();
 	if (port->GetOpenStatus() == true) {
-		qDebug() << "Закрываем соединение";
 		SendControlFrame('D');
 		return true;
 	} else {
@@ -140,7 +140,7 @@ void DataLink::SendFile(QString path) {
 		msg.setText("ОШИБКА! Соединение не установлено");
 		msg.exec();
 	} else {
-		qDebug() << "Отправляем файл " + path;
+		InsertNewDebugMessage("Отправляем файл " + path);
 		QFile file(path);
 		QByteArray bytesToTransmit;
 		int fileSize;
@@ -150,7 +150,7 @@ void DataLink::SendFile(QString path) {
 			bytesToTransmit = file.readAll();
 			fileSize = bytesToTransmit.size();
 		} else {
-			qDebug() << "Ошибка при открытии файла для передачи";
+			InsertNewDebugMessage("Ошибка при открытии файла для передачи");
 			return;
 		}
 
@@ -161,9 +161,9 @@ void DataLink::SendFile(QString path) {
 
 		auto temp = UnwrapControlFrame(*this->receivedData);
 		if (temp == 'A') {
-			qDebug() << "В ответ на кадр с размером от приёмной стороны получен ACK.";
+			InsertNewDebugMessage("В ответ на кадр с размером получен ACK");
 		} else if (temp == 'N') {
-			qDebug() << "В ответ на кадр с размером от приёмной стороны получен NAK. Отмена передачи файла";
+			InsertNewDebugMessage("В ответ на кадр с размером получен NAK. Отмена передачи файла");
 			return;
 		}
 
@@ -198,26 +198,26 @@ QByteArray DataLink::WrapControlFrame(char type)
 	{
 		case 'A': {
 			pack[1] = 0x01;
-			qDebug() << "Отправлен ACK";
+			InsertNewDebugMessage("Отправлен ACK");
 			break;
 		}
 		case 'N': {
 			pack[1] = 0x02;
-			qDebug() << "Отправлен NAK";
+			InsertNewDebugMessage("Отправлен NAK");
 			break;
 		}
 		case 'U': {
 			pack[1] = 0x03;
-			qDebug() << "Отправлен UPLINK";
+			InsertNewDebugMessage("Отправлен UPLINK");
 			break;
 		}
 		case 'D': {
-			qDebug() << "Отправлен DOWNLINK";
+			InsertNewDebugMessage("Отправлен DOWNLINK");
 			pack[1] = 0x04;
 			break;
 		}
 		default: {
-			qDebug() << "Отправлен неизвестный служебный кадр";
+			InsertNewDebugMessage("Отправлен неизвестный служебный кадр");
 			pack[1] = 0x00;
 			break;
 		}
@@ -235,7 +235,7 @@ void DataLink::SendSizeFrame(int size) {
 // он передаётся ПЕРВЫМ после установления соединения
 QByteArray DataLink::WrapSizeFrame(int size)
 {
-	qDebug() << QString("Отправляем кадр с размером файла (%1 байт)").arg(size);
+	InsertNewDebugMessage(QString("Отправляем кадр с размером файла (%1 байт)").arg(size));
 	QByteArray frame;
 	// ИЗМЕНИЛ, ПОСКОЛЬКУ ФАЙЛЫ МОГУТ ИМЕТЬ РАЗМЕР БОЛЬШЕ 255
 	frame.resize(6);
@@ -262,19 +262,31 @@ void DataLink::SendInfoFrames(QByteArray bytes, int size)
 	QBitArray a;
 	QByteArray coded;
 	QByteArray packed;
+	char received;
 	// сначала обработаем те части массива битов, которые разделились на 11
 	for (int i = 0; i < divSize; i = i + 1)
 	{
 		a = To11Bits(ba, i);
 		coded = HammingCode(a);
 		packed = WrapInfoFrame(coded);
-		port->SendData(packed);
-		// Проверяем полученный ответ
-		WaitForAnswer();
-		if (UnwrapControlFrame(*this->receivedData) == 'A') {
-			qDebug() << QString("В ответ на информационный кадр #%1 от приёмной стороны получен ACK...").arg(i);
-		} else {
-			qDebug() << QString("ОШИБКА! В ответ на информационный кадр #%1 от приёмной стороны получен не ACK...").arg(i);
+		received = 0;
+		// Повторяем до тех пор, пока не придёт подтверждение
+		while (received != 'A') {
+			InsertNewDebugMessage("Отправляем информационный кадр #" + QString::number(i));
+			port->SendData(packed);
+
+			WaitForAnswer();
+			received = UnwrapControlFrame(*this->receivedData);
+			if (received == 'N') {
+				if (NAK_counter < 3) {
+					InsertNewDebugMessage("Информационный кадр содержит ошибку, отправлен запрос повторной отправки! NAK_Counter = " + QString::number(NAK_counter));
+				} else {
+					InsertNewDebugMessage("Слишком много ошибок (NAK_counter >= 3)!");
+					SendGoodbye();
+					// Продолжать передачу смысла нет, выходим
+					return;
+				}
+			}
 		}
 	}
 
@@ -295,13 +307,22 @@ void DataLink::SendInfoFrames(QByteArray bytes, int size)
 
 		coded = HammingCode(a);
 		packed = WrapInfoFrame(coded);
-		port->SendData(packed);
 
-		WaitForAnswer();
-		if (UnwrapControlFrame(*this->receivedData) == 'A') {
-			qDebug() << QString("В ответ на хвостовой информационный кадр от приёмной стороны получен ACK...");
-		} else {
-			qDebug() << QString("ОШИБКА! В ответ на хвостовой информационный кадр от приёмной стороны получен не ACK...");
+		received = 0;
+		while (received != 'A') {
+			InsertNewDebugMessage("Отправляем информационный кадр (хвост)");
+			port->SendData(packed);
+
+			WaitForAnswer();
+			received = UnwrapControlFrame(*this->receivedData);
+			if (received == 'N') {
+				if (NAK_counter < 3) {
+					InsertNewDebugMessage("Информационный кадр содержит ошибку, отправлен запрос повторной отправки! NAK_Counter = " + QString::number(NAK_counter));
+				} else {
+					InsertNewDebugMessage("Слишком много ошибок (NAK_counter >= 3)!");
+					SendGoodbye();
+				}
+			}
 		}
 	}
 }
@@ -385,14 +406,11 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 			 lastSentFrameType = UnwrapControlFrame(*port->GetLastSentFrame()),
 			 lastReceivedFrameType = UnwrapControlFrame(*port->GetLastReceivedFrame());
 		if (frameType == 'A') { // При установке соединения или получении инфокадра
-			qDebug() << "Принят ACK";
+			InsertNewDebugMessage("Принят ACK");
+
 			if (lastSentFrameType == 'A' && (lastReceivedFrameType == 'U' || lastReceivedFrameType == 'D')) { // Обменялись UPLINK/DOWNLINK и ACK, соединение установлено
 				isConnected = !isConnected;
 				emit ConnectionStatusChanged(isConnected);
-
-				if (isConnected == false) { // Заодно закрываем порт для случая разрыва
-					//ClosePort();
-				}
 			} else if (lastSentFrameType == 'U') { // Обменялись UPLINK и получили ACK, осталось вернуть его
 				SendControlFrame('A');
 				isConnected = true;
@@ -404,19 +422,25 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 				//ClosePort();
 			} else if (lastSentFrameType == 0) { // Обменялись UPLINK, надо обменяться ACK
 				SendControlFrame('A');
+			} else if (lastSentFrameType == 'S') { // Получили разрешение в ответ на кадр размера
+				InsertNewDebugMessage("Получено разрешение на передачу файла");
 			}
-		} else if (frameType == 'N') { // При получении инфокадра с ошибкой
-			qDebug() << "Принят NAK";
+		} else if (frameType == 'N') { // При получении инфокадра с ошибкой или отмене передачи файла
+			InsertNewDebugMessage("Принят NAK");
+			NAK_counter += 1;
+
 			if (lastSentFrameType == 'S') {
-				qDebug() << "Передача файла отменена";
+				InsertNewDebugMessage("Отказано в передаче файла");
+				NAK_counter = 0;
 				port->ClearBuffers();
 			} else if (lastSentFrameType == -1) {
-				qDebug() << "Повторная передача последнего кадра";
-				port->ResendLastDataPiece();
+				InsertNewDebugMessage("Повторная передача последнего кадра");
+				// Сама передача будет в другом методе (SendInfoFrames)
 			}
 
 		} else if (frameType == 'U') { // При установке соединения
-			qDebug() << "Принят UPLINK";
+			InsertNewDebugMessage("Принят UPLINK");
+
 			if (lastSentFrameType == 'U') { // Уже обменялись UPLINK, пора переходить к ACK
 				SendControlFrame('A');
 			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его
@@ -425,45 +449,54 @@ void DataLink::OnNewDataToRead(QByteArray *data) {
 			}
 
 		} else if (frameType == 'D') { // При разрыве соединения
-			qDebug() << "Принят DOWNLINK";
-			if (lastSentFrameType == 'D') { // Уже обменялись UPLINK, пора переходить к ACK
+			InsertNewDebugMessage("Принят DOWNLINK");
+			// Если DOWNLINK пришёл по кнопке разрыва соединения, то сигнал просто проигнорируется
+			// Если DOWNLINK пришёл из-за ошибок передачи, то передача остановлена, а окно приёма закрыто
+			emit ExchangeAborted();
+
+			if (lastSentFrameType == 'D') { // Уже обменялись DOWNLINK, пора переходить к ACK
 				SendControlFrame('A');
-			} else { // UPLINK пока отправлен только в одну сторону, возвращаем его
+			} else { // DOWNLINK пока отправлен только в одну сторону, возвращаем его
 				SendControlFrame('D');
 			}
 		} else { // 404
-			qDebug() << "Принят неизвестный служебный кадр";
+			// Системное сообщение формируется внутри UnwrapControlFrame
 		}
 	} else if (receivedData->length() == 4) { // Информационные кадры
-		qDebug() << "Принят инфокадр" << receivedData->at(1) << receivedData->at(2);
+		InsertNewDebugMessage("Принят инфокадр");
+
 		if (UnwrapInfoFrame(*receivedData) == true) {
 			SendControlFrame('A');
 		} else {
-			SendControlFrame('N');
+			if (NAK_counter < 3) {
+				SendControlFrame('N');
+			} else {
+				SendGoodbye();
+			}
 			return;
 		}
 
 		this->bitsRead += 11;
-		emit NewInfoFrameReceived(static_cast<float>(bitsRead) / (bytesToRead * 8));
+		emit NewInfoFrameReceived(qBound(0.f, static_cast<float>(bitsRead) / (bytesToRead * 8), 1.f));
+		qDebug() << static_cast<float>(bitsRead) / (bytesToRead * 8);
 		if (this->bitsRead >= this->bytesToRead * 8) {
+			// УБРАЛ АВТОМАТИЧЕСКУЮ КОНВЕРТАЦИЮ ПОЛУЧЕННОГО В ФАЙЛ, ПОСКОЛЬКУ ЭТО ДЕЛАЕТСЯ ТЕПЕРЬ ПОСЛЕ НАЖАТИЯ КНОПКИ
 			//ConvertReceivedToFile("D:/read.txt");
 			//port->ClearBuffers();
 		}
 	} else { // Кадр размера
-		port->ClearBuffers();
+		InsertNewDebugMessage("Принят кадр размера");
 
-		qDebug() << "Принят кадр размера";
+		port->ClearBuffers();
 		int size = UnwrapSizeFrame(*receivedData);
 		this->receivedBits = new QList<bool>();
 		this->bitsRead = 0;
 		this->bytesToRead = size;
 
 		if (mw->OnFileSendRequestReceived(size) == false) {
-			qDebug() << "Передача файла отменена";
 			port->ClearBuffers();
 			SendControlFrame('N');
 		} else {
-			qDebug() << "True";
 			// Не отправляем пакет сразу, т. к. нужно дождаться нажатия кнопки в другом окне
 			//SendControlFrame('A');
 		}
@@ -492,8 +525,12 @@ void DataLink::OnSaveFileButtonClicked(QString path) {
 char DataLink::UnwrapControlFrame(QByteArray controlFrame)
 {
 	if (controlFrame == nullptr || controlFrame.length() == 0) return 0;
-	if (controlFrame.length() == 4) return -1;
-	if (controlFrame.length() == 6) return 'S';
+	if (controlFrame.length() == 4) {
+		return -1;
+	}
+	if (controlFrame.length() == 6) {
+		return 'S';
+	}
 
 	int code = controlFrame[1];
 	char frameType;
@@ -519,7 +556,7 @@ char DataLink::UnwrapControlFrame(QByteArray controlFrame)
 			break;
 		}
 	}
-	//qDebug() << QString("Распакованный служебный кадр: ") << frameType;
+
 	return frameType;
 }
 
@@ -527,9 +564,11 @@ char DataLink::UnwrapControlFrame(QByteArray controlFrame)
 int DataLink::UnwrapSizeFrame(QByteArray sizeFrame) {
 	int result = 0;
 	for (int i = 0; i < 4; i = i + 1) {
+		// Вдвигаем первый значащий байт кадра в левый октант и так далее
+		// Побитовое ИЛИ - чтобы все четыре по очереди вносимых байта подружились и составили БАААЛЬШОЕ число
 		result = result | (sizeFrame[i + 1] << i * 8);
 	}
-	qDebug() << "Приняли размер файла: " << result;
+	InsertNewDebugMessage("Приняли размер файла: " + QString::number(result));
 	return result;
 }
 
@@ -577,7 +616,7 @@ QBitArray* DataLink::HammingDecode(QBitArray code)
 
 	if (syndrome == 0)
 	{
-		qDebug() << "Кадр декодирован, ошибок нет. ";
+		InsertNewDebugMessage("Кадр декодирован, ошибок нет. ");
 		// ошибки нет, пакет дошёл
 		//SendControlFrame('A');
 		QBitArray *decoded = new QBitArray();
@@ -591,26 +630,15 @@ QBitArray* DataLink::HammingDecode(QBitArray code)
 		decoded->setBit(8, code[10]);
 		decoded->setBit(9, code[11]);
 		decoded->setBit(10, code[13]);
-
-		/*for (int i = 0; i < decoded->count(); i = i + 1) {
-			qDebug() << decoded->at(i);
-		}*/
 		return decoded;
 	} else {
-		qDebug() << "Кадр декодирован с оишбкой!!!";
-
-		// ошибка есть, отправляем квитанцию NAK
-		//SendControlFrame('N');
-		// увеличиваем глобальный счётчик NAK на 1
-		NAK_counter += 1;
+		/*NAK_counter += 1;
 		if (NAK_counter < 3) {
-			qDebug() << QString("При передаче данных возникли ошибки, отправлен запрос повторной отправки! NAK_Counter = %1").arg(NAK_counter);
+			InsertNewDebugMessage("Информационный кадр содержит ошибку, отправлен запрос повторной отправки! NAK_Counter = " + QString::number(NAK_counter));
 		} else {
-			qDebug() << QString("Слишком много ошибок, передача остановлена!");
-			// TERMINATE
-		}
-
-
+			InsertNewDebugMessage("Слишком много ошибок (NAK_counter >= 3)!");
+			emit ExchangeAborted();
+		}*/
 		return nullptr;
 	}
 }
@@ -625,16 +653,17 @@ void DataLink::ConvertReceivedToFile(QString path)
 	QByteArray byte;
 	for (int i=0;i<this->bytesToRead;i++)
 	{
-		 ba.clear();
-		 ba.resize(8);
-		 for (int j=0;j<8;j++)
-		 {
-			 ba[j] = this->receivedBits->at(i * 8 + j);
-			 //this->receivedBits->pop_front();
-		 }
-		 byte = ConvertBitArrToByteArr(ba);
-		 qDebug() << "Собрали байт " << byte.toStdString().c_str();
-		 receivedFile->append(byte);
+		ba.clear();
+		ba.resize(8);
+		for (int j=0;j<8;j++)
+		{
+			ba[j] = this->receivedBits->at(i * 8 + j);
+		}
+		byte = ConvertBitArrToByteArr(ba);
+		receivedFile->append(byte);
+
+		InsertNewDebugMessage(QString("Собрали байт " + byte));
+
 	}
 	QSaveFile file(path);
 	file.open(QIODevice::WriteOnly);
@@ -652,4 +681,20 @@ QByteArray DataLink::ConvertBitArrToByteArr(QBitArray bits)
 	for(int b=0; b<bits.count(); ++b)
 		bytes[b/8] = ( bytes.at(b/8) | ((bits[b]?1:0)<<(b%8)));
 	return bytes;
+}
+
+
+void DataLink::InsertNewDebugMessage(QString message) {
+	if (debugTable->rowCount() > 0) { // Изначально виджет создаётся с одной пустой строкой
+		this->debugTable->insertRow(debugTable->rowCount());
+	}
+
+	QTableWidgetItem *mes = new QTableWidgetItem(message),
+					 *systemTime = new QTableWidgetItem(QTime::currentTime().toString("hh:mm:ss.zzz"));
+
+	debugTable->setItem(debugTable->rowCount() - 1, 0, systemTime);
+	debugTable->setItem(debugTable->rowCount() - 1, 1, mes);
+
+	// Все равно оставил, так как иногда удобнее смотреть в IDE
+	qDebug() << message;
 }
