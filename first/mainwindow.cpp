@@ -106,10 +106,6 @@ void MainWindow::on_File_name_choosed_textChanged(const QString &arg1)
 void MainWindow::on_Send_file_button_clicked()
 {
 	link->SendFile(this->chosenPath);
-    if(ui->Connect_status_frame_label)
-    {
-
-    }
 }
 
 void MainWindow::OnOpenPortButtonClicked()

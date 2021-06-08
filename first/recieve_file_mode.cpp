@@ -87,7 +87,7 @@ void Recieve_file_mode::on_File_directory_choosed_textChanged(const QString &arg
     QDir dir(ui->File_directory_choosed->text());
     //такая директория существует
     if (dir.exists()) {
-        ui->Save_file_button->setEnabled(1);
+		//ui->Save_file_button->setEnabled(1);
 
     }
 
@@ -143,6 +143,10 @@ void Recieve_file_mode::InitiateExchange() {
 
 
 void Recieve_file_mode::OnNewFrameReceived(float currentProgress) {
+	if (currentProgress == 1.f) {
+		ui->Save_file_button->setEnabled(true);
+	}
+
 	ui->Recieving_progressBar->setValue(ceil(currentProgress * 100));
 }
 

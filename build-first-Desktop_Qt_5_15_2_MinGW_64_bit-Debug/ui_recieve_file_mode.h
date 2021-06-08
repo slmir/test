@@ -101,7 +101,9 @@ public:
         Recieving_progressBar = new QProgressBar(verticalLayoutWidget);
         Recieving_progressBar->setObjectName(QString::fromUtf8("Recieving_progressBar"));
         Recieving_progressBar->setEnabled(true);
+        Recieving_progressBar->setLayoutDirection(Qt::LeftToRight);
         Recieving_progressBar->setValue(0);
+        Recieving_progressBar->setTextVisible(true);
 
         verticalLayout->addWidget(Recieving_progressBar);
 

@@ -49,12 +49,19 @@ class DataLink : public QObject {
 		int bitsRead;
 		// Размер передаваемого файла в байтах
 		int bytesToRead;
+		// Сюды запихиваем сформированные для отправки кадры
+		QList<QByteArray> *infoFramesToSend;
 		// Сюды запихиваем раскодированные данные
 		QList<bool> *receivedBits;
 		// Сюды отправляется последний принятый кадр (от слота OnNewDataToRead)
 		QByteArray *receivedData;
 		// Счётчик ошибок
 		int NAK_counter;
+
+		// Превращение файла с последовательность кадров
+		QList<QByteArray>* FormInfoFrames(QByteArray source);
+		// Отправка следующего информационного кадра
+		void SendAnotherInfoFrame();
 
 		// QByteArray -> QBitArray
 		QBitArray ConvertByteArrToBitArr(QByteArray bytes);
@@ -73,8 +80,8 @@ class DataLink : public QObject {
 		// Обёртка над методами WRAP; результат упаковки сразу отправляет в порт
 		void SendControlFrame(char type);
 		void SendSizeFrame(int size);
-		void SendInfoFrames(QByteArray bytes, int size);
-		bool SendInfoFrame(QByteArray frame);
+		//void SendInfoFrames(QByteArray bytes, int size);
+		//bool SendInfoFrame(QByteArray frame);
 
 		// Вычленение информации из кадров
 		char UnwrapControlFrame(QByteArray controlFrame);

@@ -11,6 +11,7 @@ class Port : public QObject {
 	Q_OBJECT
 
 	public:
+		QSerialPort* port;
 
 		Port();
 		Port(QSerialPortInfo portInfo, int baudRate, DataLink* link);
@@ -38,7 +39,6 @@ class Port : public QObject {
 
 		virtual ~Port();
 	private:
-		QSerialPort* port;
 		// Запоминаем последний отправленный кадр (на случай ошибок)
 		QByteArray* sentFrameBuffer;
 		// И также последний принятый (для корректных обменов на канальном уровне)

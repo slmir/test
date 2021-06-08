@@ -17,13 +17,25 @@ Port::Port()
 
 Port::Port(QSerialPortInfo portInfo, int baudRate, DataLink* link): Port() {
 	this->port = new QSerialPort(portInfo);
+	if (baudRate == 0) {
+		port->setBaudRate(QSerialPort::Baud9600);
+	} else if (baudRate <= 1200) {
+		port->setBaudRate(QSerialPort::Baud1200);
+	} else if (baudRate >= 115200) {
+		port->setBaudRate(QSerialPort::Baud115200);
+	} else {
+		port->setBaudRate(baudRate);
+	}
+	port->setDataBits(QSerialPort::Data8);
+	port->setFlowControl(QSerialPort::NoFlowControl);
+	port->setParity(QSerialPort::NoParity);
+	port->setStopBits(QSerialPort::OneStop);
 
 	// Соединяем порт с данным классом
 	connect(port, &QSerialPort::readyRead, this, &Port::OnDataReceived);
 	// Соединяем физ. уровень с канальным
 	connect(this, &Port::NewDataToRead, link, &DataLink::OnNewDataToRead);
-	port->setBaudRate(baudRate);
-	qDebug() << QString("Новый порт! %1, %2 бод\n").arg(portInfo.portName(), QString::number(baudRate));
+	qDebug() << QString("Новый порт! %1, %2 бод\n").arg(port->portName(), QString::number(port->baudRate()));
 }
 
 
@@ -93,7 +105,7 @@ void Port::SendData(QByteArray data) {
 	this->sentFrameBuffer = new QByteArray(data);
 
 	if (data.length() == 4) { // кодируем только информационные кадры
-		GenerateMessageError(data, 1e-03f);
+		GenerateMessageError(data, 1e-08f);
 	}
 
 	port->write(data);
