@@ -2,6 +2,9 @@
 #define PRAM_CONNECTION_H
 
 #include <QDialog>
+#include <QListView>
+#include <QSerialPortInfo>
+#include <QVariant>
 
 namespace Ui {
 class Pram_connection;
@@ -15,8 +18,19 @@ public:
     explicit Pram_connection(QWidget *parent = nullptr);
     ~Pram_connection();
 
+private slots:
+    void on_OK_button_clicked();
+
+    void on_Back_button_clicked();
+
+signals:
+	void portChanged(QSerialPortInfo port, int baudRate);
+
+
 private:
     Ui::Pram_connection *ui;
+    QListView *listView; // указатель на список элементов
+	QList<QSerialPortInfo> ports; // список доступных портов
 };
 
 #endif // PRAM_CONNECTION_H

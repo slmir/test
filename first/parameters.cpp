@@ -4,11 +4,14 @@
 #include <QMessageBox>
 #include <QDebug>
 
+
 Parameters::Parameters(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Parameters)
 {
     ui->setupUi(this);
+
+
 }
 
 Parameters::~Parameters()

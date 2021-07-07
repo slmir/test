@@ -1,6 +1,6 @@
-QT       += core gui
+QT += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets serialport
 
 CONFIG += c++11
 
@@ -9,24 +9,30 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    about.cpp \
+    about_1.cpp \
+    data_link.cpp \
+    file_receiver.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
+    port.cpp \
     pram_connection.cpp \
     recieve_file_mode.cpp
 
 HEADERS += \
-    about.h \
+    about_1.h \
+    data_link.h \
+    file_receiver.h \
     mainwindow.h \
     parameters.h \
+    port.h \
     pram_connection.h \
+    main.cpp \
     recieve_file_mode.h
 
 FORMS += \
     Recieve.ui \
-    Recieve_mode.ui \
-    about.ui \
+    about_1.ui \
     mainwindow.ui \
     parameters.ui \
     pram_connection.ui \
@@ -36,3 +42,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resource.qrc
